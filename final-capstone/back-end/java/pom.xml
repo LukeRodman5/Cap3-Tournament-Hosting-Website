@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.techelevator</groupId>
-    <artifactId>final-capstone-back-end-server-main</artifactId>
+    <artifactId>final-capstone-back-end-server-tournament-hosting</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
