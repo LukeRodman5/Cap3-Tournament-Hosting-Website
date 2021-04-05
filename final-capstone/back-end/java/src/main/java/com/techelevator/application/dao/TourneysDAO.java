@@ -13,9 +13,10 @@ public interface TourneysDAO {
 	List<Tourneys> getTourneysByDate();
 	String updateATourneyName();
 	String updateATourneyDesc();
-	Long updateDate();
+	Long updateStartDate();
+	Long updateEndDate();
 	boolean updateStatus();
 	int changeNumOfParticipants();
-	
+	Long updateStartTime();
 	
 }
