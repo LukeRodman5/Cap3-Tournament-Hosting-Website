@@ -6,7 +6,8 @@ CREATE TABLE tournaments
     , tourney_name CHARACTER VARYING(20)
     , tourney_desc CHARACTER VARYING(100)
     , tourney_host INTEGER
-    , scheduled_time TIMESTAMP
+    , start_date DATE
+    , end_date DATE
     , tourney_is_active BOOLEAN
     , particpant_num INTEGER
     , CONSTRAINT pk_tournaments_tourney_id
@@ -16,3 +17,4 @@ CREATE TABLE tournaments
         users(user_id)
     )
 ;
+
