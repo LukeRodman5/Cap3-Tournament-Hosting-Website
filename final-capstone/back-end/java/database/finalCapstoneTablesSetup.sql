@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS tournaments CASCADE;
+DROP TABLE IF EXISTS matches CASCADE;
 
 CREATE TABLE tournaments
     (
@@ -17,4 +18,25 @@ CREATE TABLE tournaments
         users(user_id)
     )
 ;
-
+CREATE TABLE matches
+        (
+          match_id SERIAL
+        , competitor_one CHARACTER VARYING (50)
+        , competitor_two CHARACTER VARYING (50)
+        , start_time     TIME
+        , start_date     DATE
+        , CONSTRAINT pk_matches_match_id
+              PRIMARY KEY (match_id)
+     --  , CONSTRAINT fk_users_username
+     --         FOREIGN KEY (competitor_one) REFERENCES
+     --                 users(username)        
+     --   , CONSTRAINT fk_users_username2
+     --         FOREIGN KEY (competitor_two) REFERENCES
+     --                  users(username)
+    );       
+        
+    
+    
+    --determine extras "nice to haves" vs requirements of projects
+    --need location integation for google maps finding tournament
+    --, team_rank **needs assigned to a table for ranking
