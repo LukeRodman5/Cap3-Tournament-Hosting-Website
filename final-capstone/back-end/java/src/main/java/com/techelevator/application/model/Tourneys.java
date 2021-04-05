@@ -5,10 +5,11 @@ public class Tourneys {
 	private String tourneyName;
 	private String tourneyDesc;
 	private int tourneyHost;
-	private Long schedTime;
+	private Long startDate;
+	private Long endDate;
+	private Long startTime;
 	private  boolean isActive = true;
 	private int numOfParticpants;
-	
 	public Long getTourneyId() {
 		return tourneyId;
 	}
@@ -33,11 +34,23 @@ public class Tourneys {
 	public void setTourneyHost(int tourneyHost) {
 		this.tourneyHost = tourneyHost;
 	}
-	public Long getSchedTime() {
-		return schedTime;
+	public Long getStartDate() {
+		return startDate;
 	}
-	public void setSchedTime(Long schedTime) {
-		this.schedTime = schedTime;
+	public void setStartDate(Long startDate) {
+		this.startDate = startDate;
+	}
+	public Long getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Long endDate) {
+		this.endDate = endDate;
+	}
+	public Long getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Long startTime) {
+		this.startTime = startTime;
 	}
 	public boolean isActive() {
 		return isActive;
@@ -45,18 +58,19 @@ public class Tourneys {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	public int getParticipateNum() {
+	public int getNumOfParticpants() {
 		return numOfParticpants;
 	}
-	public void setParticipateNum(int numOfParticpants) {
+	public void setNumOfParticpants(int numOfParticpants) {
 		this.numOfParticpants = numOfParticpants;
 	}
 	@Override
 	public String toString() {
 		return "Tourneys [tourneyId=" + tourneyId + ", tourneyName=" + tourneyName + ", tourneyDesc=" + tourneyDesc
-				+ ", tourneyHost=" + tourneyHost + ", schedTime=" + schedTime + ", isActive=" + isActive
-				+ ", numOfParticpants=" + numOfParticpants + "]";
+				+ ", tourneyHost=" + tourneyHost + ", startDate=" + startDate + ", endDate=" + endDate + ", startTime="
+				+ startTime + ", isActive=" + isActive + ", numOfParticpants=" + numOfParticpants + "]";
 	}
 	
+
 	
 }
