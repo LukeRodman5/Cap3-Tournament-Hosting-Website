@@ -7,3 +7,23 @@
     <router-view />
   </div>
 </template>
+<style>
+body{
+  background-color: rgb(185, 185, 251);
+  display: grid;
+  grid-template-columns: 1fr 3 fr 1 fr;
+  grid-template-areas:
+  "home home home"
+  "nav tournaments tournaments"
+  "footer footer footer";
+  grid-gap: 10 px;
+  height: 100vh;
+}
+.nav{ 
+  display: flex;
+
+}
+.home{
+  background-color: darkmagenta;
+}
+</style>

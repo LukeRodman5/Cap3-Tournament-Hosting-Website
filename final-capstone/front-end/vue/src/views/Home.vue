@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
-    <p>You must be authenticated to see this</p>
+    <h1>Tournament Manager</h1>
+    <p>Your home for hosting, finding and playing tournaments of all kinds</p>
   </div>
 </template>
 
