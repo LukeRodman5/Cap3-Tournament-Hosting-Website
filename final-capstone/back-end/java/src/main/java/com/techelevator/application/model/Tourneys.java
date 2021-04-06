@@ -1,15 +1,18 @@
 package com.techelevator.application.model;
 
+import java.time.LocalDate;
+
 public class Tourneys {
 	private Long tourneyId;
 	private String tourneyName;
 	private String tourneyDesc;
 	private int tourneyHost;
-	private Long startDate;
-	private Long endDate;
-	private Long startTime;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private  boolean isActive = true;
+	private boolean openForReg = true;
 	private int numOfParticpants;
+	
 	public Long getTourneyId() {
 		return tourneyId;
 	}
@@ -34,29 +37,29 @@ public class Tourneys {
 	public void setTourneyHost(int tourneyHost) {
 		this.tourneyHost = tourneyHost;
 	}
-	public Long getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Long startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
-	public Long getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Long endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
-	}
-	public Long getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(Long startTime) {
-		this.startTime = startTime;
 	}
 	public boolean isActive() {
 		return isActive;
 	}
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+	public boolean isOpenForReg() {
+		return openForReg;
+	}
+	public void setOpenForReg(boolean openForReg) {
+		this.openForReg = openForReg;
 	}
 	public int getNumOfParticpants() {
 		return numOfParticpants;
@@ -67,10 +70,7 @@ public class Tourneys {
 	@Override
 	public String toString() {
 		return "Tourneys [tourneyId=" + tourneyId + ", tourneyName=" + tourneyName + ", tourneyDesc=" + tourneyDesc
-				+ ", tourneyHost=" + tourneyHost + ", startDate=" + startDate + ", endDate=" + endDate + ", startTime="
-				+ startTime + ", isActive=" + isActive + ", numOfParticpants=" + numOfParticpants + "]";
+				+ ", tourneyHost=" + tourneyHost + ", startDate=" + startDate + ", endDate=" + endDate + ", isActive="
+				+ isActive + ", openForReg=" + openForReg + ", numOfParticpants=" + numOfParticpants + "]";
 	}
-	
-
-	
-}
+	}
