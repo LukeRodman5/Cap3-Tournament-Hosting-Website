@@ -6,10 +6,11 @@ import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import com.techelevator.application.dao.TourneysDAO;
 import com.techelevator.application.model.Tourneys;
-
+@Component
 public class JDBCTourneysDAO implements TourneysDAO {
 	
 	private JdbcTemplate jdbcTemplate;

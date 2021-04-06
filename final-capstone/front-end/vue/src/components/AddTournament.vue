@@ -53,6 +53,11 @@ export default {
     },//end of data
     methods:{
         addTournament(){
+            const newTourney ={
+                
+            }
+        }
+        /* addTournament(){
             applicationServices.addTournament(this.newTournament).then(response =>{
                 if(response.status === 201){
                     // this.getTournaments()
@@ -67,7 +72,7 @@ export default {
                         participantMax: 20,
                         participantNum:0}
                 this.$router.push("/")
-                }//end of if
+                }//end of if */
             })//end then
         },//end add tournament
         
