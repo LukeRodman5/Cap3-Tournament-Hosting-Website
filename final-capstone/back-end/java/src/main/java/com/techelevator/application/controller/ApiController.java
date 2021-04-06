@@ -12,6 +12,7 @@ import com.techelevator.application.dao.*;
 import com.techelevator.application.model.*;
 
 @RestController
+@CrossOrigin
 public class ApiController {
 	private TourneysDAO tourneysDAO;
 	
