@@ -43,10 +43,22 @@ public class JDBCTourneysDAO implements TourneysDAO {
 			}	
 		return listOfTourneys;
 	}
-
+	
+	
+	@Override //                                                query for username to get id                                                           (set a max)
+	public Tourneys createATourney(String username, String name, String description, int host, LocalDate starDate, LocalDate endDate, int numberOfParticipants, int maxNumberOfParticipants) {
+		String subSql = "select user_id from users where username = ?";
+		
+		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, username);
+		int iD = subQuery.next();
+		
+		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, participant_num) values (?, ?,, ?, true, true, ?)";
+		return null;
+	}
+	
 	@Override
-	public Tourneys createATourney(String name, String description, int host, LocalDate starDate, LocalDate endDate, boolean currentlyActive, boolean registration, int numberOfParticipants) {
-//		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, participant_num)"
+	public Tourneys updateATourney() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -57,49 +69,49 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	}
 
 	@Override
-	public List<Tourneys> getTourneysByDate() {
+	public List<Tourneys> getTourneysByDate() { //Filtering will be done on FrontEnd side
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String updateATourneyName() {
+	public String updateATourneyName() { // Yes
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String updateATourneyDesc() {
+	public String updateATourneyDesc() { // Yes
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Long updateStartDate() {
+	public Long updateStartDate() { // Yes
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Long updateEndDate() {
+	public Long updateEndDate() { // Yes
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean updateStatus() {
+	public boolean updateStatus() { // yes
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public int changeNumOfParticipants() {
+	public int changeNumOfParticipants() { // Yes
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public Long updateStartTime() {
+	public Long updateStartTime() { // Yes
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -118,6 +130,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		return tourneysRow;
 		
 	}
+
+	
 
 
 	
