@@ -46,9 +46,7 @@
         >
 
 
-        <td>
-          <input type="text" id="viewTournament"/>
-        </td>
+        <!-- <button class="btn tournment detail" v-on:click="" > </button> NEED ROUTE FOR INIDIVDUAL TOURNAMENTS**-->
                         
       </tr>
      </tbody>
