@@ -13,7 +13,7 @@ CREATE TABLE tournaments
     , end_date          DATE
     , tourney_is_active BOOLEAN
     , open_for_reg      BOOLEAN
-    , particpant_num    INTEGER
+    , participant_num   INTEGER
     , CONSTRAINT pk_tournaments_tourney_id
         PRIMARY KEY (tourney_id)
     )
