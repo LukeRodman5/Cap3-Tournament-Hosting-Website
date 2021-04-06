@@ -46,15 +46,20 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	
 	
 	@Override //                                                query for username to get id                                                           (set a max)
-	public Tourneys createATourney(String username, String name, String description, int host, LocalDate starDate, LocalDate endDate, int numberOfParticipants, int maxNumberOfParticipants) {
+	public void createATourney(String name, String description, String host, LocalDate startDate, LocalDate endDate, boolean tourneyIsActive, boolean regIsActive, int numberOfParticipants, int maxNumberOfParticipants) {
 		String subSql = "select user_id from users where username = ?";
 		
-		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, username);
-		int iD = subQuery.next();
+		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, host);
+		subQuery.next();
 		
-		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, participant_num) values (?, ?,, ?, true, true, ?)";
-		return null;
+		int id = subQuery.getInt("user_id");
+		
+		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, open_for_reg, participant_max, participant_num) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		jdbcTemplate.update(sql, name, description, id, startDate, endDate, tourneyIsActive, regIsActive, numberOfParticipants, maxNumberOfParticipants);
+		
 	}
+		
 	
 	@Override
 	public Tourneys updateATourney() {
@@ -121,12 +126,13 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		tourneysRow.setTourneyId  (results.getLong("tourney_id"));
 		tourneysRow.setTourneyName(results.getString("tourney_name"));
 		tourneysRow.setTourneyDesc(results.getString("tourney_desc"));
-		tourneysRow.setTourneyHost(results.getInt("tourney_host"));
+		tourneysRow.setTourneyHost(results.getString("tourney_host"));
 		tourneysRow.setStartDate (results.getDate("start_date").toLocalDate());
 		tourneysRow.setEndDate(results.getDate("end_date").toLocalDate());
 		tourneysRow.setActive(results.getBoolean("tourney_is_active"));
-		tourneysRow.setOpenForReg(results.getBoolean("participant_num"));
-		
+		tourneysRow.setOpenForReg(results.getBoolean("open_for_reg"));
+		tourneysRow.setNumOfParticpants(results.getInt("participant_num"));
+		tourneysRow.setMaxNumOfParticipants(results.getInt("participant_max"));
 		return tourneysRow;
 		
 	}

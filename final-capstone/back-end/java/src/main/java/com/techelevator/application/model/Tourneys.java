@@ -6,14 +6,13 @@ public class Tourneys {
 	private Long tourneyId;
 	private String tourneyName;
 	private String tourneyDesc;
-	private int tourneyHost;
+	private String tourneyHost;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private  boolean isActive = true;
 	private boolean openForReg = true;
 	private int numOfParticpants;
 	private int maxNumOfParticipants;
-	
 	public Long getTourneyId() {
 		return tourneyId;
 	}
@@ -32,10 +31,10 @@ public class Tourneys {
 	public void setTourneyDesc(String tourneyDesc) {
 		this.tourneyDesc = tourneyDesc;
 	}
-	public int getTourneyHost() {
+	public String getTourneyHost() {
 		return tourneyHost;
 	}
-	public void setTourneyHost(int tourneyHost) {
+	public void setTourneyHost(String tourneyHost) {
 		this.tourneyHost = tourneyHost;
 	}
 	public LocalDate getStartDate() {
@@ -81,4 +80,5 @@ public class Tourneys {
 				+ isActive + ", openForReg=" + openForReg + ", numOfParticpants=" + numOfParticpants
 				+ ", maxNumOfParticipants=" + maxNumOfParticipants + "]";
 	}
+	
 	}

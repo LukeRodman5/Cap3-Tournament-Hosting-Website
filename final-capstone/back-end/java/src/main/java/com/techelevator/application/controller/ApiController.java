@@ -22,8 +22,10 @@ public class ApiController {
 * Put your Application API Controllers here
 **********************************************************************************************************************/
 	@RequestMapping(path = "/tournaments", method = RequestMethod.POST)
-	public void addTournament(Tourneys tourney) {
-		//tourneysDAO.
+	public void addTournament(@RequestBody Tourneys tourney) {
+		tourneysDAO.createATourney(tourney.getTourneyName(), tourney.getTourneyDesc(), tourney.getTourneyHost(), tourney.getStartDate(), tourney.getEndDate(), tourney.isActive(), tourney.isOpenForReg(), tourney.getMaxNumOfParticipants(), tourney.getMaxNumOfParticipants());
+	
+		
 	}
 	
 	
