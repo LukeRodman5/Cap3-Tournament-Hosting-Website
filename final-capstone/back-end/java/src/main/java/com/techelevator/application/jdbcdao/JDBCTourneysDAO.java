@@ -50,7 +50,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	public void createATourney(String name, String description, String host, LocalDate startDate, LocalDate endDate, boolean tourneyIsActive, boolean regIsActive, int numberOfParticipants, int maxNumberOfParticipants) {
 		String subSql = "select user_id from users where username = ?";
 		
-		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, host);
+		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, "user");
 		subQuery.next();
 		
 		int id = subQuery.getInt("user_id");
