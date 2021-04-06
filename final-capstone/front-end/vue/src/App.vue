@@ -11,9 +11,10 @@
 body{
   background-color: rgb(185, 185, 251);
   display: grid;
-  grid-template-columns: 1fr 3 fr 1 fr;
+  grid-template-columns: 1fr 3fr 1fr;
+  text-align: center;
   grid-template-areas:
-  "home home home"
+  "header header header"
   "nav tournaments tournaments"
   "footer footer footer";
   grid-gap: 10 px;
