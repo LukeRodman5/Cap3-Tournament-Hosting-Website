@@ -1,5 +1,8 @@
 DROP TABLE IF EXISTS tournaments CASCADE;
 DROP TABLE IF EXISTS matches CASCADE;
+DROP TABLE IF EXISTS tournaments_matches CASCADE;
+DROP TABLE IF EXISTS tournament_matches CASCADE;
+
 
 CREATE TABLE tournaments
     (
@@ -10,33 +13,51 @@ CREATE TABLE tournaments
     , start_date DATE
     , end_date DATE
     , tourney_is_active BOOLEAN
+    , open_for_reg BOOLEAN
     , particpant_num INTEGER
     , CONSTRAINT pk_tournaments_tourney_id
         PRIMARY KEY (tourney_id)
-    , CONSTRAINT fk_users_user_id
-        FOREIGN KEY (tourney_host) REFERENCES
-        users(user_id)
     )
 ;
+
+--determine extras "nice to haves" vs requirements of projects
+--need location integation for google maps finding tournament
+--team_rank needs assigned to a table for ranking
 CREATE TABLE matches
         (
-          match_id SERIAL
+        match_id         SERIAL
         , competitor_one CHARACTER VARYING (50)
         , competitor_two CHARACTER VARYING (50)
         , start_time     TIME
         , start_date     DATE
         , CONSTRAINT pk_matches_match_id
               PRIMARY KEY (match_id)
-     --  , CONSTRAINT fk_users_username
-     --         FOREIGN KEY (competitor_one) REFERENCES
-     --                 users(username)        
-     --   , CONSTRAINT fk_users_username2
-     --         FOREIGN KEY (competitor_two) REFERENCES
-     --                  users(username)
-    );       
-        
-    
-    
-    --determine extras "nice to haves" vs requirements of projects
-    --need location integation for google maps finding tournament
-    --, team_rank **needs assigned to a table for ranking
+    );
+
+CREATE TABLE tournaments_matches
+    (
+    tourney_id INTEGER
+    , match_id INTEGER
+    , CONSTRAINT pk_tournaments_matches_tourney_id_match_id
+        PRIMARY KEY (tourney_id, match_id)
+    )
+;
+
+-- Setting foreign keys
+ALTER TABLE tournaments
+    ADD CONSTRAINT fk_users_user_id
+    FOREIGN KEY (tourney_host)
+    REFERENCES users(user_id)
+;
+
+ALTER TABLE tournaments_matches
+    ADD CONSTRAINT fk_tournaments_tourney_id
+    FOREIGN KEY (tourney_id)
+    REFERENCES tournaments(tourney_id)
+;
+
+ALTER TABLE tournaments_matches
+    ADD CONSTRAINT fk_tournaments_match_id
+    FOREIGN KEY (match_id)
+    REFERENCES matches(match_id)
+;
