@@ -1,24 +1,19 @@
 DROP TABLE IF EXISTS tournaments CASCADE;
-<<<<<<< HEAD
 DROP TABLE IF EXISTS matches CASCADE;
 DROP TABLE IF EXISTS tournaments_matches CASCADE;
 DROP TABLE IF EXISTS tournament_matches CASCADE;
 
-=======
-DROP TABLE IF EXISTS matches     CASCADE;
->>>>>>> 7e3e0e2b0f168621054e3738ba26b18179691679
-
 CREATE TABLE tournaments
-    ( tourney_id        SERIAL
+    (
+    tourney_id          SERIAL
     , tourney_name      CHARACTER VARYING(20)
     , tourney_desc      CHARACTER VARYING(100)
     , tourney_host      INTEGER
     , start_date        DATE
     , end_date          DATE
     , tourney_is_active BOOLEAN
-<<<<<<< HEAD
-    , open_for_reg BOOLEAN
-    , particpant_num INTEGER
+    , open_for_reg      BOOLEAN
+    , particpant_num    INTEGER
     , CONSTRAINT pk_tournaments_tourney_id
         PRIMARY KEY (tourney_id)
     )
