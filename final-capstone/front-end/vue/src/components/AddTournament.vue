@@ -1,5 +1,5 @@
 <template>
-    <form> <!--v-on: submit.prevent="addTournament"-->
+    <form v-on: submit.prevent="addTournament">
      <div class="form-element">
         <label for="name">Tournament Name:</label>
         <input id="name" type="text" v-model="newTournament.name" />
@@ -17,6 +17,7 @@
         <label for ="end-date"> End Date:</label>
         <input id="start-date" type="date" v-model="newTournament.endDate"/>
     </div> 
+    <button type="submit" class="btn save">Save Tourament</button>
     </form>
 </template>
 
@@ -33,8 +34,26 @@ export default {
                 startDate:'',
                 endDate:'',
                 isActive:true
-            }
-        }
+            },
+            tournaments:[]
+        }//end of return
+    },//end of data
+    methods:{
+        addTournament(){
+            applicationServices.addTournament(this.newTournament).then(response =>{
+                if(response.status === 201){
+                    this.getTournaments()
+                    this.newTournament={
+                        name: '',
+                        description:'',
+                        host: this.$store.state.user.username,
+                        startDate:'',
+                        endDate:'',
+                        isActive:true}
+                }//end of if
+            })//end then
+        },//end add tournament
+        
     }
 
 
