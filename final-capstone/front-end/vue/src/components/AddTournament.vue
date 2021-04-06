@@ -52,29 +52,42 @@ export default {
         }//end of return
     },//end of data
     methods:{
-       /* addTournament(){
+        addTournament(){
             const newTourney ={
-                
+                name: this.newTournament.name,
+                description: this.newTournament.description,
+                host: this.newTournament.host,
+                startDate: this.newTournament.startDate,
+                endDate: this.newTournament.endDate,
+                isActive: this.newTournament.isActive,
+                openForReg: this.newTournament.openForReg,
+                participantMax: this.newTournament.participantMax,
+                participantNum: this.newTournament.participantNum
             }
-        } */
-         addTournament(){
-            applicationServices.addTournament(this.newTournament).then(response =>{
-                if(response.status === 201){
-                    // this.getTournaments()
-                    this.newTournament={
-                        name: '',
-                        description:'',
-                        host: this.$store.state.user.username,
-                        startDate:'',
-                        endDate:'',
-                        isActive:true,
-                        openForReg:true,
-                        participantMax: 20,
-                        participantNum:0}
-                this.$router.push("/")
-                }//end of if 
-            })//end then
-        },//end add tournament
+            applicationServices.addTournament(newTourney).then(response => {
+                if (response.status === 201) {
+                    this.$router.push('/')
+                }
+            })
+        } 
+        //  addTournament(){
+        //     applicationServices.addTournament(this.newTournament).then(response =>{
+        //         if(response.status === 201){
+        //             // this.getTournaments()
+        //             this.newTournament={
+        //                 name: '',
+        //                 description:'',
+        //                 host: this.$store.state.user.username,
+        //                 startDate:'',
+        //                 endDate:'',
+        //                 isActive:true,
+        //                 openForReg:true,
+        //                 participantMax: 20,
+        //                 participantNum:0}
+        //         this.$router.push("/")
+        //         }//end of if 
+        //     })//end then
+        // },//end add tournament
         
     }
 
