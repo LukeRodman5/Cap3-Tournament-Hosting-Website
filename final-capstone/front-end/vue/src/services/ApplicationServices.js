@@ -4,3 +4,11 @@
 *  If you would prefer a file with a different name for your services, 
 *     simply create one 
 ***************************************************************************************/
+
+import axios from 'axios'
+
+export default{
+    addTournament(tournament){
+        return http.post('/tournaments',tournament)
+    }
+}
