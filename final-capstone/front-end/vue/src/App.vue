@@ -16,7 +16,11 @@ body{
   grid-template-columns: 1fr 3fr 1fr;
   text-align: center;
   grid-template-areas:
+<<<<<<< HEAD
   "header header header"
+=======
+  "nav nav nav"
+>>>>>>> 7c9d69158169a1a020045d17c758ddbe6f9a6726
   "nav tournaments tournaments"
   "footer footer footer";
   grid-gap: 10 px;
