@@ -1,5 +1,6 @@
 package com.techelevator.application.jdbcdao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,14 +32,21 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	}
 
 	@Override
-	public List<Tourneys> getTourneysByName() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Tourneys> getTourneysByName(String username) {
+		List<Tourneys>listOfTourneys = new ArrayList<>();
+		String sql = "select * from tournaments";
+		
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username.toLowerCase());
+			while(results.next()) {
+				Tourneys tourney = mapRowToTourneys(results);
+				listOfTourneys.add(tourney);
+			}	
+		return listOfTourneys;
 	}
 
 	@Override
-	public Tourneys createATourney() {
-		// TODO Auto-generated method stub
+	public Tourneys createATourney(String name, String description, int host, LocalDate starDate, LocalDate endDate, boolean currentlyActive, boolean registration, int numberOfParticipants) {
+//		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, participant_num)"
 		return null;
 	}
 
@@ -110,5 +118,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		return tourneysRow;
 		
 	}
+
+
 	
 }
