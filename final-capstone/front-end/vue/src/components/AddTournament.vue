@@ -26,7 +26,7 @@
         <input id="participantMax" type="text" v-model="newTournament.participantMax"/>
     </div>
 
-    <button type="submit" class="btn save" v-on:click="addTournament()">Save Tournament</button> 
+    <button type="submit" class="btn save">Save Tournament</button> 
     </form>
 </template>
 
