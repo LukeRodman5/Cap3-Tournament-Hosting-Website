@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS tournaments CASCADE;
 DROP TABLE IF EXISTS matches CASCADE;
 DROP TABLE IF EXISTS tournaments_matches CASCADE;
-DROP TABLE IF EXISTS tournament_matches CASCADE;
+DROP TABLE IF EXISTS users_matches CASCADE;
 
 CREATE TABLE tournaments
     (
@@ -25,8 +25,6 @@ CREATE TABLE tournaments
 CREATE TABLE matches
         (
         match_id         SERIAL
-        , competitor_one CHARACTER VARYING (50)
-        , competitor_two CHARACTER VARYING (50)
         , start_time     TIME
         , start_date     DATE
         , CONSTRAINT pk_matches_match_id
