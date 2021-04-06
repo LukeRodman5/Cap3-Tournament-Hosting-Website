@@ -17,7 +17,8 @@
         <label for ="end-date"> End Date:</label>
         <input id="start-date" type="date" v-model="newTournament.endDate"/>
     </div> 
-    <button type="submit" class="btn save">Save Tourament</button>
+<!-- click for method -->
+    <button type="submit" class="btn save">Save Tournament</button> 
     </form>
 </template>
 
@@ -27,13 +28,15 @@ export default {
     data(){
         return{
             newTournament:{
-                id: 0,
                 name: '',
                 description:'',
                 host: this.$store.state.user.username,
                 startDate:'',
                 endDate:'',
-                isActive:true
+                isActive:true,
+                openForReg:true,
+                participantMax: 20,
+                participantNum:0
             },
             tournaments:[]
         }//end of return
@@ -42,14 +45,18 @@ export default {
         addTournament(){
             applicationServices.addTournament(this.newTournament).then(response =>{
                 if(response.status === 201){
-                    this.getTournaments()
+                    // this.getTournaments()
                     this.newTournament={
                         name: '',
                         description:'',
                         host: this.$store.state.user.username,
                         startDate:'',
                         endDate:'',
-                        isActive:true}
+                        isActive:true,
+                        openForReg:true,
+                        participantMax: 20,
+                        participantNum:0}
+                this.$router.push("/")
                 }//end of if
             })//end then
         },//end add tournament
