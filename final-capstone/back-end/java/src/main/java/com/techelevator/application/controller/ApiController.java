@@ -6,12 +6,25 @@ package com.techelevator.application.controller;
 
 import java.sql.Timestamp;
 
-public class ApiController {
+import org.springframework.web.bind.annotation.*;
 
+import com.techelevator.application.dao.*;
+import com.techelevator.application.model.*;
+
+@RestController
+public class ApiController {
+	private TourneysDAO tourneysDAO;
+	
+	public ApiController(TourneysDAO tourneysDAO) {
+		this.tourneysDAO = tourneysDAO;
+	}
 /**********************************************************************************************************************
 * Put your Application API Controllers here
 **********************************************************************************************************************/
-
+	@RequestMapping(path = "/tournaments", method = RequestMethod.POST)
+	public void addTournament(Tourneys tourney) {
+		//tourneysDAO.
+	}
 	
 	
 	
