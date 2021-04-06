@@ -15,7 +15,7 @@ body{
   display: grid;
   grid-template-columns: 1fr 3 fr 1 fr;
   grid-template-areas:
-  "home home home"
+  "nav nav nav"
   "nav tournaments tournaments"
   "footer footer footer";
   grid-gap: 10 px;

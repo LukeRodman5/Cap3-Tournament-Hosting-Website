@@ -8,11 +8,7 @@
         <label for="description"> Tournament Description:</label>
         <input id="name" type="text" v-model="newTournament.description"/>
     </div>
-    <div class = "form-element">
-        <label for ="descrption"> Tournament Host:</label>
-        <input id="host" type="text" v-model="newTournament.host"/> 
-        <!-- would be nice to have this field prefilled and non-editable with the logged in uers's name. This will allow for matching in the database.-->
-    </div>
+    
     <div class ="form-element">
         <label for ="start-date"> Start Date:</label>
         <input id="start-date" type="date" v-model="newTournament.startDate"/>
@@ -32,8 +28,8 @@ export default {
             newTournament:{
                 id: 0,
                 name: '',
-                descrpition:'',
-                host:'',
+                description:'',
+                host: this.$store.state.user.username,
                 startDate:'',
                 endDate:'',
                 isActive:true
