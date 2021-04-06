@@ -36,4 +36,10 @@ JOIN users ON users.user_id = tournaments.tourney_host
 WHERE username ILIKE '%us%'
 ;
 
+SELECT users.user_id
+FROM users
+JOIN tournaments ON tournaments.tourney_host = users.user_id
+WHERE tournaments.tourney_host = 1
+;
+
 ROLLBACK;
