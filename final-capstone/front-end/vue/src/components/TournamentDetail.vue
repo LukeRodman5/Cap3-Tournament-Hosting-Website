@@ -26,13 +26,13 @@
 
 <script>
 import applicationServices from "../services/ApplicationServices";
-import Browse from "../components/Browse"
+//import Browse from "../components/Browse"
 //import CommentsList from "@/components/CommentsList"; - reserved for importing match list later
 
 export default {
   name: "tournament-detail",
   components: {
-    Browse,
+    //Browse,
     //match-list later
   },
   data() {

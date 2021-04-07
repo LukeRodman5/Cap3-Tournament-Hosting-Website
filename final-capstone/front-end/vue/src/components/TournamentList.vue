@@ -29,7 +29,7 @@ export default {
     name: "tournament-list",
     methods:{
         viewTournament(id){
-            this.$router.push(`/tournaments/${tourneyID}`)
+            this.$router.push(`/tournaments/${id}`)
         },//end viewTournament 
         getTournaments(){
             applicationServices.getTournaments().then(response =>{

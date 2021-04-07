@@ -7,7 +7,7 @@
 </template>
  
  <script>
-import Browse from '@/components/Browse.vue'
+//import Browse from '@/components/Browse.vue'
 import TournamentList from '../components/TournamentList.vue'
 export default {
   components: { 
