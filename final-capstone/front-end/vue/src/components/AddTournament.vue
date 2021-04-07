@@ -41,7 +41,7 @@ export default {
                 tourneyHost: this.$store.state.user.username,
                 startDate:'',
                 endDate:'',
-                active:false,
+                active:true,
                 openForReg:true,
                 maxNumOfParticipants: 20,
                 numOfParticipants:0
