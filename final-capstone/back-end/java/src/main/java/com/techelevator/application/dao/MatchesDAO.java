@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.techelevator.application.model.Matches;
 
-public interface MatchesDAO {
+public interface MatchesDAO { // update match 
 
 	List<Matches> getAllMatches();
 	List<Matches> getMatchById();
@@ -14,5 +14,4 @@ public interface MatchesDAO {
 	String updateAMatchId();
 	Long updateStartDate();
 	Long updateStartTime();
-		
-}
+	}
