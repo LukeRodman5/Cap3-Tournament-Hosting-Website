@@ -55,8 +55,8 @@ export default new Vuex.Store({
     // SET_TOURNAMENTS(state, data) {
     //   state.tournaments = data
     // },
-    // SET_CURRENT_TOURNAMENT(state, data) {
-    //   state.tournament = data
-    // }
+    SET_CURRENT_TOURNAMENT(state, data) {
+      state.tournament = data
+    }//end set_current_tournament
   }
 })

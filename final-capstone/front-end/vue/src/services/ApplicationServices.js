@@ -14,5 +14,12 @@ export default{
 
     getTournaments(){
         return axios.get('/tournaments')
+    },//end getTournaments
+    
+    getTournament(tourneyID){
+        return axios.get(`/tournaments/${tourneyID}`)
+    },
+    deleteTournament(tourneyID){
+        return axios.delete(`/tournaments/${tourneyID}`)
     }
 }
