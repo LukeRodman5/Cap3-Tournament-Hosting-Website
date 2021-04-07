@@ -10,5 +10,9 @@ import axios from 'axios'
 export default{
     addTournament(tournament){
         return axios.post('/tournaments',tournament)
+    },
+
+    getTournaments(){
+        return axios.get('/tournaments')
     }
 }
