@@ -19,7 +19,21 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    user: currentUser || {}
+    user: currentUser || {},
+    // array of tournaments to display for browse
+  //   tournaments: [],
+  //   tournament:{
+  //     tourneyName: '',
+  //     tourneyDesc:'',
+  //     tourneyHost: this.$store.state.user.username,
+  //     startDate:'',
+  //     endDate:'',
+  //     active:false,
+  //     openForReg:true,
+  //     maxNumOfParticipants: 20,
+  //     numOfParticipants:0
+  // }
+
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -37,6 +51,12 @@ export default new Vuex.Store({
       state.token = '';
       state.user = {};
       axios.defaults.headers.common = {};
-    }
+    },
+    // SET_TOURNAMENTS(state, data) {
+    //   state.tournaments = data
+    // },
+    // SET_CURRENT_TOURNAMENT(state, data) {
+    //   state.tournament = data
+    // }
   }
 })
