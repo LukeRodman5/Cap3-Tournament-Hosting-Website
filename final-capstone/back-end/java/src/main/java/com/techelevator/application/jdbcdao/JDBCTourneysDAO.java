@@ -50,10 +50,10 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	public void createATourney(String name, String description, String host, LocalDate startDate, LocalDate endDate, boolean tourneyIsActive, boolean regIsActive, int maxNumberOfParticipants, int numberOfParticipants) {
 		String subSql = "select user_id from users where username = ?";
 		
-		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, "user");
+		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, host);
 		subQuery.next();
 		
-		int id = subQuery.getInt("user_id");
+		long id = subQuery.getInt("user_id");
 		
 		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, open_for_reg, participant_max, participant_num) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
@@ -63,15 +63,24 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 	
 	@Override
-	public Tourneys updateATourney() {
-		// TODO Auto-generated method stub
-		return null;
+	public void updateATourney(Tourneys updatedTourney) {
+		String sql = "update tournaments set tourney_name = ?, tourney_desc = ?,  tourney_host = ?, "
+				+ "start_date = ?, end_date = ?, tourney_is_active = ?,"
+				+ "open_for_reg = ?, participant_max = ?, participant_num = ? "
+				+ "where tourney_id = ?";
+		
+		jdbcTemplate.update(sql, updatedTourney.getTourneyName(), updatedTourney.getTourneyDesc(), findHostByUsername(updatedTourney.getTourneyHost()),
+				updatedTourney.getStartDate(), updatedTourney.getEndDate(), updatedTourney.isActive(), updatedTourney.isOpenForReg(), updatedTourney.getMaxNumOfParticipants(),
+				updatedTourney.getNumOfParticpants(), updatedTourney.getTourneyId());
+		
 	}
 
 	@Override
-	public Tourneys deleteATourney() {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteATourney(long id) {
+		
+		String deleteSql = "delete from tournaments where tourney_id = ?";
+		
+		jdbcTemplate.update(deleteSql, id);
 	}
 
 	@Override
@@ -136,6 +145,16 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		tourneysRow.setMaxNumOfParticipants(results.getInt("participant_max"));
 		return tourneysRow;
 		
+	}
+	
+	private long findHostByUsername(String username) {
+		String subSql = "select user_id from users where username = ?";
+		
+		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, username);
+		subQuery.next();
+		
+		int id = subQuery.getInt("user_id");
+		return id;
 	}
 
 	

@@ -10,8 +10,8 @@ public interface TourneysDAO {
 	List<Tourneys> getAllTourneys();
 	List<Tourneys> getTourneysByName(String username);
 	void createATourney(String tourneyName, String tourneyDesc, String tourneyHost, LocalDate startDate, LocalDate endDate, boolean isActive, boolean regIsActive, int numOfParticipants, int maxNumOfParticipants);
-	Tourneys deleteATourney();
-	Tourneys updateATourney();
+	void deleteATourney(long id);
+	void updateATourney(Tourneys updatedTourney);
 	List<Tourneys> getTourneysByDate();
 	String updateATourneyName();
 	String updateATourneyDesc();
