@@ -8,7 +8,6 @@
         <label for="description"> Tournament Description:</label>
         <input id="name" type="text" v-model="newTournament.tourneyDesc"/>
     </div>
-    
     <div class ="form-element">
         <label for ="start-date"> Start Date:</label>
         <input id="start-date" type="date" v-model="newTournament.startDate"/>
@@ -25,7 +24,6 @@
         <label for ="participantMax"> Max Participants: </label>
         <input id="participantMax" type="text" v-model="newTournament.maxNumOfParticipants"/>
     </div>
-
     <button type="submit" class="btn save">Save Tournament</button> 
     </form>
 </template>
