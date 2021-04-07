@@ -43,7 +43,11 @@ export default {
                 tourneyHost: this.$store.state.user.username,
                 startDate:'',
                 endDate:'',
+<<<<<<< HEAD
                 active:false,
+=======
+                active:true,
+>>>>>>> 2c64bb7635473903b87b1ade390f6bae2891ec22
                 openForReg:true,
                 maxNumOfParticipants: 20,
                 numOfParticipants:0
@@ -53,6 +57,7 @@ export default {
     },//end of data
     methods:{
       addTournament(){
+<<<<<<< HEAD
             console.log(this.newTournament)
              applicationServices.addTournament(this.newTournament).then(response =>{
              if(response.status === 201 || response.status === 200){
@@ -68,12 +73,29 @@ export default {
                         maxNumOfParticipants: 20,
                         numOfParticipants:0
             }
+=======
+            
+        applicationServices.addTournament(this.newTournament).then(response =>{
+             if(response.status === 201){
+                // this.getTournaments()
+                this.newTournament={
+                    tourneyName: '',
+                    tourneyDesc:'',
+                    tourneyHost: this.$store.state.user.username,
+                    startDate:'',
+                    endDate:'',
+                    active:true,
+                    openForReg:true,
+                    maxNumOfParticipants: 20,
+                    numOfParticipants:0
+                }
+>>>>>>> 2c64bb7635473903b87b1ade390f6bae2891ec22
                  this.$router.push("/")
-                 }//end of if 
-             })//end then
-         },//end add tournament
+            }//end of if 
+        })//end then
+    },//end add tournament
         
-    }
+}   
 
 
 }
