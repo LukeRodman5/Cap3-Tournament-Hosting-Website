@@ -48,14 +48,14 @@ public class ApiController {
 
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @RequestMapping
-	(path = "tournaments/{id}", method = RequestMethod.DELETE)
+	(path = "/tournaments/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable int id) {
 	logRequest("Deleting a tournament");
 		tourneysDAO.deleteATourney(id);
 }
 	
 @RequestMapping
-	(path = "tournaments/{id}", method = RequestMethod.GET) 
+	(path = "/tournaments/{id}", method = RequestMethod.GET) 
 	public Tourneys getTourney(@PathVariable long id) {
 	logRequest("Deleting a tournament");
 	return tourneysDAO.getATourneyById(id);
