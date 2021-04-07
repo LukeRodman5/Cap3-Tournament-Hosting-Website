@@ -2,7 +2,7 @@
   <div class="home">
     <h1>Tournament Manager</h1>
     <p>Your home for hosting, finding and playing tournaments of all kinds</p>
-    <browse/>
+    <browse />
   </div>
 </template>
 
@@ -25,7 +25,6 @@ export default {
       applicationServices.getTournaments().then((response) => {
         if (response.status === 201 || response.status === 200) {
           this.$store.commit("SET_TOURNAMENTS", response.data)
-          console.log("successful call")
         }
       })
     }

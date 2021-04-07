@@ -52,27 +52,18 @@
      </tbody>
     </table>
     <div>
-      <!-- <board-column title="Tournaments" :tournaments : /> -->
+      <tournament-list />
     </div>
  </div>
 </template>
 
 <script>
-import ApplicationServices from '../services/ApplicationServices'
+import TournamentList from './TournamentList.vue'
 export default {
-    name: "tournament-list",
-    data() {
-        return{
-            // tournamentId: 0
-      
-        }
+  components: {
+      TournamentList
     },
-    methods: {
-      retrieveTournaments() {
-        ApplicationServices.getTournaments()
-      }
-
-    }
+    name: "browse"
 
 }
 </script>

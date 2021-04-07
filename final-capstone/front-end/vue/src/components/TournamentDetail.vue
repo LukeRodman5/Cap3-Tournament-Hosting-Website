@@ -4,8 +4,9 @@
       <img id="loadingImg" src="../assets/ping_pong_loader.gif" />
     </div>
     <div v-else>
-      <h1>{{ tournament.tourneyName }}</h1>
-      <p>{{ tournament.tourneyDesc }}</p>
+      <h1>{{ currentTournament.tourneyName }}</h1>
+      <p>{{ currentTournament.tourneyDesc }}</p>
+      <p>{{ currentTournament.maxNumOfParticipants }}</p>
       <!-- buttons below will be displayed as JOIN TOURNAMENT for all users, EDIT TOURNAMENT for tourney host
        this functionality will be added later-->
       <!-- <router-link
@@ -39,14 +40,19 @@ export default {
     return {
       isLoading: true,
       errorMsg: "",
+      currentTournament: {}
     };
+  },
+  created() {
+    this.retrieveTournament()
   },
   methods: {
     retrieveTournament() {
       applicationServices
         .getTournament(this.$route.params.tourneyID)
         .then(response => {
-          this.$store.commit("SET_CURRENT_TOURNAMENT", response.data);
+          //this.$store.commit("SET_CURRENT_TOURNAMENT", response.data);
+          this.currentTournament = response.data
           this.isLoading = false;
         })
         .catch(error => {
@@ -88,9 +94,6 @@ export default {
           });
       }
     },
-  },
-  created() {
-    this.retrieveTournament();
   },
   computed: {
     tournament() {
