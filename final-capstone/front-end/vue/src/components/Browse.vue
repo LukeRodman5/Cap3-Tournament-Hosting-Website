@@ -51,19 +51,26 @@
       </tr>
      </tbody>
     </table>
+    <div>
+      <!-- <board-column title="Tournaments" :tournaments : /> -->
+    </div>
  </div>
 </template>
 
 <script>
+import ApplicationServices from '../services/ApplicationServices'
 export default {
     name: "tournament-list",
     data() {
         return{
-            allTournaments:[]
+            // tournamentId: 0
       
         }
     },
     methods: {
+      retrieveTournaments() {
+        ApplicationServices.getTournaments()
+      }
 
     }
 
