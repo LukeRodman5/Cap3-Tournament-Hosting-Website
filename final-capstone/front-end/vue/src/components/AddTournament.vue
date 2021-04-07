@@ -2,11 +2,11 @@
     <form v-on:submit.prevent="addTournament">
      <div class="form-element">
         <label for="name">Tournament Name:</label>
-        <input id="name" type="text" v-model="newTournament.name" />
+        <input id="name" type="text" v-model="newTournament.tourneyName" />
     </div>
     <div class="form-element">
         <label for="description"> Tournament Description:</label>
-        <input id="name" type="text" v-model="newTournament.description"/>
+        <input id="name" type="text" v-model="newTournament.tourneyDesc"/>
     </div>
     
     <div class ="form-element">
@@ -23,7 +23,7 @@
     </div>
     <div class ="form-element">
         <label for ="participantMax"> Max Participants: </label>
-        <input id="participantMax" type="text" v-model="newTournament.participantMax"/>
+        <input id="participantMax" type="text" v-model="newTournament.maxNumOfParticipants"/>
     </div>
 
     <button type="submit" class="btn save">Save Tournament</button> 
@@ -38,58 +38,40 @@ export default {
     data(){
         return{
             newTournament:{
-                name: '',
-                description:'',
-                host: this.$store.state.user.username,
+                tourneyName: '',
+                tourneyDesc:'',
+                tourneyHost: this.$store.state.user.username,
                 startDate:'',
                 endDate:'',
                 isActive:true,
                 openForReg:true,
-                participantMax: 20,
-                participantNum:0
+                maxNumOfParticipants: 20,
+                numOfParticipants:0
             },
             tournaments:[]
         }//end of return
     },//end of data
     methods:{
-        addTournament(){
-            const newTourney ={
-                name: this.newTournament.name,
-                description: this.newTournament.description,
-                host: this.newTournament.host,
-                startDate: this.newTournament.startDate,
-                endDate: this.newTournament.endDate,
-                isActive: this.newTournament.isActive,
-                openForReg: this.newTournament.openForReg,
-                participantMax: this.newTournament.participantMax,
-                participantNum: this.newTournament.participantNum
+      addTournament(){
+            console.log(this.newTournament)
+             applicationServices.addTournament(this.newTournament).then(response =>{
+             if(response.status === 201){
+                     // this.getTournaments()
+                    this.newTournament={
+                        tourneyName: '',
+                        tourneyDesc:'',
+                        tourneyHost: this.$store.state.user.username,
+                        startDate:'',
+                        endDate:'',
+                        isActive:true,
+                        openForReg:true,
+                        maxNumOfParticipants: 20,
+                        numOfParticipants:0
             }
-            applicationServices.addTournament(newTourney).then(response => {
-                if (response.status === 201) {
-                    this.$router.push('/')
-                }
-            })
-        } 
-
-        //  addTournament(){
-        //      console.log(this.newTournament)
-        //     applicationServices.addTournament(this.newTournament).then(response =>{
-        //         if(response.status === 201){
-        //             // this.getTournaments()
-        //             this.newTournament = {
-        //                 name: '',
-        //                 description:'',
-        //                 host: this.$store.state.user.username,
-        //                 startDate:'',
-        //                 endDate:'',
-        //                 isActive:true,
-        //                 openForReg:true,
-        //                 participantMax: 20,
-        //                 participantNum:0}
-        //         this.$router.push("/")
-        //         }//end of if 
-        //     })//end then
-        // },//end add tournament
+                 this.$router.push("/")
+                 }//end of if 
+             })//end then
+         },//end add tournament
         
     }
 

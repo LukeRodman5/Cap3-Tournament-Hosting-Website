@@ -57,7 +57,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, open_for_reg, participant_max, participant_num) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
-		jdbcTemplate.update(sql, name, description, id, startDate, endDate, tourneyIsActive, regIsActive, numberOfParticipants, maxNumberOfParticipants);
+		jdbcTemplate.update(sql, name, description, id, startDate, endDate, tourneyIsActive, regIsActive, maxNumberOfParticipants, numberOfParticipants);
 		
 	}
 		
