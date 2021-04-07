@@ -43,7 +43,7 @@ export default {
                 tourneyHost: this.$store.state.user.username,
                 startDate:'',
                 endDate:'',
-                isActive:true,
+                active:false,
                 openForReg:true,
                 maxNumOfParticipants: 20,
                 numOfParticipants:0
@@ -55,7 +55,7 @@ export default {
       addTournament(){
             console.log(this.newTournament)
              applicationServices.addTournament(this.newTournament).then(response =>{
-             if(response.status === 201){
+             if(response.status === 201 || response.status === 200){
                      // this.getTournaments()
                     this.newTournament={
                         tourneyName: '',
@@ -63,7 +63,7 @@ export default {
                         tourneyHost: this.$store.state.user.username,
                         startDate:'',
                         endDate:'',
-                        isActive:true,
+                        active:true,
                         openForReg:true,
                         maxNumOfParticipants: 20,
                         numOfParticipants:0
