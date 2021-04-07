@@ -7,6 +7,7 @@
       <h1>{{ currentTournament.tourneyName }}</h1>
       <p>{{ currentTournament.tourneyDesc }}</p>
       <p>{{ currentTournament.maxNumOfParticipants }}</p>
+      <p> {{currentTournament.startDate}} | {{currentTournament.endDate}}</p>
       <!-- buttons below will be displayed as JOIN TOURNAMENT for all users, EDIT TOURNAMENT for tourney host
        this functionality will be added later-->
       <!-- <router-link
