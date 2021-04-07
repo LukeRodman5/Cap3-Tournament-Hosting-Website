@@ -47,7 +47,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	
 	
 	@Override //                                                query for username to get id                                                           (set a max)
-	public void createATourney(String name, String description, String host, LocalDate startDate, LocalDate endDate, boolean tourneyIsActive, boolean regIsActive, int numberOfParticipants, int maxNumberOfParticipants) {
+	public void createATourney(String name, String description, String host, LocalDate startDate, LocalDate endDate, boolean tourneyIsActive, boolean regIsActive, int maxNumberOfParticipants, int numberOfParticipants) {
 		String subSql = "select user_id from users where username = ?";
 		
 		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, "user");
