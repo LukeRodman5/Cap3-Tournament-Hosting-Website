@@ -5,7 +5,7 @@
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         {{ registrationErrorMsg }}
       </div>
-      <label for="username" class="sr-only">Username</label>
+      <label for="username" class="sr-only"> Username: </label>
       <input
         type="text"
         id="username"
@@ -15,7 +15,7 @@
         required
         autofocus
       />
-      <label for="password" class="sr-only">Password</label>
+      <label for="password" class="sr-only"> Password: </label>
       <input
         type="password"
         id="password"
@@ -90,4 +90,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+* {
+ 
+font-family: Tahoma, Verdana, Segoe, sans-serif;
+}
+
+
+</style>
