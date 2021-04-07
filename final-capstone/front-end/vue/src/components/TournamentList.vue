@@ -15,8 +15,8 @@
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
-              <td class="end-date">{{tournament.endDate}}
-              <td class="host">{{tournament.tourneyHost}}
+              <td class="end-date">{{tournament.endDate}}</td>
+              <td class="host">{{tournament.tourneyHost}}</td>
             </tr>
       </tbody>
   </table>
