@@ -84,6 +84,18 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	}
 
 	@Override
+	public Tourneys getATourneyById(long id) {
+		String sql = "select * from tournaments where tourney_id = ?";
+		
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+		if(results.next()) {
+			return mapRowToTourneys(results);
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
 	public List<Tourneys> getTourneysByDate() { //Filtering will be done on FrontEnd side
 		// TODO Auto-generated method stub
 		return null;
@@ -156,6 +168,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		int id = subQuery.getInt("user_id");
 		return id;
 	}
+
+	
 
 	
 

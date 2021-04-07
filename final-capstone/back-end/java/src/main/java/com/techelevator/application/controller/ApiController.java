@@ -54,6 +54,12 @@ public class ApiController {
 		tourneysDAO.deleteATourney(id);
 }
 	
+@RequestMapping
+	(path = "tournaments/{id}", method = RequestMethod.GET) 
+	public Tourneys getTourney(@PathVariable long id) {
+	logRequest("Deleting a tournament");
+	return tourneysDAO.getATourneyById(id);
+}
 /********************************************************************************************************************* 
 * Use this method if you'd like to log calls to your controllers - these message can aid in your troubleshooting
 * 

@@ -20,5 +20,6 @@ public interface TourneysDAO {
 	boolean updateStatus();
 	int changeNumOfParticipants();
 	Long updateStartTime();
+	Tourneys getATourneyById(long id);
 	
 }
