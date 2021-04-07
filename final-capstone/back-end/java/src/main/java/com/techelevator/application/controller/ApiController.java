@@ -25,6 +25,10 @@ public class ApiController {
 /**********************************************************************************************************************
 * Put your Application API Controllers here
 **********************************************************************************************************************/
+	
+/* 
+ * Add a new Tournament to Database	
+ */
 @RequestMapping
 	(path = "/tournaments", method = RequestMethod.POST)
 	public void addTournament(@RequestBody Tourneys tourney) {
@@ -32,6 +36,10 @@ public class ApiController {
 		tourneysDAO.createATourney(tourney.getTourneyName(), tourney.getTourneyDesc(), tourney.getTourneyHost(), tourney.getStartDate(), tourney.getEndDate(),
 								   tourney.isActive(), tourney.isOpenForReg(), tourney.getMaxNumOfParticipants(), tourney.getNumOfParticpants());
 		}
+
+/*
+ * Get all tournaments in a list
+ */
 @RequestMapping
 	(value = "/tournaments", method = RequestMethod.GET)
 	public List<Tourneys> tournament() { 
@@ -39,6 +47,9 @@ public class ApiController {
     	return tourneysDAO.getAllTourneys();
     	}
 
+/*
+ * Update a Tournament by tourney_id
+ */
 @RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.PUT)
 	public void tournamentUpdate(@RequestBody Tourneys tourney, @PathVariable long id) {
@@ -46,6 +57,10 @@ public class ApiController {
 		tourneysDAO.updateATourney(tourney);
 }
 
+
+/*
+ * Delete a tournament by tourney_id
+ */
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.DELETE)
@@ -54,6 +69,10 @@ public class ApiController {
 		tourneysDAO.deleteATourney(id);
 }
 	
+
+/*
+ * Get a tournament by tourney_id
+ */
 @RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.GET) 
 	public Tourneys getTourney(@PathVariable long id) {

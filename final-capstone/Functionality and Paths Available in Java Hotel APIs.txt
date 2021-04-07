@@ -1,0 +1,38 @@
+Functionality and Paths Available in Java Hotel APIs
+
+/* 
+ * Add a new Tournament to Database	
+ */
+@RequestMapping
+	(path = "/tournaments", method = RequestMethod.POST)
+	
+
+/*
+ * Get all tournaments in a list
+ */
+@RequestMapping
+	(value = "/tournaments", method = RequestMethod.GET)
+
+
+/*
+ * Update a Tournament by tourney_id
+ */
+@RequestMapping
+	(path = "/tournaments/{id}", method = RequestMethod.PUT)
+
+
+/*
+ * Delete a tournament by tourney_id
+ */
+@ResponseStatus(HttpStatus.NO_CONTENT)
+@RequestMapping
+	(path = "/tournaments/{id}", method = RequestMethod.DELETE)
+
+	
+
+/*
+ * Get a tournament by tourney_id
+ */
+@RequestMapping
+	(path = "/tournaments/{id}", method = RequestMethod.GET) 
+	

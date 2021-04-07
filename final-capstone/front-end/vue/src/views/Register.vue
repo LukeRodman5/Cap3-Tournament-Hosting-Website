@@ -92,7 +92,7 @@ export default {
 
 <style>
 * {
- 
+background-color: lightblue; 
 font-family: Tahoma, Verdana, Segoe, sans-serif;
 }
 
