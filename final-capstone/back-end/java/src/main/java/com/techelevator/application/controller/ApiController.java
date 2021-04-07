@@ -6,6 +6,10 @@ package com.techelevator.application.controller;
 
 import java.sql.Timestamp;
 import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.techelevator.application.dao.*;
 import com.techelevator.application.model.*;
@@ -31,8 +35,24 @@ public class ApiController {
 @RequestMapping
 	(value = "/tournaments", method = RequestMethod.GET)
 	public List<Tourneys> tournament() { 
+	logRequest("Getting all tournaments");
     	return tourneysDAO.getAllTourneys();
     	}
+
+@RequestMapping
+	(path = "/tournaments/{id}", method = RequestMethod.PUT)
+	public void tournamentUpdate(@RequestBody Tourneys tourney, @PathVariable long id) {
+	logRequest("Updating a tournament");
+		tourneysDAO.updateATourney(tourney);
+}
+
+@ResponseStatus(HttpStatus.NO_CONTENT)
+@RequestMapping
+	(path = "tournaments/{id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable int id) {
+	logRequest("Deleting a tournament");
+		tourneysDAO.deleteATourney(id);
+}
 	
 /********************************************************************************************************************* 
 * Use this method if you'd like to log calls to your controllers - these message can aid in your troubleshooting
