@@ -6,9 +6,7 @@ package com.techelevator.application.controller;
 
 import java.sql.Timestamp;
 import java.util.List;
-
 import org.springframework.web.bind.annotation.*;
-
 import com.techelevator.application.dao.*;
 import com.techelevator.application.model.*;
 
@@ -23,18 +21,18 @@ public class ApiController {
 /**********************************************************************************************************************
 * Put your Application API Controllers here
 **********************************************************************************************************************/
-	@RequestMapping
+@RequestMapping
 	(path = "/tournaments", method = RequestMethod.POST)
 	public void addTournament(@RequestBody Tourneys tourney) {
 		logRequest("adding a /tournament post");
 		tourneysDAO.createATourney(tourney.getTourneyName(), tourney.getTourneyDesc(), tourney.getTourneyHost(), tourney.getStartDate(), tourney.getEndDate(),
 								   tourney.isActive(), tourney.isOpenForReg(), tourney.getMaxNumOfParticipants(), tourney.getNumOfParticpants());
-	}
-	
-	@RequestMapping(value = "/tournaments", method = RequestMethod.GET)
+		}
+@RequestMapping
+	(value = "/tournaments", method = RequestMethod.GET)
 	public List<Tourneys> tournament() { 
     	return tourneysDAO.getAllTourneys();
-}
+    	}
 	
 /********************************************************************************************************************* 
 * Use this method if you'd like to log calls to your controllers - these message can aid in your troubleshooting
