@@ -1,5 +1,5 @@
 <template>
-  <div :style="image" id="register">
+  <div id="register" class="text-center">
         <form class="form-register" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -37,7 +37,7 @@
         Create Account
       </button>
     </form>
-    <div class="spacer"></div>
+    <img src = http://lawnmastersllpc.com/blog/wp-content/uploads/2016/10/ProgressiveField-1.jpg />
   </div>
 </template>
 
@@ -99,6 +99,7 @@ export default {
 
 #register {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -110,6 +111,11 @@ form {
 }
 form > input {
   margin-bottom: 20px;
+}
+
+#register > img {
+  max-width: 80%;
+  margin: 0px auto 0px auto;
 }
 
 </style>
