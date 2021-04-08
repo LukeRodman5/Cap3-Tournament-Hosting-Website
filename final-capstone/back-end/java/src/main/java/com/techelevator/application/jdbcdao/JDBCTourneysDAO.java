@@ -125,8 +125,16 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 		jdbcTemplate.update(sql, newTourneyID, username, currentTourneyID);
 	}
-
 	
+	@Override
+	public void removeUserFromTourney(String username, int tourneyID) {
+		String sql = "delete from users_tournaments "
+				+ "where user_id = (select user_id from users where username = ?) "
+				+ "and tourney_id = ?";
+		jdbcTemplate.update(sql, username, tourneyID);
+		
+	}
+
 	@Override
 	public List<Tourneys> getTourneysByDate() { //Filtering will be done on FrontEnd side
 		// TODO Auto-generated method stub
@@ -199,15 +207,5 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 		int id = subQuery.getInt("user_id");
 		return id;
-	}
-
-	
-	
-
-	
-
-	
-
-
-	
+	}	
 }

@@ -15,6 +15,7 @@ public interface TourneysDAO {
 	void updateATourney(Tourneys updatedTourney);
 	void addUserToTourney(String username, int tourneyID);
 	void updateUserTourney(String username, int newTourneyID, int currentTourneyID);
+	void removeUserFromTourney(String username, int tourneyID);
 	List<Tourneys> getTourneysByDate();
 	String updateATourneyName();
 	String updateATourneyDesc();
