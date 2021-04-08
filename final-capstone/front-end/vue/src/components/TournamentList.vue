@@ -1,16 +1,16 @@
 <template>
   <table>
-      <thead>
+      <!-- <thead>
           <tr>
-              <th>&nbsp;</th>
               <th>Tournament Name</th>
               <th>Description</th>
               <th>Start Date</th>
               <th>End Date</th>
               <th>Host</th>
           </tr>
-      </thead>
-      <tbody>
+      </thead> -->
+      <!-- copied to browse -->
+      <tbody id="tournament">
             <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+//  copied to browse
 import applicationServices from '../services/ApplicationServices'
 
 export default {
@@ -49,5 +50,29 @@ export default {
 </script>
 
 <style>
+ .tournament {
+     display: grid;
+     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
+     grid-template-areas: 
+    "name description start-date end-date host"
+    
+     ;
+     background-color: lightcoral;
+ }
+ #name{
+     grid-area: name;
+ }
+ #description{
+     grid-area: description;
+ }
+ #start-date{
+     grid-area: start-date;
+ }
+ #end-date{
+     grid-area: end-date;
+ }
+ #host{
+     grid-area: host;
+ }
 
 </style>

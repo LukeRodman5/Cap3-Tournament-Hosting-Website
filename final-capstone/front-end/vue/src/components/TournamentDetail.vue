@@ -21,7 +21,7 @@
     </div>
 
     <div class="board-actions" v-if="!isLoading">
-      <router-link :to="{ name: 'browse',  }">Back to Tournaments</router-link>
+      <router-link :to="{ name: 'home'}">Back to Tournaments</router-link>
     </div>
   </div>
 </template>
