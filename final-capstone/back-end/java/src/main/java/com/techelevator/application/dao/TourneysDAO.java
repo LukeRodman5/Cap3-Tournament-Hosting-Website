@@ -13,7 +13,7 @@ public interface TourneysDAO {
 	void deleteATourney(long id);
 	void updateATourney(Tourneys updatedTourney);
 	void addUserToTourney(String username, int tourneyID);
-	
+	void updateUserTourney(String username, int newTourneyID, int currentTourneyID);
 	List<Tourneys> getTourneysByDate();
 	String updateATourneyName();
 	String updateATourneyDesc();
