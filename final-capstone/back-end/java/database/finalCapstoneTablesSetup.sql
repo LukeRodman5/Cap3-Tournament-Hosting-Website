@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS tournaments         CASCADE;
 DROP TABLE IF EXISTS matches             CASCADE;
+DROP TABLE IF EXISTS users_tournaments   CASCADE;
 DROP TABLE IF EXISTS tournaments_matches CASCADE;
 DROP TABLE IF EXISTS users_matches       CASCADE;
 
@@ -27,6 +28,12 @@ CREATE TABLE matches
   , start_date DATE
   , CONSTRAINT pk_matches_match_id
        PRIMARY KEY (match_id));
+       
+CREATE TABLE users_tournaments
+  ( user_id      INTEGER
+  , tourney_id   INTEGER
+  , CONSTRAINT pk_users_tournaments_user_id_tourney_id
+       PRIMARY KEY (user_id, tourney_id));
 
 CREATE TABLE tournaments_matches
   ( tourney_id INTEGER
@@ -65,3 +72,13 @@ ALTER TABLE      users_matches
   ADD CONSTRAINT fk_matches_match_id
   FOREIGN KEY    (match_id)
   REFERENCES     matches(match_id);
+  
+ALTER TABLE      users_tournaments
+  ADD CONSTRAINT fk_users_user_id
+  FOREIGN KEY    (user_id)
+  REFERENCES     users(user_id);
+
+ALTER TABLE      users_tournaments
+  ADD CONSTRAINT fk_tournaments_tournament_id
+  FOREIGN KEY    (tourney_id)
+  REFERENCES     tournaments(tourney_id);
