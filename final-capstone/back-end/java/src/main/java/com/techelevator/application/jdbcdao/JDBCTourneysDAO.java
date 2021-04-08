@@ -96,6 +96,14 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	}
 	
 	@Override
+	public void addUserToTourney(String username, int tourney_id) {
+		String sql = "insert into users_tournaments (user_id, tourney_id) values ((select user_id from users where username = ?), ?)";
+		
+		jdbcTemplate.update(sql, username, tourney_id);
+		
+	}
+	
+	@Override
 	public List<Tourneys> getTourneysByDate() { //Filtering will be done on FrontEnd side
 		// TODO Auto-generated method stub
 		return null;
@@ -168,6 +176,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		int id = subQuery.getInt("user_id");
 		return id;
 	}
+
+	
 
 	
 

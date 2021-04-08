@@ -81,9 +81,10 @@ public class ApiController {
 }
 
 @RequestMapping
-	(path = "tournaments/{tourneyID}/{userID}", method = RequestMethod.PUT)
-	public void addUserToTourney(@RequestBody Tourneys touney, @PathVariable int tourneyID, int userID) {
+	(path = "tournaments/{tourneyID}/{username}", method = RequestMethod.POST)
+	public void addUserToTourney(@RequestBody Tourneys tourney, @PathVariable String username, int tourneyID) {
 		logRequest("Adding user to a tournament a tournament");
+			tourneysDAO.addUserToTourney(username, tourneyID);
 }
 
 
