@@ -48,6 +48,19 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		return listOfTourneys;
 	}
 	
+	@Override
+	public List<Tourneys> getTourneysByHostID(int hostID) {
+		List<Tourneys>listOfTourneys = new ArrayList<>();
+		String sql = "select * from tournaments where tourney_host = ?";
+		
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, hostID);
+			while(results.next()) {
+				Tourneys tourney = mapRowToTourneys(results);
+				listOfTourneys.add(tourney);
+			}	
+		return listOfTourneys;
+	}
+	
 	
 	@Override //                                                query for username to get id                                                           (set a max)
 	public void createATourney(String name, String description, String host, LocalDate startDate, LocalDate endDate, boolean tourneyIsActive, boolean regIsActive, int maxNumberOfParticipants, int numberOfParticipants) {
