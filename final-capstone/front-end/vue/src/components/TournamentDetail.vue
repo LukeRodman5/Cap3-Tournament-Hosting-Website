@@ -8,7 +8,7 @@
       <p>{{ currentTournament.tourneyDesc }}</p>
       <p>{{ currentTournament.maxNumOfParticipants }}</p>
       <p> {{currentTournament.startDate}} | {{currentTournament.endDate}}</p>
-      <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, this.$store.state.user.username)">Join Tournament</button>
+      <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
       
       
     </div>
@@ -87,7 +87,7 @@ export default {
           });
       }
     },//end of delete card
-    joinTourney(tourneyId, userID){
+    joinTourney(tourneyId, username){
       applicationServices.joinTourney(tourneyId, username)
     .then(response=>{
         if(response.status===200 || response.status===201){
