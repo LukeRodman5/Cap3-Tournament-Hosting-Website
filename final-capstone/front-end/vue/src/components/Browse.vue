@@ -78,8 +78,6 @@ export default {
      grid-template-areas: 
      "column1 column2 column3 column4 column5 column6"
      ;
-     background-color: lightcoral;
-     justify-items: center;
 
  }
  table{

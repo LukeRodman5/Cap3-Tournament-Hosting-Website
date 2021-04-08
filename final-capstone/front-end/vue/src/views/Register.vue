@@ -1,5 +1,5 @@
 <template>
-  <div :style="image" id="register" class="text-center">
+  <div :style="image" id="register">
         <form class="form-register" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -37,6 +37,7 @@
         Create Account
       </button>
     </form>
+    <div class="spacer"></div>
   </div>
 </template>
 
@@ -95,13 +96,20 @@ export default {
 * {
   font-family: Tahoma, Verdana, Segoe, sans-serif;
 }
+
+#register {
+  display: flex;
+  justify-content: center;
+}
+
 form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0;
 }
 input {
-  width: 30%;
   margin-bottom: 20px;
 }
+
 </style>

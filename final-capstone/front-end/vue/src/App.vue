@@ -11,10 +11,13 @@
   </div>
 </template>
 <style>
-body {
+html {
   background-color: rgb(185, 185, 251);
+}
+#nav {
   text-align: center;
   /* code added for testing during early phases, site looks okay for now, will keep just in case for now - 04/08/21
+  background-color: rgb(185, 185, 251);
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-areas:
@@ -23,11 +26,5 @@ body {
   "footer footer footer";
   grid-gap: 10 px;
   height: 100vh; */
-}
-.nav{ 
-  display: flex;
-}
-.home{
-  /* background-color: darkmagenta; */
 }
 </style>
