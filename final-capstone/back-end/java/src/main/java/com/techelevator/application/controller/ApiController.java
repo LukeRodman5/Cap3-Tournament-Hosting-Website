@@ -77,7 +77,7 @@ public class ApiController {
 
 /* Get a tournament by user (for regular users not for hosts) */
 @RequestMapping
-(path = "/tournaments/{username}", method = RequestMethod.GET)
+(path = "/tournaments/users/{username}", method = RequestMethod.GET)
 public List<Tourneys> allUserTourneys(@PathVariable String username) { 
 logRequest("Getting all users by tournament");
 	return tourneysDAO.getTourneysByName(username);

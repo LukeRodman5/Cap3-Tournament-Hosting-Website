@@ -108,7 +108,7 @@ form {
   align-items: center;
   margin: 0;
 }
-input {
+form > input {
   margin-bottom: 20px;
 }
 

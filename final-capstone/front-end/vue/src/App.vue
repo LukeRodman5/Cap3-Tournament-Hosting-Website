@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link v-bind:to="{ name: 'home' }">Home</router-link> | 
-      <router-link v-bind:to="{ name: 'add-tournament' }">Create a Tournament</router-link> | 
-      <router-link v-bind:to="{ name: 'my-tournaments' }">Show My Tournaments</router-link> |
-      <router-link v-bind:to="{ name: 'browse'}">Browse</router-link> | 
+      <router-link v-bind:to="{ name: 'home' }">Home</router-link>
+      <router-link v-bind:to="{ name: 'add-tournament' }">Create a Tournament</router-link>
+      <router-link v-bind:to="{ name: 'my-tournaments' }">Show My Tournaments</router-link>
+      <router-link v-bind:to="{ name: 'browse'}">Browse</router-link>
       <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
       <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link>
     </div>
@@ -16,7 +16,8 @@ html {
   background-color: rgb(185, 185, 251);
 }
 #nav {
-  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
   /* code added for testing during early phases, site looks okay for now, will keep just in case for now - 04/08/21
   background-color: rgb(185, 185, 251);
   display: grid;
@@ -28,4 +29,15 @@ html {
   grid-gap: 10 px;
   height: 100vh; */
 }
+#nav > a {
+  border: 1px solid black;
+  padding: 10px 40px 10px 40px;
+  text-decoration: none;
+  color: black;
+}
+
+a.router-link-exact-active {
+  text-decoration: underline;
+}
+
 </style>
