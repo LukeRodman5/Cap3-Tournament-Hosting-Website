@@ -79,6 +79,16 @@ public class ApiController {
 	logRequest("Deleting a tournament");
 	return tourneysDAO.getATourneyById(id);
 }
+
+@RequestMapping
+	(path = "tournaments/{tourneyID}/{userID}", method = RequestMethod.PUT)
+	public void addUserToTourney(@RequestBody Tourneys touney, @PathVariable int tourneyID, int userID) {
+		logRequest("Adding user to a tournament a tournament");
+}
+
+
+
+
 /********************************************************************************************************************* 
 * Use this method if you'd like to log calls to your controllers - these message can aid in your troubleshooting
 * 
