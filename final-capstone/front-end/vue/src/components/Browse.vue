@@ -37,67 +37,37 @@
         </td>
       </tr>
 
-      
       <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
               <td class="end-date">{{tournament.endDate}}</td>
               <td class="host">{{tournament.tourneyHost}}</td>
-              <!-- <input class = "details-button" type="button" value="View Details" /> -->
               <router-link v-bind:to="{name: 'tournament-detail', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="View Details"></router-link>
       </tr>
-      
-        
-        <!-- This will direct to tournaments detail 
-        <td>
-          <button v-on:click="showTournament()"> 
-        </td> -->
-        <tr
-            
-        >
-
-
-        <!-- <button class="btn tournment detail" v-on:click="" > </button> NEED ROUTE FOR INIDIVDUAL TOURNAMENTS**-->
-                        
-      </tr>
-
     </table>
-    <!-- <div>
-      <tournament-list />
-    </div> -->
  </div>
 </template>
 
 <script>
-// import TournamentList from './TournamentList.vue'
 import applicationServices from '../services/ApplicationServices'
 
 export default {
-  // components: {
-  //     TournamentList
-  //   },
-    name: "browse",
-
-    methods: {
-      viewTournament(id){
-            this.$router.push(`/tournaments/${id}`)
-      },//end viewTournament 
-      getTournaments(){
-            applicationServices.getTournaments().then(response =>{
-                this.$store.commit("SET_TOURNAMENTS", response.data)
-            }) //end of then
-      }//end of getTournaments
-    },//end of methods
-    created(){
-        this.getTournaments();
-    },
-    computed:{
-       }//end of computed
-
-    }
-
-
+  name: "browse",
+  methods: {
+    viewTournament(id){
+      this.$router.push(`/tournaments/${id}`)
+    },//end viewTournament 
+    getTournaments(){
+      applicationServices.getTournaments().then(response =>{
+          this.$store.commit("SET_TOURNAMENTS", response.data)
+      }) //end of then
+    }//end of getTournaments
+  },//end of methods
+  created() {
+      this.getTournaments();
+  }
+}
 </script>
 
 <style>
@@ -106,17 +76,10 @@ export default {
      display: grid;
      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
      grid-template-areas: 
-     "column1 column2 column3 column4 column5 column6 "
-     "tournamentNameFilter startDateFilter endDateFilter descriptionFilter host statusFilter"
-     "name"
-    
+     "column1 column2 column3 column4 column5 column6"
      ;
      background-color: lightcoral;
      justify-items: center;
-     width: 100%
-     
-     
-     ;
 
  }
  table{
@@ -140,9 +103,6 @@ export default {
   #column6{
    grid-area: column6;
  }
-  #column7{
-   grid-area: column7;
- }
 
  #tournamentNameFilter{
    grid-area: column1;
@@ -161,9 +121,6 @@ export default {
 }
 #statusFilter{
   grid-area: column6;
-}
-#name{
-  grid-area:column1;
 }
 
 </style>

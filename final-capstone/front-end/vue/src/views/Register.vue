@@ -1,12 +1,11 @@
 <template>
-  <div id="register" class="text-center">
-    <!-- <img src="@\assets\Progressive-Field-Right-Field-View.jpg"> -->
+  <div :style="image" id="register" class="text-center">
         <form class="form-register" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         {{ registrationErrorMsg }}
       </div>
-      <label for="username" class="sr-only"> Username: </label>
+      <label for="username" class="sr-only"></label>
       <input
         type="text"
         id="username"
@@ -16,7 +15,7 @@
         required
         autofocus
       />
-      <label for="password" class="sr-only"> Password: </label>
+      <label for="password" class="sr-only"></label>
       <input
         type="password"
         id="password"
@@ -48,6 +47,7 @@ export default {
   name: 'register',
   data() {
     return {
+      image: { backgroundImage: "url(http://lawnmastersllpc.com/blog/wp-content/uploads/2016/10/ProgressiveField-1.jpg)"},
       user: {
         username: '',
         password: '',
@@ -91,12 +91,17 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 * {
-background-color: lightblue; 
-font-family: Tahoma, Verdana, Segoe, sans-serif;
-/* background-image: ; */
+  font-family: Tahoma, Verdana, Segoe, sans-serif;
 }
-
-
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+input {
+  width: 30%;
+  margin-bottom: 20px;
+}
 </style>
