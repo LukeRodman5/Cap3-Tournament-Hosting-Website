@@ -8,6 +8,7 @@ import store from '../store/index'
 import AddTournament from '@/views/AddTournament.vue'
 import Browse from '@/views/Browse.vue'
 import TournamentDetail from '@/views/TournamentDetail.vue'
+import MyTournaments from '@/views/MyTournaments.vue'
 
 Vue.use(Router)
 
@@ -79,6 +80,14 @@ const router = new Router({
       component: TournamentDetail,
       meta:{
         requiresAuth:false
+      }
+    },
+    {
+      path: "/tournaments/:username",
+      name: "my-tournaments:",
+      component: MyTournaments,
+      meta:{
+        requiresAuth:true
       }
     }
   ]
