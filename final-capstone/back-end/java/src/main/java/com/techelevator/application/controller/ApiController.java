@@ -69,7 +69,6 @@ public class ApiController {
 		tourneysDAO.deleteATourney(id);
 }
 	
-
 /*
  * Get a tournament by tourney_id
  */
@@ -87,7 +86,15 @@ public class ApiController {
 			tourneysDAO.addUserToTourney(username, tourneyID);
 }
 
-
+/*
+ * Get a tournament by username for regular users not hosts
+ */
+@RequestMapping
+(path = "/tournaments/{username}", method = RequestMethod.GET)
+public List<Tourneys> allUserTourneys(@PathVariable String username) { 
+logRequest("Getting all users by tournament");
+	return tourneysDAO.getTourneysByName(username);
+	}
 
 
 /********************************************************************************************************************* 

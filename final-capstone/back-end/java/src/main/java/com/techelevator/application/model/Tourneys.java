@@ -9,7 +9,7 @@ public class Tourneys {
 	private String tourneyHost;
 	private LocalDate startDate;
 	private LocalDate endDate;
-	private  boolean isActive;
+	private boolean isActive;
 	private boolean openForReg;
 	private int numOfParticpants;
 	private int maxNumOfParticipants;
