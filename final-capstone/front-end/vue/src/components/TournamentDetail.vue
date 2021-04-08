@@ -8,16 +8,9 @@
       <p>{{ currentTournament.tourneyDesc }}</p>
       <p>{{ currentTournament.maxNumOfParticipants }}</p>
       <p> {{currentTournament.startDate}} | {{currentTournament.endDate}}</p>
-      <!-- buttons below will be displayed as JOIN TOURNAMENT for all users, EDIT TOURNAMENT for tourney host
-       this functionality will be added later-->
-      <!-- <router-link
-        tag="button"
-        :to="{ name: 'EditCard', params: {cardID: $route.params.cardID} }"
-        class="btn editCard"
-      >Edit Card</router-link>
-      <button class="btn deleteCard" v-on:click="deleteCard">Delete Card</button>
-      <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
-      <comments-list :comments="card.comments" /> //this will be match list once we build it-->
+      <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, this.$store.state.user.username)">Join Tournament</button>
+      
+      
     </div>
 
     <div class="board-actions" v-if="!isLoading">
@@ -28,13 +21,12 @@
 
 <script>
 import applicationServices from "../services/ApplicationServices";
-//import Browse from "../components/Browse"
 //import CommentsList from "@/components/CommentsList"; - reserved for importing match list later
 
 export default {
   name: "tournament-detail",
   components: {
-    //Browse,
+    
     //match-list later
   },
   data() {
@@ -94,8 +86,21 @@ export default {
             }
           });
       }
-    },
-  },
+    },//end of delete card
+    joinTourney(tourneyId, userID){
+      applicationServices.joinTourney(tourneyId, username)
+    .then(response=>{
+        if(response.status===200 || response.status===201){
+          alert("You have successfully joined this tournament.")
+        }//end of if
+        else{
+          alert("Attempt to join this tournament was unsuccessful.")
+        }//end of else
+        this.$router.push("/")
+    } //end of then
+    
+    )}//end of flipJoin
+  },//end of methods
   computed: {
     tournament() {
       return this.$store.state.tournament;
