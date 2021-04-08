@@ -74,7 +74,7 @@ export default {
 
  .tblTournaments {
      display: grid;
-     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
+     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
      grid-template-areas: 
      "column1 column2 column3 column4 column5 column6"
      ;

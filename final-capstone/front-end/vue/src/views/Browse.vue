@@ -1,3 +1,6 @@
+//  TO CHANGE TO AN "ABOUT US" SECTION
+ 
+ 
  <template>
     <div>
         <h1>Browse</h1>
