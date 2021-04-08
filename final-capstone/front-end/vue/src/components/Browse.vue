@@ -4,9 +4,9 @@
 
       <tr>
        <th class ="column" id ="column1">Tournament Name</th>
-       <th class ="column" id ="column2">Start Date</th>
-       <th class ="column" id ="column3">End Date</th>
-       <th class ="column" id ="column4">Description</th>
+       <th class ="column" id ="column2">Description</th>       
+       <th class ="column" id ="column3">Start Date</th>
+       <th class ="column" id ="column4">End Date</th>
        <th class ="column" id ="column5">Host</th>
        <th class ="column" id ="column6">Status</th>
       </tr>
