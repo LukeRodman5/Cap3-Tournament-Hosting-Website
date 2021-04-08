@@ -32,7 +32,7 @@ public class ApiController {
 	public void addTournament(@RequestBody Tourneys tourney) {
 		logRequest("adding a /tournament post");
 		tourneysDAO.createATourney(tourney.getTourneyName(), tourney.getTourneyDesc(), tourney.getTourneyHost(), tourney.getStartDate(), tourney.getEndDate(),
-								   tourney.isActive(), tourney.isOpenForReg(), tourney.getMaxNumOfParticipants(), tourney.getNumOfParticpants());
+								   tourney.isActive(), tourney.isOpenForReg(), tourney.getMaxNumOfParticipants(), tourney.getNumOfParticipants());
 		}
 
 /* Get all tournaments in a list */

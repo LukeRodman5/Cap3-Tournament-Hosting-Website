@@ -87,7 +87,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 		jdbcTemplate.update(sql, updatedTourney.getTourneyName(), updatedTourney.getTourneyDesc(), findHostByUsername(updatedTourney.getTourneyHost()),
 				updatedTourney.getStartDate(), updatedTourney.getEndDate(), updatedTourney.isActive(), updatedTourney.isOpenForReg(), updatedTourney.getMaxNumOfParticipants(),
-				updatedTourney.getNumOfParticpants(), updatedTourney.getTourneyId());
+				updatedTourney.getNumOfParticipants(), updatedTourney.getTourneyId());
 		
 	}
 
@@ -193,7 +193,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		tourneysRow.setEndDate(results.getDate("end_date").toLocalDate());
 		tourneysRow.setActive(results.getBoolean("tourney_is_active"));
 		tourneysRow.setOpenForReg(results.getBoolean("open_for_reg"));
-		tourneysRow.setNumOfParticpants(results.getInt("participant_num"));
+		tourneysRow.setNumOfParticipants(results.getInt("participant_num"));
 		tourneysRow.setMaxNumOfParticipants(results.getInt("participant_max"));
 		return tourneysRow;
 		

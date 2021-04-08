@@ -11,7 +11,7 @@ public class Tourneys {
 	private LocalDate endDate;
 	private boolean isActive;
 	private boolean openForReg;
-	private int numOfParticpants;
+	private int numOfParticipants;
 	private int maxNumOfParticipants;
 	public Long getTourneyId() {
 		return tourneyId;
@@ -61,11 +61,11 @@ public class Tourneys {
 	public void setOpenForReg(boolean openForReg) {
 		this.openForReg = openForReg;
 	}
-	public int getNumOfParticpants() {
-		return numOfParticpants;
+	public int getNumOfParticipants() {
+		return numOfParticipants;
 	}
-	public void setNumOfParticpants(int numOfParticpants) {
-		this.numOfParticpants = numOfParticpants;
+	public void setNumOfParticipants(int numOfParticipants) {
+		this.numOfParticipants = numOfParticipants;
 	}
 	public int getMaxNumOfParticipants() {
 		return maxNumOfParticipants;
@@ -77,7 +77,7 @@ public class Tourneys {
 	public String toString() {
 		return "Tourneys [tourneyId=" + tourneyId + ", tourneyName=" + tourneyName + ", tourneyDesc=" + tourneyDesc
 				+ ", tourneyHost=" + tourneyHost + ", startDate=" + startDate + ", endDate=" + endDate + ", isActive="
-				+ isActive + ", openForReg=" + openForReg + ", numOfParticpants=" + numOfParticpants
+				+ isActive + ", openForReg=" + openForReg + ", numOfParticipants=" + numOfParticipants
 				+ ", maxNumOfParticipants=" + maxNumOfParticipants + "]";
 	}
 	
