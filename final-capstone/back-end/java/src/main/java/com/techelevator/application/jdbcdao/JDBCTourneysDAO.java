@@ -19,7 +19,6 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	public JDBCTourneysDAO(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-
 	
 	// Retrieve all tournaments from database
 	@Override
