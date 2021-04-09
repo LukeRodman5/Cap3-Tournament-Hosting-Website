@@ -28,11 +28,25 @@ Functionality and Paths Available in Java Hotel APIs
 @RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.DELETE)
 
-	
-
 /*
  * Get a tournament by tourney_id
  */
 @RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.GET) 
+
+// Add a user to a tournament
+@RequestMapping
+	(path = "/tournaments/{tourneyID}/{username}", method = RequestMethod.POST)
+	
+
+/* Get a tournament by user (for regular users not for hosts) */
+@RequestMapping
+	(path = "/tournaments/users/{username}", method = RequestMethod.GET)
+	
+
+/* Update tournament the user is in */
+@RequestMapping
+	(path = "/tournaments/{username}/{currentTourneyID}/{newTourneyID}", method = RequestMethod.PUT)
+	
+
 	
