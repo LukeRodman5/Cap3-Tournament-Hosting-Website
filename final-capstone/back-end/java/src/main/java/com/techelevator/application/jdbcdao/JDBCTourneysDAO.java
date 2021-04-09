@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.techelevator.application.dao.TourneysDAO;
 import com.techelevator.application.model.Tourneys;
+import com.techelevator.application.model.Users;
 @Component
 public class JDBCTourneysDAO implements TourneysDAO {
 	
@@ -67,8 +68,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	
 	// Get all users in a tournament
 		@Override
-		public List<Tourneys> getAllUsersInATourney(int tourneyID) {
-			List<Tourneys>listOfTourneys = new ArrayList<>();
+		public List<Users> getAllUsersInATourney(int tourneyID) {
+			List<Users>listOfUsers = new ArrayList<>();
 			String sql = "select username, users.user_id "
 					   + "from users inner join users_tournaments "
 					   + "on users.user_id = users_tournaments.user_id "
@@ -76,10 +77,12 @@ public class JDBCTourneysDAO implements TourneysDAO {
 			
 			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyID);
 				while(results.next()) {
-					Tourneys tourney = mapRowToTourneys(results);
-					listOfTourneys.add(tourney);
-				}	
-			return listOfTourneys;
+					Users user = new Users();
+					user.setUserId(results.getLong("user_id"));
+					user.setUsername(results.getString("username"));
+					listOfUsers.add(user);
+					}	
+			return listOfUsers;
 			
 		}
 	
