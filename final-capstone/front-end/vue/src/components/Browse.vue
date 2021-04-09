@@ -8,7 +8,7 @@
        <th class ="column" id ="column3">Start Date</th>
        <th class ="column" id ="column4">End Date</th>
        <th class ="column" id ="column5">Host</th>
-       <th class ="column" id ="column6">Status</th>
+       <!-- <th class ="column" id ="column6">Status</th> -->
       </tr>
     
       <tr>
@@ -28,12 +28,12 @@
           <input type="text" id="host" v-model="filter.tourneyHost" />
         </td>
         <td>
-          <select id="statusFilter" v-model="filter.status">
+          <!-- <select id="statusFilter" v-model="filter.status">
           <option value> Show All </option>
           <option value = "Current">Current Events</option>
           <option value = "Upcoming">Upcoming Events</option>
           <option value = "Previous">Previous Events</option>
-          </select>
+          </select> -->
         </td>
       </tr>
 
@@ -73,15 +73,20 @@ export default {
       this.$router.push(`/tournaments/${id}`)
     },//end viewTournament 
     getTournaments(){
+          let currentDate = moment().format()
       applicationServices.getTournaments().then(response =>{
           this.$store.commit("SET_TOURNAMENTS", response.data)
           this.tournaments=response.data
+          
+          if(this.tournaments.endDate < currentDate) {
+            this.tournaments.status = "previous"
+          }
       }) //end of then
     }//end of getTournaments
   },//end of methods
   computed: {
     filteredList(){
-      let currentDate = moment().format()
+
       let filteredTournaments = this.tournaments
       // if(this.filter.endDate < currentDate) {
       //   this.filter.status = "previous"
@@ -114,10 +119,10 @@ export default {
           .includes(this.filter.tourneyHost.toLowerCase())
         )
       }
-      // if(this.filter.startDate != null) {
-      //   filteredTournaments = filteredTournaments.filter((tournament) =>
-      //   tournament.startDate >= this.filter.startDate)
-      // }
+      if(this.filter.status != null) {
+        filteredTournaments = filteredTournaments.filter((tournament) =>
+        tournament.status = "previous")
+      }
       // if(this.filter.endDate != null) {
       //   filteredTournaments = filteredTournaments.filter((tournament) =>
       //   tournament.endDate <= this.filter.endDate)
