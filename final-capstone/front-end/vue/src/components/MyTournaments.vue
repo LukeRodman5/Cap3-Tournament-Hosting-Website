@@ -72,6 +72,7 @@ export default {
         }//end of return
     },//end of data
     create(){
+      this.getMyHostTournaments(),
       this.getMyPlayTournaments()
     },//end of create
     methods:{
@@ -91,7 +92,7 @@ ON USER'S USERNAME */
         applicationServices.getTourneysByName(username).then(response =>{
           this.$store.commit("SET_TOURNAMENTS", response.data)
         })
-        this.myPlayTournaments=this.$store.state.tournaments
+        myPlayTournaments=this.$store.state.tournaments
       },
       leaveTourney(tourneyId, username){
       applicationServices.leaveTourney(tourneyId, username)
