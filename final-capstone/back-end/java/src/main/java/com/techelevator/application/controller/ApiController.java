@@ -105,6 +105,13 @@ public class ApiController {
 		tourneysDAO.removeUserFromTourney(username, tourneyID);
 	}
 
+@RequestMapping
+(path = "tournaments/{tourneyID}/users/", method = RequestMethod.GET)
+public List<Users> getAllUsersInATourney(@PathVariable int tourneyID) {
+	logRequest("Getting all tourneys by user");
+	return tourneysDAO.getAllUsersInATourney(tourneyID);
+}
+
 /******************************************************************************
 ***   ***   ***   *** Matches API Controllers ***   ***   ***   ***   ***
 *******************************************************************************/
