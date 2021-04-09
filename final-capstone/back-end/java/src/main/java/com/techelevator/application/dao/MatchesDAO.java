@@ -6,12 +6,12 @@ import com.techelevator.application.model.Matches;
 
 public interface MatchesDAO { // update match 
 
-	List<Matches> getAllMatches();
-	List<Matches> getMatchById();
-	Matches createAMatch();
-	Matches deleteAMatch();
-	List<Matches> getMatchesByDate();
-	String updateAMatchId();
-	Long updateStartDate();
-	Long updateStartTime();
+	List<Matches> getAllMatches(); // Keep
+	List<Matches> getMatchById();  // Keep
+	Matches createAMatch();        // keep
+	Matches deleteAMatch();        // keep
+	List<Matches> getMatchesByDate(); // No
+	String updateAMatchId();          // Not this time
+	Long updateStartDate();           // keep
+	Long updateStartTime();           // keep
 	}

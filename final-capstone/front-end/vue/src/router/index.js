@@ -84,7 +84,7 @@ const router = new Router({
     },
     {
       path: "/tournaments/:username",
-      name: "my-tournaments:",
+      name: "my-tournaments",
       component: MyTournaments,
       meta:{
         requiresAuth:true
