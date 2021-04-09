@@ -5,11 +5,14 @@
 package com.techelevator.application.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.web.bind.annotation.*;
 import com.techelevator.application.dao.*;
 import com.techelevator.application.model.*;
@@ -18,13 +21,14 @@ import com.techelevator.application.model.*;
 @CrossOrigin
 public class ApiController {
 	private TourneysDAO tourneysDAO;
-	
-	public ApiController(TourneysDAO tourneysDAO) {
+	private MatchesDAO matchesDAO;
+	public ApiController(TourneysDAO tourneysDAO, MatchesDAO matchesDAO) {
 		this.tourneysDAO = tourneysDAO;
-	}
-/**********************************************************************************************************************
-* Put your Application API Controllers here
-**********************************************************************************************************************/
+		this.matchesDAO = matchesDAO;
+		}	
+/******************************************************************************
+***   ***   ***   *** Tournaments API Controllers ***   ***   ***   ***   ***
+*******************************************************************************/
 	
 /* Add a new Tournament to Database */
 @RequestMapping
@@ -91,6 +95,36 @@ public class ApiController {
 		logRequest("Updating the tournament the user is in");
 		tourneysDAO.updateUserTourney(username, newTourneyID, currentTourneyID);
 	}
+
+/* Delete a user from tournament */
+@ResponseStatus(HttpStatus.NO_CONTENT)
+@RequestMapping
+	(path = "/tournaments/users/{username}/{tourneyID}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable String username,@PathVariable int tourneyID) {
+		logRequest("Deleting user from tournament");
+		tourneysDAO.removeUserFromTourney(username, tourneyID);
+	}
+
+/******************************************************************************
+***   ***   ***   *** Matches API Controllers ***   ***   ***   ***   ***
+*******************************************************************************/
+
+/* Add a new Match to Database */
+@RequestMapping
+(path = "/matches", method = RequestMethod.POST)
+public void addMatches( @RequestBody Matches match) {
+	logRequest("Add a list of matches");
+	matchesDAO.createAMatch(match.getStartTime(), match.getStartDate());
+}
+
+/* Get all matches in a list */
+@RequestMapping
+	(value = "/matches", method = RequestMethod.GET)
+	public List<Matches> match() { 
+		logRequest("Getting all matches");
+    	return matchesDAO.getAllMatches();
+    }
+
 
 /********************************************************************************************************************* 
 * Use this method if you'd like to log calls to your controllers - these message can aid in your troubleshooting
