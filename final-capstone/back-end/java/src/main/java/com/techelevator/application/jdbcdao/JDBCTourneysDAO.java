@@ -69,7 +69,10 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		@Override
 		public List<Tourneys> getAllUsersInATourney(int tourneyID) {
 			List<Tourneys>listOfTourneys = new ArrayList<>();
-			String sql = "select username, users.user_id from users inner join users_tournaments on users.user_id = users_tournaments.user_id where tourney_id = ?";
+			String sql = "select username, users.user_id "
+					   + "from users inner join users_tournaments "
+					   + "on users.user_id = users_tournaments.user_id "
+					   + "where tourney_id = ?";
 			
 			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyID);
 				while(results.next()) {
