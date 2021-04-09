@@ -6,8 +6,9 @@
             <h2> Tournaments I'm Hosting</h2>
         </thead>
       <tbody id="tournament host">
-            <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
-              <td class="name">{{tournament.tourneyName}}</td>
+          <tr v-bind:tournaments="host">
+           <!--  <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
+              <td class="name">{{tournament.tourneyName}}</td>-->
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
               <td class="end-date">{{tournament.endDate}}</td>
@@ -55,9 +56,20 @@ export default {
                 maxNumOfParticipants: 20,
                 numOfParticipants:0
             },
-            tournaments:[]
+            tournaments:[],
         }//end of return
     },//end of data
+    create(){
+      applicationServices.getTournaments().then(response=>{
+        this.tournaments = response.data.tournaments
+      })
+    },
+    computed:{
+      host(){
+        return this.tournaments.filter(tournament => 
+        tournament.tourneyHost===this.$store.state.user.username)
+      }//end of host
+    },//end of computed
     methods:{
          leaveTourney(tourneyId, username){
       applicationServices.leaveTourney(tourneyId, username)
@@ -71,7 +83,7 @@ export default {
         this.$router.push("/")
     } //end of then
     
-    )}//end of joinTourney
+    )}//end of leaveTourney
     }   
 }
 </script>
