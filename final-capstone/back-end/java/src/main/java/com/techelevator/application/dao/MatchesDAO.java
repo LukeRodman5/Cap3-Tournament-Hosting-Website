@@ -11,8 +11,10 @@ public interface MatchesDAO { // update match
 	List<Matches> getMatchById(int matchID);
 	void createAMatch(LocalDate startTime, LocalDate startDate); 
 	void deleteAMatch(int matchID);        // keep
+	void updateAMatch(LocalDate startTime, LocalDate startDate, int matchID);
 	List<Matches> getMatchesByDate(); // No
 	String updateAMatchId();          // Not this time
-	Long updateStartDate();           // keep
-	Long updateStartTime();           // keep
+	Long updateStartDate();           // Changed to update an entire match instead
+	Long updateStartTime();           // Changed to update an entire match instead
+	
 	}
