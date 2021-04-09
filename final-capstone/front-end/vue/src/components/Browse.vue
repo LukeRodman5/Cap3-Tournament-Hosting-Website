@@ -13,22 +13,22 @@
     
       <tr>
         <td>
-          <input type="text" id="tournamentNameFilter"/>
+          <input type="text" id="tournamentNameFilter" v-model="filter.tourneyName" />
         </td>
         <td>
-          <input type="text" id="startDateFilter"/>
+          <input type="text" id="descriptionFilter" v-model="filter.tourneyDesc" />
+        </td>        
+        <td>
+          <input type="date" id="startDateFilter" v-model="filter.startDate" />
         </td>
         <td>
-          <input type="text" id="endDateFilter"/>
+          <input type="date" id="endDateFilter" v-model="filter.endDate" />
         </td>
         <td>
-          <input type="text" id="descriptionFilter"/>
+          <input type="text" id="host" v-model="filter.tourneyHost" />
         </td>
         <td>
-          <input type="text" id="host"/>
-        </td>
-        <td>
-          <select id="statusFilter">
+          <select id="statusFilter" v-model="filter.status">
           <option value> Show All </option>
           <option value = "Current">Current Events</option>
           <option value = "Upcoming">Upcoming Events</option>
@@ -37,7 +37,7 @@
         </td>
       </tr>
 
-      <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
+      <tr v-for="tournament in filteredList" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
@@ -51,9 +51,23 @@
 
 <script>
 import applicationServices from '../services/ApplicationServices'
-
+import moment from 'moment'
 export default {
   name: "browse",
+  data(){
+    return {
+      filter: {
+        tourneyName: "",
+        tourneyDesc: "",
+        startDate: null,
+        endDate: null,
+        tourneyHost: "",
+        status: ""
+      },
+      tournaments:[]
+    }
+  },
+
   methods: {
     viewTournament(id){
       this.$router.push(`/tournaments/${id}`)
@@ -61,9 +75,61 @@ export default {
     getTournaments(){
       applicationServices.getTournaments().then(response =>{
           this.$store.commit("SET_TOURNAMENTS", response.data)
+          this.tournaments=response.data
       }) //end of then
     }//end of getTournaments
   },//end of methods
+  computed: {
+    filteredList(){
+      let currentDate = moment().format()
+      let filteredTournaments = this.tournaments
+      // if(this.filter.endDate < currentDate) {
+      //   this.filter.status = "previous"
+      // }
+      // if(this.filter.startDate > currentDate) {
+      //   this.filter.status = "upcoming"
+      // }
+      // if(this.filter.startDate <= currentDate && this.filter.endDate >= currentDate) {
+      //   this.filter.status = "current"
+      // }
+
+      if (this.filter.tourneyName != "") {
+        filteredTournaments = filteredTournaments.filter((tournament) =>
+        tournament.tourneyName
+          .toLowerCase()
+          .includes(this.filter.tourneyName.toLowerCase())
+        )
+      }
+      if (this.filter.tourneyDesc != "") {
+        filteredTournaments = filteredTournaments.filter((tournament) =>
+        tournament.tourneyDesc
+          .toLowerCase()
+          .includes(this.filter.tourneyDesc.toLowerCase())
+        )
+      }
+      if (this.filter.tourneyHost != "") {
+        filteredTournaments = filteredTournaments.filter((tournament) =>
+        tournament.tourneyHost
+          .toLowerCase()
+          .includes(this.filter.tourneyHost.toLowerCase())
+        )
+      }
+      // if(this.filter.startDate != null) {
+      //   filteredTournaments = filteredTournaments.filter((tournament) =>
+      //   tournament.startDate >= this.filter.startDate)
+      // }
+      // if(this.filter.endDate != null) {
+      //   filteredTournaments = filteredTournaments.filter((tournament) =>
+      //   tournament.endDate <= this.filter.endDate)
+      // }
+      // if(this.filter.status = "previous") {
+      //   filteredTournaments = filteredTournaments.filter((tournament) => 
+      //   tournament.status === this.filter.status)
+      // }
+     
+      return filteredTournaments
+    }
+  },
   created() {
       this.getTournaments();
   }
@@ -87,7 +153,7 @@ export default {
    grid-area: column1;
  }
   #column2{
-   grid-area: column2;
+   grid-area: column2
  }
   #column3{
    grid-area: column3;
