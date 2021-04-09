@@ -12,6 +12,8 @@ public interface MatchesDAO { // update match
 	void createAMatch(LocalDate startTime, LocalDate startDate); 
 	void deleteAMatch(int matchID);        // keep
 	void updateAMatch(LocalDate startTime, LocalDate startDate, int matchID);
+	void addUserToMatch(String username, int matchID);
+	void updateUserToDiffMatch(int newMatchID, String username, int currentMatchID);
 	List<Matches> getMatchesByDate(); // No
 	String updateAMatchId();          // Not this time
 	Long updateStartDate();           // Changed to update an entire match instead

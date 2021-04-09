@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import com.techelevator.application.dao.MatchesDAO;
 import com.techelevator.application.model.Matches;
-
+@Component
 public class JDBCMatchesDAO implements MatchesDAO {
 		
 	private JdbcTemplate jdbcTemplate;
@@ -63,6 +64,21 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		jdbcTemplate.update(sql, matchID);
 		
 	}
+	
+	@Override
+	public void addUserToMatch(String username, int matchID) {
+		String sql = "insert into users_matches (user_id, match_id) values ((select user_id from users where username = ?), ?)";
+		
+		jdbcTemplate.update(sql, username, matchID);
+	}
+	
+	@Override
+	public void updateUserToDiffMatch(int newMatchID, String username, int currentMatchID) {
+		String sql = "update users_matches set match_id = ? where user_id = (select user_id from users where username = ?) and match_id = ?";
+		
+		jdbcTemplate.update(sql, newMatchID, username, currentMatchID);
+	}
+
 
 	@Override
 	public List<Matches> getMatchesByDate() { // no
@@ -97,7 +113,6 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		return matchRow;
 	}
 
-	
 	
 	
 }
