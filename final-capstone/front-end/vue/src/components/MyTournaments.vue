@@ -12,7 +12,7 @@
           <th> Maximum Participants</th>
         </thead>
       <tbody id="tournament host">
-           <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
+           <tr v-for="tournament in this.myHostTournaments" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
@@ -35,7 +35,7 @@
           <th> Maximum Participants</th>
         </thead>
       <tbody id="tournament play">
-            <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
+            <tr v-for="tournament in this.myPlayTournaments" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
@@ -59,7 +59,7 @@ export default {
             myTournament:{
                 tourneyName: '',
                 tourneyDesc:'',
-                tourneyHost: this.$store.state.user.username,
+                tourneyHost: '',
                 startDate:'',
                 endDate:'',
                 active:true,
@@ -68,21 +68,30 @@ export default {
                 numOfParticipants:0
             },
             myHostTournaments:[],
+            myPlayTournaments:[]
         }//end of return
     },//end of data
     create(){
-      applicationServices.getTournaments().then(response=>{
-        this.myHostTournaments = response.data.tournaments
-      })
-    },
-    computed:{
-      host(){
-        return this.myHostTournaments.filter(myTournament => 
-        tournament.tourneyHost===this.$store.state.user.username)
-      }//end of host
-    },//end of computed
+    },//end of create
     methods:{
-         leaveTourney(tourneyId, username){
+      getTournaments(){
+        applicationServices.getTournaments().then(response =>{
+            this.$store.commit("SET_TOURNAMENTS", response.data)
+            }) //end of then
+        },//end of getTournaments
+
+ /*THISMETHOD NEEDS WORK - OUR TOURNAMENT OBJECT LISTS THE USER ID FOR TOURNAMENT HOST - WE NEED TO JOIN
+ON USER'S USERNAME */
+      getMyHostTournaments(username){
+        getTournaments()
+        myHostTournaments = this.$store.state.tournaments.filter(tournament=>tournament.tourneyHost===this.$store.state.user.username)
+      },
+      getMyPlayTournaments(username){
+        applicationServices.getTourneysByName(username).then(response =>{
+          this.$store.commit("SET_TOURNAMENTS", response.data)
+        })
+      },
+      leaveTourney(tourneyId, username){
       applicationServices.leaveTourney(tourneyId, username)
     .then(response=>{
         if(response.status===200 || response.status===201){
