@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <h1>Tournament Manager</h1>
-    <p>Your home for hosting, finding, and playing tournaments of all kinds</p>
+           <h2> Tournaments </h2>
     <browse />
   </div>
 </template>
@@ -30,7 +29,7 @@ export default {
 </script>
 <style>
 body {
-  text-align: center;
+  /* text-align: center; */
 }
 
 

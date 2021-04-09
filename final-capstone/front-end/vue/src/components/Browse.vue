@@ -37,7 +37,7 @@
         </td>
       </tr>
 
-      <tr v-for="tournament in filteredList" :key="tournament.tourneyId">
+      <tr class="browse-list" v-for="tournament in filteredList" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
@@ -143,34 +143,42 @@ export default {
 
 <style>
 
- .tblTournaments {
-     display: grid;
-     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-     grid-template-areas: 
-     "column1 column2 column3 column4 column5 column6"
-     ;
+ #tblTournaments {
+
+ padding-top: 20px;
+ padding-bottom: 300px;
+ box-shadow: 0px 10px 10px rgb(112, 112, 112);
 
  }
  table{
    width: 100%;
+   background-color: rgb(255, 255, 255);
+   
  }
  #column1{
    grid-area: column1;
+   background-color: rgb(235, 235, 235);
+   
  }
   #column2{
-   grid-area: column2
+   grid-area: column2;
+   background-color: rgb(235, 235, 235);
  }
   #column3{
    grid-area: column3;
+   background-color: rgb(235, 235, 235);
  }
   #column4{
    grid-area: column4;
+   background-color: rgb(235, 235, 235);
  }
   #column5{
    grid-area: column5;
+   background-color: rgb(235, 235, 235);
  }
   #column6{
    grid-area: column6;
+   background-color: rgb(235, 235, 235);
  }
 
  #tournamentNameFilter{
@@ -190,6 +198,13 @@ export default {
 }
 #statusFilter{
   grid-area: column6;
+}
+.browse-list{
+  /* display:grid */
+  /* grid-template-columns: "name description start-date end-date host tournament-detal"; */
+  /* background-color: lightgreen; */
+  /* border: 10px solid black */
+  /* ; */
 }
 
 </style>
