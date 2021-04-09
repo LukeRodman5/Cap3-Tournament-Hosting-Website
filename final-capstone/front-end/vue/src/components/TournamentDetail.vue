@@ -9,31 +9,61 @@
       <p>{{ currentTournament.maxNumOfParticipants }}</p>
       <p> {{currentTournament.startDate}} | {{currentTournament.endDate}}</p>
       <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
-      
-      
     </div>
 
-    <div class="board-actions" v-if="!isLoading">
+    <div v-if="!isLoading">
       <router-link :to="{ name: 'home'}">Back to Tournaments</router-link>
     </div>
+
+    <bracket :rounds="rounds">
+      <template slot="player" slot-scope="{ player }">
+          {{ player.name }}
+        </template>
+    </bracket>
   </div>
 </template>
 
 <script>
 import applicationServices from "../services/ApplicationServices";
-//import CommentsList from "@/components/CommentsList"; - reserved for importing match list later
+import Bracket from "vue-tournament-bracket";
+
+const rounds = [
+        //Semi finals
+    {
+        games: [
+            {
+                player1: { id: "1", name: "Competitor 1", winner: false, score: 0 },
+                player2: { id: "4", name: "Competitor 4", winner: true, score: 0 },
+                player3: { id: "10", name: "Competitor 10", winner: true, score: 0 }
+            },
+            {
+                player1: { id: "5", name: "Competitor 5", winner: false, score: 0 },
+                player2: { id: "8", name: "Competitor 8", winner: true, score: 0 },
+            }
+        ]
+    },
+    //Final
+    {
+        games: [
+            {
+                player1: { id: "4", name: "Competitor 4", winner: false, score: 0 },
+                player2: { id: "8", name: "Competitor 8", winner: true, score: 0 },
+            }
+        ]
+    }
+]
 
 export default {
   name: "tournament-detail",
   components: {
-    
-    //match-list later
+    Bracket
   },
   data() {
     return {
       isLoading: true,
       errorMsg: "",
-      currentTournament: {}
+      currentTournament: {},
+      rounds: rounds
     };
   },
   created() {
@@ -44,18 +74,9 @@ export default {
       applicationServices
         .getTournament(this.$route.params.tourneyID)
         .then(response => {
-          //this.$store.commit("SET_CURRENT_TOURNAMENT", response.data);
           this.currentTournament = response.data
           this.isLoading = false;
         })
-        .catch(error => {
-          if (error.response && error.response.status === 404) {
-            alert(
-              "Card not available. This card may have been deleted or you have entered an invalid card ID."
-            );
-            this.$router.push("/");
-          }
-        });
     },
     deleteCard() {
       if (
@@ -89,27 +110,27 @@ export default {
     },//end of delete card
     joinTourney(tourneyId, username){
       applicationServices.joinTourney(tourneyId, username)
-    .then(response=>{
+      .then(response=>{
         if(response.status===200 || response.status===201){
-          this.currentTournament.numOfParticipants = this.currentTournament.numOfParticipants ++
-          if(this.currentTournament.numOfParticipants >= this.currentTournament.maxNumOfParticipants){
-            this.currentTournament.openForReg = false
-          }
-          console.log(this.currentTournament)
-          applicationServices.updateTournament(this.currentTournament, tourneyId)
-          .then(response=>{
-            if(response.status === 200 || response.status===201){
-              alert("You have successfully joined this tournament")
-            }
-          })
+          alert("You have successfully joined this tournament")
+          // this.currentTournament.numOfParticipants = this.currentTournament.numOfParticipants ++
+          // if(this.currentTournament.numOfParticipants >= this.currentTournament.maxNumOfParticipants){
+          //   this.currentTournament.openForReg = false
+          // }
+          // applicationServices.updateTournament(this.currentTournament, tourneyId)
+          // .then(response=>{
+          //   if(response.status === 200 || response.status===201){
+          //     alert("You have successfully joined this tournament")
+          //   }
+          // })
         }//end of if
         else{
           alert("Attempt to join this tournament was unsuccessful.")
         }//end of else
-        this.$router.push("/")
-    } //end of then
+      this.$router.push("/")
+      }) //end of then
     
-    )}//end of joinTourney
+    }//end of joinTourney
   },//end of methods
   computed: {
     tournament() {
