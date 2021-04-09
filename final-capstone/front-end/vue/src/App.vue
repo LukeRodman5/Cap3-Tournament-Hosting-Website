@@ -18,17 +18,8 @@ html {
 #nav {
   display: flex;
   justify-content: space-evenly;
-  /* code added for testing during early phases, site looks okay for now, will keep just in case for now - 04/08/21
-  background-color: rgb(185, 185, 251);
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-template-areas:
-  "home home home"
-  "nav tournaments tournaments"
-  "footer footer footer";
-  grid-gap: 10 px;
-  height: 100vh; */
 }
+
 #nav > a {
   border: 1px solid black;
   padding: 10px 40px 10px 40px;
