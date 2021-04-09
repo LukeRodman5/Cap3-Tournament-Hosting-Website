@@ -41,34 +41,35 @@ export default {
       errorMsg: "",
       currentTournament: {},
       usersInTourney: [],
-      rounds: [
-        //Semi finals
-    {
-        games: [
-            {
-                player1: { id: "1", name: "Competitor 1", winner: null, score: 0 },
-                player2: { id: "4", name: "Competitor 4", winner: null, score: 0 },
-            },
-            {
-                player1: { id: "5", name: "Competitor 4", winner: null, score: 0 },
-                player2: { id: "8", name: "Competitor 8", winner: null, score: 0 },
-            }
-        ]
-    },
-    //Final
-    {
-        games: [
-            {
-                player1: tbdPlayers,
-                player2: tbdPlayers,
-            }
-        ]
-    }
-]
+      rounds: []
+//       rounds: [
+//         //Semi finals
+//     {
+//         games: [
+//             {
+//                 player1: { id: "1", name: "Competitor 1", winner: null, score: 0 },
+//                 player2: { id: "4", name: "Competitor 4", winner: null, score: 0 },
+//             },
+//             {
+//                 player1: { id: "5", name: "Competitor 4", winner: null, score: 0 },
+//                 player2: { id: "8", name: "Competitor 8", winner: null, score: 0 },
+//             }
+//         ]
+//     },
+//     //Final
+//     {
+//         games: [
+//             {
+//                 player1: tbdPlayers,
+//                 player2: tbdPlayers,
+//             }
+//         ]
+//     }
+// ]
     };
   },
   created() {
-    this.retrieveTournament(),
+    this.retrieveTournament()
     this.getUsersInTourney()
   },
   methods: {
@@ -134,7 +135,35 @@ export default {
     
     },//end of joinTourney
     getUsersInTourney() {
-
+      applicationServices.getUsersInTourney(this.$route.params.tourneyID).then((response) => {
+        if (response.status === 200 || response.status === 201) {
+          this.usersInTourney = response.data
+          this.setUpBracket()
+        } else {
+          console.log("Error")
+        }
+        
+      })
+    },
+    setUpBracket() {
+      let gamesHolder = {games: []}
+      let match = {}
+      this.usersInTourney.forEach((user) => {
+       let player = {id: user.userId, name: user.username, winner: null, score: 0}
+        if (!('player1' in match)) {
+          match.player1 = player
+        } else {
+          match.player2 = player
+          gamesHolder.games.push(match)
+          match = {}
+        }
+      })
+      this.rounds.push(gamesHolder)
+      gamesHolder = {games: []}
+      match = {player1: tbdPlayers, player2: tbdPlayers}
+      gamesHolder.games.push(match)
+      match = {}
+      this.rounds.push(gamesHolder)
     }
   }//end of methods
 };

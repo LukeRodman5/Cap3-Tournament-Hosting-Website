@@ -28,7 +28,6 @@ html {
 }
 
 #nav > a {
-  border: 1px solid black;
   padding: 10px 40px 10px 40px;
   text-decoration: none;
   color: white;
