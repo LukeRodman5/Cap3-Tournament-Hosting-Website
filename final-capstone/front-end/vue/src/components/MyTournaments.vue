@@ -59,6 +59,19 @@ export default {
         }//end of return
     },//end of data
     methods:{
+         leaveTourney(tourneyId, username){
+      applicationServices.leaveTourney(tourneyId, username)
+    .then(response=>{
+        if(response.status===200 || response.status===201){
+          alert("You have successfully left this tournament.")
+        }//end of if
+        else{
+          alert("Attempt to leave this tournament was unsuccessful.")
+        }//end of else
+        this.$router.push("/")
+    } //end of then
+    
+    )}//end of joinTourney
     }   
 }
 </script>

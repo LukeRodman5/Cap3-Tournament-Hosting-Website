@@ -15,11 +15,7 @@ export default {
   components: {
     Browse
   },
-
-  created() {
-    this.getAllTournaments()
-  },
-
+  
   methods: {
     getAllTournaments() {
       applicationServices.getTournaments().then((response) => {

@@ -91,7 +91,17 @@ export default {
       applicationServices.joinTourney(tourneyId, username)
     .then(response=>{
         if(response.status===200 || response.status===201){
-          alert("You have successfully joined this tournament.")
+          this.currentTournament.numOfParticipants = this.currentTournament.numOfParticipants ++
+          if(this.currentTournament.numOfParticipants >= this.currentTournament.maxNumOfParticipants){
+            this.currentTournament.openForReg = false
+          }
+          console.log(this.currentTournament)
+          applicationServices.updateTournament(this.currentTournament, tourneyId)
+          .then(response=>{
+            if(response.status === 200 || response.status===201){
+              alert("You have successfully joined this tournament")
+            }
+          })
         }//end of if
         else{
           alert("Attempt to join this tournament was unsuccessful.")
@@ -99,7 +109,7 @@ export default {
         this.$router.push("/")
     } //end of then
     
-    )}//end of flipJoin
+    )}//end of joinTourney
   },//end of methods
   computed: {
     tournament() {
