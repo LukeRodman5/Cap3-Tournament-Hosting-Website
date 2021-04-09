@@ -1,7 +1,11 @@
 package com.techelevator.application.jdbcdao;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+
 import com.techelevator.application.dao.MatchesDAO;
 import com.techelevator.application.model.Matches;
 
@@ -14,27 +18,43 @@ public class JDBCMatchesDAO implements MatchesDAO {
 	}
 
 	@Override
-	public List<Matches> getAllMatches() { // needs
-		// TODO Auto-generated method stub
-		return null;
+	public List<Matches> getAllMatches() { 
+		List<Matches>listOfMatches = new ArrayList<>();
+		String sql = "select * from matches";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+			
+			while(results.next()) {
+				Matches aMatch = mapRowToMatches(results);
+				listOfMatches.add(aMatch);
+			}
+		return listOfMatches;
 	}
 
 	@Override
-	public List<Matches> getMatchById() { // needs it by user id not match id
-		// TODO Auto-generated method stub
-		return null;
+	public List<Matches> getMatchById(int matchID) { // needs it by user id not match id
+		List<Matches>listOfMatches = new ArrayList<>();
+		String sql = "select * from matches where match_id = ?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
+			
+			while(results.next()) {
+				Matches aMatch = mapRowToMatches(results);
+				listOfMatches.add(aMatch);
+			}
+		return listOfMatches;
 	}
 
 	@Override
-	public Matches createAMatch() { // needs specified
-		// TODO Auto-generated method stub
-		return null;
+	public void createAMatch(LocalDate startTime, LocalDate startDate) { // needs specified
+		String sql = "insert into matches (start_time, start_date) values (?, ?)";
+		jdbcTemplate.update(sql, startTime, startDate);
 	}
 
 	@Override
-	public Matches deleteAMatch() { // needs 
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteAMatch(int matchID) { // needs 
+		String sql = "delete from matches where match_id = ?";
+		
+		jdbcTemplate.update(sql, matchID);
+		
 	}
 
 	@Override
@@ -60,4 +80,15 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	private Matches mapRowToMatches(SqlRowSet results) {
+		Matches matchRow = new Matches();
+		matchRow.setMatchId(results.getLong("match_id"));
+		matchRow.setStartTime(results.getDate("start_time").toLocalDate());
+		matchRow.setStartDate(results.getDate("start_date").toLocalDate());
+		
+		return matchRow;
+	}
+	
+	
 }
