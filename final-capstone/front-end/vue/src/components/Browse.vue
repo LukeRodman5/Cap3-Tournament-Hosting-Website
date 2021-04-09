@@ -147,6 +147,8 @@ export default {
 
  padding-top: 20px;
  padding-bottom: 300px;
+ padding-left:70px;
+ padding-right:70px;
  box-shadow: 0px 10px 10px rgb(112, 112, 112);
 
  }
