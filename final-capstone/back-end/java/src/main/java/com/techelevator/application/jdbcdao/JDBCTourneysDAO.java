@@ -65,6 +65,21 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		return listOfTourneys;
 	}
 	
+	// Get all users in a tournament
+		@Override
+		public List<Tourneys> getAllUsersInATourney(int tourneyID) {
+			List<Tourneys>listOfTourneys = new ArrayList<>();
+			String sql = "select username, users.user_id from users inner join users_tournaments on users.user_id = users_tournaments.user_id where tourney_id = ?";
+			
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyID);
+				while(results.next()) {
+					Tourneys tourney = mapRowToTourneys(results);
+					listOfTourneys.add(tourney);
+				}	
+			return listOfTourneys;
+			
+		}
+	
 	// Create a new tournament
 	@Override                                                                                                            
 	public void createATourney(String name, String description, String host, LocalDate startDate, LocalDate endDate, 
@@ -146,6 +161,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		jdbcTemplate.update(sql, username, tourneyID);
 		
 	}
+		
 
 	@Override
 	public List<Tourneys> getTourneysByDate() { //Filtering will be done on FrontEnd side
@@ -219,5 +235,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 		int id = subQuery.getInt("user_id");
 		return id;
-	}	
+	}
+
+
+	
 }
