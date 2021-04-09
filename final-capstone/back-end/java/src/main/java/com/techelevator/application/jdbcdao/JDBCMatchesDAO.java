@@ -48,7 +48,14 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		String sql = "insert into matches (start_time, start_date) values (?, ?)";
 		jdbcTemplate.update(sql, startTime, startDate);
 	}
-
+		
+	@Override
+	public void updateAMatch(LocalDate startTime, LocalDate startDate, int matchID) {
+		String sql = "update matches set start_time = ?, start_date = ? where match_id = ?";
+		
+		jdbcTemplate.update(sql, startTime, startDate, matchID);
+	}
+	
 	@Override
 	public void deleteAMatch(int matchID) { // needs 
 		String sql = "delete from matches where match_id = ?";
@@ -89,6 +96,8 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		
 		return matchRow;
 	}
+
+	
 	
 	
 }
