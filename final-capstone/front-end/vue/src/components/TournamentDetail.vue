@@ -14,12 +14,13 @@
     <div v-if="!isLoading">
       <router-link :to="{ name: 'home'}">Back to Tournaments</router-link>
     </div>
-
-    <bracket :rounds="rounds">
-      <template slot="player" slot-scope="{ player }">
-          {{ player.name }}
-        </template>
-    </bracket>
+    <div id="bracket">
+      <bracket :rounds="rounds">
+        <template slot="player" slot-scope="{ player }">
+            {{ player.name }}
+          </template>
+      </bracket>
+    </div>
   </div>
 </template>
 
@@ -27,31 +28,7 @@
 import applicationServices from "../services/ApplicationServices";
 import Bracket from "vue-tournament-bracket";
 
-const rounds = [
-        //Semi finals
-    {
-        games: [
-            {
-                player1: { id: "1", name: "Competitor 1", winner: false, score: 0 },
-                player2: { id: "4", name: "Competitor 4", winner: true, score: 0 },
-                player3: { id: "10", name: "Competitor 10", winner: true, score: 0 }
-            },
-            {
-                player1: { id: "5", name: "Competitor 5", winner: false, score: 0 },
-                player2: { id: "8", name: "Competitor 8", winner: true, score: 0 },
-            }
-        ]
-    },
-    //Final
-    {
-        games: [
-            {
-                player1: { id: "4", name: "Competitor 4", winner: false, score: 0 },
-                player2: { id: "8", name: "Competitor 8", winner: true, score: 0 },
-            }
-        ]
-    }
-]
+const tbdPlayers = { name: "TBD", winner: null, score: 0 }
 
 export default {
   name: "tournament-detail",
@@ -63,11 +40,36 @@ export default {
       isLoading: true,
       errorMsg: "",
       currentTournament: {},
-      rounds: rounds
+      usersInTourney: [],
+      rounds: [
+        //Semi finals
+    {
+        games: [
+            {
+                player1: { id: "1", name: "Competitor 1", winner: null, score: 0 },
+                player2: { id: "4", name: "Competitor 4", winner: null, score: 0 },
+            },
+            {
+                player1: { id: "5", name: "Competitor 4", winner: null, score: 0 },
+                player2: { id: "8", name: "Competitor 8", winner: null, score: 0 },
+            }
+        ]
+    },
+    //Final
+    {
+        games: [
+            {
+                player1: tbdPlayers,
+                player2: tbdPlayers,
+            }
+        ]
+    }
+]
     };
   },
   created() {
-    this.retrieveTournament()
+    this.retrieveTournament(),
+    this.getUsersInTourney()
   },
   methods: {
     retrieveTournament() {
@@ -78,14 +80,14 @@ export default {
           this.isLoading = false;
         })
     },
-    deleteCard() {
+    deleteTournament() {
       if (
         confirm(
           "Are you sure you want to delete this tournament? This action cannot be undone."
         )
       ) {
         applicationServices
-          .deleteTournament(this.tournament.tourneyID)
+          .deleteTournament(this.currentTournament.tourneyID)
           .then(response => {
             if (response.status === 200) {
               alert("Tournament successfully deleted");
@@ -130,17 +132,19 @@ export default {
       this.$router.push("/")
       }) //end of then
     
-    }//end of joinTourney
-  },//end of methods
-  computed: {
-    tournament() {
-      return this.$store.state.tournament;
+    },//end of joinTourney
+    getUsersInTourney() {
+
     }
-  }
+  }//end of methods
 };
 </script>
 
 <style>
+#bracket {
+  display: flex;
+  justify-content: center;
+}
 .btn.editTournament {
   color: #fff;
   background-color: #508ca8;
