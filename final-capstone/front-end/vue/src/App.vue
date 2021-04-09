@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link v-bind:to="{ name: 'home' }">Home</router-link>
       <router-link v-bind:to="{ name: 'add-tournament' }">Create a Tournament</router-link>
-      <router-link v-bind:to="{ name: 'my-tournaments' }">Show My Tournaments</router-link>
+      <router-link v-bind:to="{ name: 'my-tournaments', params:{username: $store.state.user.username} }">Show My Tournaments</router-link>
       <router-link v-bind:to="{ name: 'about-us'}">About Us</router-link>
       <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
       <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link>

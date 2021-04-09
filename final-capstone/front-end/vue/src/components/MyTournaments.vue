@@ -1,14 +1,19 @@
 <template>
 <div>
     <!--display a list of tournaments where I am the host-->
-    <table class = "host">
+    <h2> Tournaments I'm Hosting</h2>
+    <table class = "host">    
         <thead>
-            <h2> Tournaments I'm Hosting</h2>
+          <th> Tournament Name</th>
+          <th> Tournament Description</th>
+          <th> Start Date</th>
+          <th> End Date</th>
+          <th> Current Participants</th>
+          <th> Maximum Participants</th>
         </thead>
       <tbody id="tournament host">
-          <tr v-bind:tournaments="host">
-           <!--  <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
-              <td class="name">{{tournament.tourneyName}}</td>-->
+           <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
+              <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
               <td class="end-date">{{tournament.endDate}}</td>
@@ -19,9 +24,15 @@
       </tbody>
     </table>
     <!--display a list of tournaments where I am participant-->
+    <h2> Tournaments I'm Playing</h2>
     <table class = "play">
-        <thead>
-            <h2> Tournaments I'm Playing</h2>
+      <thead>
+          <th> Tournament Name</th>
+          <th> Tournament Description</th>
+          <th> Start Date</th>
+          <th> End Date</th>
+          <th> Current Participants</th>
+          <th> Maximum Participants</th>
         </thead>
       <tbody id="tournament play">
             <tr v-for="tournament in this.$store.state.tournaments" :key="tournament.tourneyId">
@@ -56,17 +67,17 @@ export default {
                 maxNumOfParticipants: 20,
                 numOfParticipants:0
             },
-            tournaments:[],
+            myHostTournaments:[],
         }//end of return
     },//end of data
     create(){
       applicationServices.getTournaments().then(response=>{
-        this.tournaments = response.data.tournaments
+        this.myHostTournaments = response.data.tournaments
       })
     },
     computed:{
       host(){
-        return this.tournaments.filter(tournament => 
+        return this.myHostTournaments.filter(myTournament => 
         tournament.tourneyHost===this.$store.state.user.username)
       }//end of host
     },//end of computed
