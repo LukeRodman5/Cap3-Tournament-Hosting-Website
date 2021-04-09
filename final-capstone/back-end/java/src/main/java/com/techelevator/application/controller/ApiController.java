@@ -68,6 +68,7 @@ public class ApiController {
 		return tourneysDAO.getATourneyById(id);
 	}
 
+// Add a user to a tournament
 @RequestMapping
 	(path = "/tournaments/{tourneyID}/{username}", method = RequestMethod.POST)
 	public void addUserToTourney(@PathVariable String username,  @PathVariable int tourneyID) {
@@ -87,7 +88,7 @@ public class ApiController {
 @RequestMapping
 	(path = "/tournaments/{username}/{currentTourneyID}/{newTourneyID}", method = RequestMethod.PUT)
 	public void updateUsernameTourneys(@PathVariable String username,@PathVariable int currentTourneyID,@PathVariable int newTourneyID) { 
-		logRequest("Updates the tournament the user is in");
+		logRequest("Updating the tournament the user is in");
 		tourneysDAO.updateUserTourney(username, newTourneyID, currentTourneyID);
 	}
 
