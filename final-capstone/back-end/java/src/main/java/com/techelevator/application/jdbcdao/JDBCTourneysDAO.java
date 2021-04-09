@@ -19,6 +19,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
+	
+	// Retrieve all tournaments from database
 	@Override
 	public List<Tourneys> getAllTourneys() {
 		List<Tourneys>listOfTourneys = new ArrayList<>();
@@ -31,7 +33,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 			}	
 		return listOfTourneys;
 	}
-
+	
+	// Retrieve all tournaments from database by username
 	@Override
 	public List<Tourneys> getTourneysByName(String username) {
 		List<Tourneys>listOfTourneys = new ArrayList<>();
@@ -48,6 +51,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		return listOfTourneys;
 	}
 	
+	// Retrieve all tournaments from database by Host ID
 	@Override
 	public List<Tourneys> getTourneysByHostID(int hostID) {
 		List<Tourneys>listOfTourneys = new ArrayList<>();
@@ -61,9 +65,11 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		return listOfTourneys;
 	}
 	
-	
-	@Override //                                                query for username to get id                                                           (set a max)
-	public void createATourney(String name, String description, String host, LocalDate startDate, LocalDate endDate, boolean tourneyIsActive, boolean regIsActive, int maxNumberOfParticipants, int numberOfParticipants) {
+	// Create a new tournament
+	@Override                                                                                                            
+	public void createATourney(String name, String description, String host, LocalDate startDate, LocalDate endDate, 
+			                   boolean tourneyIsActive, boolean regIsActive, int maxNumberOfParticipants, int numberOfParticipants) {
+		
 		String subSql = "select user_id from users where username = ?";
 		
 		SqlRowSet subQuery = jdbcTemplate.queryForRowSet(subSql, host);
@@ -71,13 +77,14 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 		long id = subQuery.getInt("user_id");
 		
-		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, open_for_reg, participant_max, participant_num) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, "
+				   + "open_for_reg, participant_max, participant_num) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		jdbcTemplate.update(sql, name, description, id, startDate, endDate, tourneyIsActive, regIsActive, maxNumberOfParticipants, numberOfParticipants);
 		
 	}
 		
-	
+	// Update a tournament
 	@Override
 	public void updateATourney(Tourneys updatedTourney) {
 		String sql = "update tournaments set tourney_name = ?, tourney_desc = ?,  tourney_host = ?, "
@@ -90,7 +97,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 				updatedTourney.getNumOfParticipants(), updatedTourney.getTourneyId());
 		
 	}
-
+	
+	// Delete a tournament
 	@Override
 	public void deleteATourney(long id) {
 		
@@ -98,7 +106,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 		jdbcTemplate.update(deleteSql, id);
 	}
-
+	
+	// Get a tournament by tourney ID
 	@Override
 	public Tourneys getATourneyById(long id) {
 		String sql = "select * from tournaments where tourney_id = ?";
@@ -111,6 +120,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		}
 	}
 	
+	// Add a user to a tournament
 	@Override
 	public void addUserToTourney(String username, int tourneyID) {
 		String sql = "insert into users_tournaments (user_id, tourney_id) values ((select user_id from users where username = ?), ?)";
@@ -119,6 +129,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 	}
 	
+	// Update a user from their current tournament to another
 	@Override
 	public void updateUserTourney(String username, int newTourneyID, int currentTourneyID) {
 		String sql = "update users_tournament set tourney_id = ? where user_id = (select user_id from users where username = ? and tourney_id = ?";
@@ -126,6 +137,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		jdbcTemplate.update(sql, newTourneyID, username, currentTourneyID);
 	}
 	
+	// Remove a user from a tournament
 	@Override
 	public void removeUserFromTourney(String username, int tourneyID) {
 		String sql = "delete from users_tournaments "
