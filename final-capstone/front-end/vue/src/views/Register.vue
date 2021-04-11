@@ -93,10 +93,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  font-family: Tahoma, Verdana, Segoe, sans-serif;
-}
-
 #register {
   display: flex;
   flex-direction: column;

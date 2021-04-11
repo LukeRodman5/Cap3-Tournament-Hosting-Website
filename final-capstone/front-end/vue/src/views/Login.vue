@@ -12,7 +12,7 @@
         role="alert"
         v-if="this.$route.query.registration"
       >Thank you for registering, please sign in.</div>
-      <label for="username" class="sr-only">Username</label>
+      <label for="username" class="sr-only"></label>
       <input
         type="text"
         id="username"
@@ -22,7 +22,7 @@
         required
         autofocus
       />
-      <label for="password" class="sr-only">Password</label>
+      <label for="password" class="sr-only"></label>
       <input
         type="password"
         id="password"
@@ -34,6 +34,7 @@
       <router-link :to="{ name: 'register' }">Need an account?</router-link>
       <button type="submit">Sign in</button>
     </form>
+    <img src = http://lawnmastersllpc.com/blog/wp-content/uploads/2016/10/ProgressiveField-1.jpg />
   </div>
 </template>
 
@@ -45,6 +46,7 @@ export default {
   components: {},
   data() {
     return {
+      image: { backgroundImage: "url(http://lawnmastersllpc.com/blog/wp-content/uploads/2016/10/ProgressiveField-1.jpg)"},
       user: {
         username: "",
         password: ""
@@ -74,3 +76,22 @@ export default {
   }
 };
 </script>
+<style scoped>
+#login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form > input {
+  margin-bottom: 20px;
+}
+img {
+  max-width: 80%;
+  margin: 0px auto 0px auto;
+}
+</style>
