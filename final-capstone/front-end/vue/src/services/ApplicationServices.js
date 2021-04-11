@@ -36,5 +36,11 @@ export default{
     },
     getUsersInTourney(tourneyID) {
         return axios.get(`/tournaments/${tourneyID}/users/`)
+    },
+    getHostUsernameByTourneyID(tourneyID){
+        return axios.get(`/tournaments/${tourneyID}/username`)
     }
+
+   
+
 }

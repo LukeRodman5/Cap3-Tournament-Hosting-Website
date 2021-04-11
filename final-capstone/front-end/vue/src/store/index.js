@@ -22,17 +22,7 @@ export default new Vuex.Store({
     user: currentUser || {},
     
     tournaments: [],
-    /* tournament:{
-       tourneyName: '',
-       tourneyDesc:'',
-       tourneyHost: this.$store.state.user.username,
-       startDate:'',
-       endDate:'',
-       active:false,
-       openForReg:true,
-       maxNumOfParticipants: 20,
-       numOfParticipants:0
-      }, */
+    
    
   },
   mutations: {
