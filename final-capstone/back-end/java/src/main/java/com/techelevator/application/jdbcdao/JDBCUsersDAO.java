@@ -55,6 +55,21 @@ public List<Users> getAllUsersInATourney(int tourneyID) {
 	
 }
 
+@Override
+public String getUsernameByTourneyId(long tourneyID) {
+	String sql = "select username "
+			   + "from users "
+			   + "inner join tournaments "
+			   + "on tournaments.tourney_host = users.user_id "
+			   + "where tourney_id = ?";
+
+SqlRowSet hostUser = jdbcTemplate.queryForRowSet(sql, tourneyID);
+
+return hostUser.toString();
+
+
+}
+
 
 
 @Override
@@ -92,4 +107,6 @@ public List<Users> getUserByUsername(String username) {
 	// TODO Auto-generated method stub
 	return null;
 }
+
+
 }

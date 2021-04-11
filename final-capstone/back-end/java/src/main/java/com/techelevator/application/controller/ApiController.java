@@ -22,9 +22,11 @@ import com.techelevator.application.model.*;
 public class ApiController {
 	private TourneysDAO tourneysDAO;
 	private MatchesDAO matchesDAO;
-	public ApiController(TourneysDAO tourneysDAO, MatchesDAO matchesDAO) {
+	private UsersDAO usersDAO;
+	public ApiController(TourneysDAO tourneysDAO, MatchesDAO matchesDAO, UsersDAO usersDAO) {
 		this.tourneysDAO = tourneysDAO;
 		this.matchesDAO = matchesDAO;
+		this.usersDAO = usersDAO;
 		}	
 /******************************************************************************
 ***   ***   ***   *** Tournaments API Controllers ***   ***   ***   ***   ***
@@ -126,12 +128,22 @@ public void addMatches( @RequestBody Matches match) {
 
 /* Get all matches in a list */
 @RequestMapping
-	(value = "/matches", method = RequestMethod.GET)
+	(path = "/matches", method = RequestMethod.GET)
 	public List<Matches> match() { 
 		logRequest("Getting all matches");
     	return matchesDAO.getAllMatches();
     }
 
+
+/******************************************************************************
+***   ***   ***   *** Users API Controllers ***   ***   ***   ***   ***
+*******************************************************************************/
+@RequestMapping
+(path = "/tournaments/{tourneyID}/username", method = RequestMethod.GET)
+public String usernameByHostID(@PathVariable long tourneyID) {
+	logRequest("Getting username by tourneyID");
+	return usersDAO.getUsernameByTourneyId(tourneyID);
+}
 
 /********************************************************************************************************************* 
 * Use this method if you'd like to log calls to your controllers - these message can aid in your troubleshooting
@@ -145,5 +157,7 @@ public void addMatches( @RequestBody Matches match) {
     	 
     	System.out.println(timestamp + " - " + message);
     }
+    
+    
 }
 

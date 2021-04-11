@@ -8,8 +8,10 @@ public interface UsersDAO {
 	List<Users> getUserByUsername(String username);
 	List<Users> getUserByUserId(long userId);
 	List<Users> getAllUsersInATourney(int tourneyID);
+	String getUsernameByTourneyId(long tourneyID);
 	void createAUser(long userId, String username); 
 	void deleteAUser(long userId, String username);
 	void updateAUser(long userId, String username);
 		void addUser(long userId, String username);
+		
 }
