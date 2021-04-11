@@ -69,7 +69,14 @@ return hostUser.toString();
 
 
 }
-
+@Override
+public String getUsernameByUserID(long userID) {
+	String sql = "select username from users where user_id = ?";
+	
+	SqlRowSet user = jdbcTemplate.queryForRowSet(sql, userID);
+	
+	return user.toString();
+}
 
 
 @Override
@@ -107,6 +114,8 @@ public List<Users> getUserByUsername(String username) {
 	// TODO Auto-generated method stub
 	return null;
 }
+
+
 
 
 }
