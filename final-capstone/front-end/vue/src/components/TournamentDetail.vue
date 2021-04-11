@@ -3,11 +3,12 @@
     <div class="loading" v-if="isLoading">
       <img id="loadingImg" src="../assets/ping_pong_loader.gif" />
     </div>
-    <div v-else>
+    <div v-else id="tourney-desc">
       <h1>{{ currentTournament.tourneyName }}</h1>
+      <h2>Description</h2>
       <p>{{ currentTournament.tourneyDesc }}</p>
-      <p>{{ currentTournament.maxNumOfParticipants }}</p>
-      <p> {{currentTournament.startDate}} | {{currentTournament.endDate}}</p>
+      <p>Max Number of Participants: {{ currentTournament.maxNumOfParticipants }}</p>
+      <p> Start Date: {{currentTournament.startDate}} | End Date: {{currentTournament.endDate}}</p>
       <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
     </div>
 
