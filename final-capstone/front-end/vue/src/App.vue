@@ -2,6 +2,10 @@
   <div id="app">
     <h1 class ="header">Tournament Manager</h1>
     <p class ="header">Your home for hosting, finding, and playing tournaments of all kinds</p>
+    <p class ="user"> Hello {{$store.state.user.username}}! 
+      
+    </p>
+
     <div id="nav">
       <router-link v-bind:to="{ name: 'home' }">Home</router-link>
       <router-link v-bind:to="{ name: 'add-tournament' }">Create a Tournament</router-link>
@@ -49,6 +53,10 @@ h1{
 }
 p{
   text-align: center;
+}
+.user{
+  text-align: right;
+  padding-right: 20px;
 }
 h2{
   text-align: left;

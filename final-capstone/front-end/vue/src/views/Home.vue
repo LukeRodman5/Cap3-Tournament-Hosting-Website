@@ -28,8 +28,8 @@ export default {
 };
 </script>
 <style>
-body {
-  /* text-align: center; */
+h2{
+  padding-left: 20px
 }
 
 
