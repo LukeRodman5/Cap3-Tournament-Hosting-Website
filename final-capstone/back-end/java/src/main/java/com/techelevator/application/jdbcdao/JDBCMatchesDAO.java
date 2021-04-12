@@ -37,6 +37,17 @@ public class JDBCMatchesDAO implements MatchesDAO {
 			Matches aMatch = mapRowToMatches(results);
 			listOfMatches.add(aMatch);}
 		 return listOfMatches;}
+	
+	@Override
+	public List<Matches> getAllMatchesInATourney(long tourneyID) {
+		List<Matches>listOfMatches = new ArrayList<>();
+		String sql = "select * from matches inner join tournaments_matches on tournaments_matches.match_id = matches.match_id where tourney_id = ?";
+		SqlRowSet results =jdbcTemplate.queryForRowSet(sql, tourneyID);
+		while(results.next()) {
+			Matches aMatch = mapRowToMatches(results);
+			listOfMatches.add(aMatch);}
+		 return listOfMatches;
+	}
 
 	@Override
 	 public void createAMatch(LocalDate startDate, LocalDate startTime) { // needs specified
@@ -111,6 +122,8 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		matchRow.setStartDate(results.getDate("start_date").toLocalDate());
 		matchRow.setStartTime(results.getDate("start_time").toLocalDate());
 		return matchRow;}
+
+	
 
 	
 	

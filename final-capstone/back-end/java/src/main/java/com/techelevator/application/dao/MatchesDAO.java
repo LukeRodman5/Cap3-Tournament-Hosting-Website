@@ -9,6 +9,7 @@ public interface MatchesDAO {// update match
 	List<Matches> getAllMatches();//
 	List<Matches> getMatchById(int matchId);//
 	List<Matches> getMatchesByDate();// No
+	List<Matches> getAllMatchesInATourney(long tourneyID);
 	void createAMatch(LocalDate startDate, LocalDate startTime);//
 	void updateAMatch(LocalDate startDate, LocalDate startTime, int matchId);//
 	void deleteAMatch(int matchId);// Keep
