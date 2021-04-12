@@ -155,8 +155,8 @@ public String usernameByHostID(@PathVariable long tourneyID) {
 	return usersDAO.getUsernameByTourneyId(tourneyID);}
 
 @RequestMapping			/* Get all user*/
-(path = "/users/{username}", method = RequestMethod.GET)
-public List<Users> getAllUsers(@PathVariable String username) {
+(path = "/users", method = RequestMethod.GET)
+public List<Users> getAllUsers() {
 	logRequest("Getting all users");
 	return usersDAO.getAllUsers();}
 
