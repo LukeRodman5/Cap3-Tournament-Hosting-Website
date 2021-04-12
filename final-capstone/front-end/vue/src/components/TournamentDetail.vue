@@ -29,7 +29,7 @@
 import applicationServices from "../services/ApplicationServices";
 import Bracket from "vue-tournament-bracket";
 
-const tbdPlayers = { name: "TBD", winner: null, score: 0 }
+const tbdPlayers = { name: "TBD", winner: null }
 
 export default {
   name: "tournament-detail",
@@ -42,6 +42,7 @@ export default {
       errorMsg: "",
       currentTournament: {},
       usersInTourney: [],
+      matchesInTourney: [],
       rounds: []
 //       rounds: [
 //         //Semi finals
@@ -78,8 +79,11 @@ export default {
         .getTournament(this.$route.params.tourneyID)
         .then(response => {
           this.currentTournament = response.data
-          this.isLoading = false;
-          this.getUsersInTourney()
+          this.isLoading = false
+          this.getMatchesInTourney(this.$route.params.tourneyID)
+          if (this.matchesInTourney.length === 0) {
+            this.getUsersInTourney()
+          }
         })
     },
     deleteTournament() {
@@ -139,47 +143,65 @@ export default {
       applicationServices.getUsersInTourney(this.$route.params.tourneyID).then((response) => {
         if (response.status === 200 || response.status === 201) {
           this.usersInTourney = response.data
-          this.setUpBracket()
+          this.setUpIniBracket()
         } else {
           console.log("Error")
         }
         
       })
     },
-    setUpBracket() {
+    setUpIniBracket() {
+      // let matchToAddDb = {}
+      
       let gamesHolder = {games: []}
       let match = {}
+      let matchCount = 0;
       this.usersInTourney.forEach((user) => {
-       let player = {id: user.userId, name: user.username, winner: null, score: 0}
+        // if (matchCount % 2) {
+        //   applicationServices.createMatch(this.currentTournament.startDate, null).then((response) => {
+        //     matchToAddDb = response.data
+        //   })
+        // }
+        // applicationServices.addMatchToTourney(this.$router.params.tourneyID, matchToAddDb.matchId)
+
+        let player = {id: user.userId, name: user.username, winner: null}
+        
         if (!('player1' in match)) {
           match.player1 = player
         } else {
           match.player2 = player
           gamesHolder.games.push(match)
           match = {}
+          matchCount++
         }
       })
-      let max = this.currentTournament.maxNumOfParticipants
-      for (let i = 0; i < max; i++) {
+      if (('player1' in match) && !('player2' in match)) {
+        match.player2 = tbdPlayers
+        gamesHolder.games.push(match)
+        match = {}
+        matchCount++
+      }
+      let iniRoundsCount = this.currentTournament.maxNumOfParticipants / 2
+      for (let i = matchCount; i < iniRoundsCount; i++) {
         match = {player1: tbdPlayers, player2: tbdPlayers}
         gamesHolder.games.push(match)
         match = {}
-        if (i === max - 1) {
+        if (i === iniRoundsCount - 1) {
           this.rounds.push(gamesHolder)
           gamesHolder = {games: []}
-          if (max >= 1) {
+          if (iniRoundsCount >= 1) {
             i = -1
-            max = max / 2
+            iniRoundsCount = iniRoundsCount / 2
           }
         }
       }
-
-      // this.rounds.push(gamesHolder)
-      // gamesHolder = {games: []}
-      // match = {player1: tbdPlayers, player2: tbdPlayers}
-      // gamesHolder.games.push(match)
-      // match = {}
-      // this.rounds.push(gamesHolder)
+    },
+    getMatchesInTourney(tourneyId) {
+      applicationServices.getMatchesInTourney(tourneyId).then((response) => {
+        if (response.status === 200 || response.status === 201) {
+          this.matchesInTourney = response.data
+        }
+      })
     }
   }//end of methods
 };
