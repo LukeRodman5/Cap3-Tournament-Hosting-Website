@@ -13,7 +13,7 @@
         <input id="end-date" type="date" v-model="tournament.endDate"/>
 
         <label for ="open-reg"> Open For Registration? </label>
-        <input id="open-reg" type="checkbox" v-model="tournament.openForReg"/>
+        <input id="open-reug" type="checkbox" v-model="tournament.openForReg"/>
 
         <label for ="participantMax"> Max Participants: </label>
         <select id="participantMax" v-model="tournament.maxNumOfParticipants">
