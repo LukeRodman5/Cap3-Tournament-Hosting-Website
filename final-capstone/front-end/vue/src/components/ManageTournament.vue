@@ -8,7 +8,8 @@
             </thead>
             <tr>
                 <td>Tournament Name</td>
-                <td>v-bind="this.tournament.tourneyName"
+                <td>v-bind="this.tournament.tourneyName"</td>
+            </tr>
         </table>
 
         <label for="name">Tournament Name:</label>
@@ -24,11 +25,8 @@
         <input id="end-date" type="date" v-model="this.tournament.endDate"/>
 
         <label for ="open-reg"> Open For Registration? </label>
-<<<<<<< HEAD
         <input id="open-reug" type="checkbox" v-model="tournament.openForReg"/>
-=======
         <input id="open-reg" type="checkbox" v-model="this.tournament.openForReg"/>
->>>>>>> cd4a4eecd78e4073768a1a3221553d737326900d
 
         <label for ="participantMax"> Max Participants: </label>
         <select id="participantMax" v-model="this.tournament.maxNumOfParticipants">
