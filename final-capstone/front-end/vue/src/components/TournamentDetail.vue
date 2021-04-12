@@ -71,7 +71,6 @@ export default {
   },
   created() {
     this.retrieveTournament()
-    this.getUsersInTourney()
   },
   methods: {
     retrieveTournament() {
@@ -80,6 +79,7 @@ export default {
         .then(response => {
           this.currentTournament = response.data
           this.isLoading = false;
+          this.getUsersInTourney()
         })
     },
     deleteTournament() {
@@ -159,12 +159,27 @@ export default {
           match = {}
         }
       })
-      this.rounds.push(gamesHolder)
-      gamesHolder = {games: []}
-      match = {player1: tbdPlayers, player2: tbdPlayers}
-      gamesHolder.games.push(match)
-      match = {}
-      this.rounds.push(gamesHolder)
+      let max = this.currentTournament.maxNumOfParticipants
+      for (let i = 0; i < max; i++) {
+        match = {player1: tbdPlayers, player2: tbdPlayers}
+        gamesHolder.games.push(match)
+        match = {}
+        if (i === max - 1) {
+          this.rounds.push(gamesHolder)
+          gamesHolder = {games: []}
+          if (max >= 1) {
+            i = -1
+            max = max / 2
+          }
+        }
+      }
+
+      // this.rounds.push(gamesHolder)
+      // gamesHolder = {games: []}
+      // match = {player1: tbdPlayers, player2: tbdPlayers}
+      // gamesHolder.games.push(match)
+      // match = {}
+      // this.rounds.push(gamesHolder)
     }
   }//end of methods
 };
