@@ -221,7 +221,12 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		tourneysRow.setTourneyId  (results.getLong("tourney_id"));
 		tourneysRow.setTourneyName(results.getString("tourney_name"));
 		tourneysRow.setTourneyDesc(results.getString("tourney_desc"));
-		tourneysRow.setTourneyHost(results.getString("tourney_host"));
+		
+		String sql = "select username from users where user_id = ?";
+		SqlRowSet tourneyHost = jdbcTemplate.queryForRowSet(sql, results.getString("tourney_host"));
+		tourneyHost.next();
+		
+		tourneysRow.setTourneyHost(tourneyHost.getString("username"));
 		tourneysRow.setStartDate (results.getDate("start_date").toLocalDate());
 		tourneysRow.setEndDate(results.getDate("end_date").toLocalDate());
 		tourneysRow.setActive(results.getBoolean("tourney_is_active"));
