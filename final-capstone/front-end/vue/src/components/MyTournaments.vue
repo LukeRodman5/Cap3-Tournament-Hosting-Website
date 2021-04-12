@@ -125,8 +125,12 @@ export default {
 
 #tournament-host{
 
- box-shadow: 0px 10px 10px rgb(112, 112, 112);
+ box-shadow: 0px 5px 5px rgb(112, 112, 112);
+}
 
+#tournament-play{
+
+ box-shadow: 0px 5px 5px rgb(112, 112, 112);
 }
 
 

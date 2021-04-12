@@ -19,9 +19,9 @@
         <!-- <input id="participantMax" type="text" v-model="newTournament.maxNumOfParticipants"/> -->
         <select id="participantMax" v-model="newTournament.maxNumOfParticipants">
             <option value=4>4</option>
-            <option value=4>8</option>
-            <option value=4>16</option>                        
-            <option value=4>32</option>
+            <option value=8>8</option>
+            <option value=16>16</option>                        
+            <option value=32>32</option>
         </select>    
 
     <button type="submit" class="btn save">Save Tournament</button> 
