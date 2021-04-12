@@ -6,113 +6,87 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-
 import com.techelevator.application.dao.MatchesDAO;
 import com.techelevator.application.model.Matches;
+
 @Component
 public class JDBCMatchesDAO implements MatchesDAO {
-		
-	private JdbcTemplate jdbcTemplate;
+	 private JdbcTemplate jdbcTemplate;
 	
-	public JDBCMatchesDAO(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+	 public JDBCMatchesDAO(JdbcTemplate jdbcTemplate) {
+		 	this.jdbcTemplate = jdbcTemplate;}
 
 	@Override
-	public List<Matches> getAllMatches() { 
-		List<Matches>listOfMatches = new ArrayList<>();
-		String sql = "select * from matches";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+	 public List<Matches> getAllMatches() { 
+			List<Matches>listOfMatches = new ArrayList<>();
+			String sql = "select * from matches";
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 			
-			while(results.next()) {
-				Matches aMatch = mapRowToMatches(results);
-				listOfMatches.add(aMatch);
-			}
-		return listOfMatches;
-	}
+		 while(results.next()) {
+			Matches aMatch = mapRowToMatches(results);
+			listOfMatches.add(aMatch);}
+		 return listOfMatches;}
 
 	@Override
-	public List<Matches> getMatchById(int matchID) { // needs it by user id not match id
-		List<Matches>listOfMatches = new ArrayList<>();
-		String sql = "select * from matches where match_id = ?";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
+	 public List<Matches> getMatchById(int matchId) { 					// needs it by user id not match id
+			List<Matches>listOfMatches = new ArrayList<>();
+			String sql = "select * from matches where match_Id = ?";
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchId);
 			
-			while(results.next()) {
-				Matches aMatch = mapRowToMatches(results);
-				listOfMatches.add(aMatch);
-			}
-		return listOfMatches;
-	}
+		 while(results.next()) {
+			Matches aMatch = mapRowToMatches(results);
+			listOfMatches.add(aMatch);}
+		 return listOfMatches;}
 
 	@Override
-	public void createAMatch(LocalDate startTime, LocalDate startDate) { // needs specified
-		String sql = "insert into matches (start_time, start_date) values (?, ?)";
-		jdbcTemplate.update(sql, startTime, startDate);
-	}
+	 public void createAMatch(LocalDate startDate, LocalDate startTime) { // needs specified
+			String sql = "insert into matches (start_date, start_time) values (?, ?)";
+			jdbcTemplate.update(sql, startDate, startTime);}
 		
 	@Override
-	public void updateAMatch(LocalDate startTime, LocalDate startDate, int matchID) {
-		String sql = "update matches set start_time = ?, start_date = ? where match_id = ?";
-		
-		jdbcTemplate.update(sql, startTime, startDate, matchID);
-	}
+	 public void updateAMatch(LocalDate startDate, LocalDate startTime, int matchId) {
+			String sql = "update matches set where match_id = ?, start_date = ?, start_time = ?";
+			jdbcTemplate.update(sql, startDate, startTime, matchId);}
 	
 	@Override
-	public void deleteAMatch(int matchID) { // needs 
-		String sql = "delete from matches where match_id = ?";
-		
-		jdbcTemplate.update(sql, matchID);
-		
-	}
+	 public void deleteAMatch(int matchId) { 							
+			String sql = "delete from matches where match_id = ?";
+			jdbcTemplate.update(sql, matchId);}
 	
 	@Override
-	public void addUserToMatch(String username, int matchID) {
-		String sql = "insert into users_matches (user_id, match_id) values ((select user_id from users where username = ?), ?)";
-		
-		jdbcTemplate.update(sql, username, matchID);
-	}
+	 public void addUserToMatch(String username, int matchId) {
+			String sql = "insert into users_matches (user_id, match_id) values ((select user_id from users where username = ?), ?)";
+			jdbcTemplate.update(sql, username, matchId);}
 	
 	@Override
-	public void updateUserToDiffMatch(int newMatchID, String username, int currentMatchID) {
-		String sql = "update users_matches set match_id = ? where user_id = (select user_id from users where username = ?) and match_id = ?";
-		
-		jdbcTemplate.update(sql, newMatchID, username, currentMatchID);
-	}
-
+	 public void updateUserToDiffMatch(int newMatchId, String username, int currentMatchId) {
+			String sql = "update users_matches set match_id = ? where user_id = (select user_id from users where username = ?) and match_id = ?";
+			jdbcTemplate.update(sql, newMatchId, username, currentMatchId);}
 
 	@Override
-	public List<Matches> getMatchesByDate() { // no
-		// TODO Auto-generated method stub
-		return null;
-	}
+	 public List<Matches> getMatchesByDate() {
+			// TODO Auto-generated method stub
+			return null;}
 
 	@Override
-	public String updateAMatchId() { // not certain if needed, but definitely need to be able to update
-		// TODO Auto-generated method stub
-		return null;
-	}
+	 public String updateAMatchId() { // not certain if needed, but definitely need to be able to update
+			// TODO Auto-generated method stub
+			return null;}
 
 	@Override
-	public Long updateStartDate() { // needs. suggestion to add a match update, date, time, all together as one match item to send the full object
-		// TODO Auto-generated method stub
-		return null;
-	}
+	 public Long updateStartDate() { // needs. suggestion to add a match update, date, time, all together as one match item to send the full object
+			// TODO Auto-generated method stub
+			return null;}
 
 	@Override
-	public Long updateStartTime() { // see above
-		// TODO Auto-generated method stub
-		return null;
-	}
+	 public Long updateStartTime() { // see above
+			// TODO Auto-generated method stub
+			return null;}
 	
 	private Matches mapRowToMatches(SqlRowSet results) {
 		Matches matchRow = new Matches();
 		matchRow.setMatchId(results.getLong("match_id"));
-		matchRow.setStartTime(results.getDate("start_time").toLocalDate());
 		matchRow.setStartDate(results.getDate("start_date").toLocalDate());
-		
-		return matchRow;
-	}
-
-	
-	
+		matchRow.setStartTime(results.getDate("start_time").toLocalDate());
+		return matchRow;}
 }
