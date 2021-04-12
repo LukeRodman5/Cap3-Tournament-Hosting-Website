@@ -12,9 +12,9 @@
       <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
     </div>
 
-    <div v-if="!isLoading">
+    <!-- <div v-if="!isLoading">
       <router-link :to="{ name: 'home'}">Back to Tournaments</router-link>
-    </div>
+    </div> -->
     <div id="bracket">
       <bracket :rounds="rounds">
         <template slot="player" slot-scope="{ player }">
@@ -174,6 +174,12 @@ export default {
 #bracket {
   display: flex;
   justify-content: center;
+}
+#tourney-desc, #tourney-desc>h2 {
+  text-align: center;
+}
+#tourney-desc {
+  margin-bottom: 30px;
 }
 .btn.editTournament {
   color: #fff;
