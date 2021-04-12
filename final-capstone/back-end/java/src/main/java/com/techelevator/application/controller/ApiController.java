@@ -6,8 +6,13 @@ package com.techelevator.application.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.web.bind.annotation.*;
 import com.techelevator.application.dao.*;
 import com.techelevator.application.model.*;
@@ -26,129 +31,155 @@ public class ApiController {
 /******************************************************************************
 ***   ***   ***   *** Tournaments API Controllers ***   ***   ***   ***   ***
 *******************************************************************************/
-
-@RequestMapping			/* Add a new tournament to database */
+	
+/* Add a new Tournament to Database */
+@RequestMapping
 	(path = "/tournaments", method = RequestMethod.POST)
 	public void addTournament(@RequestBody Tourneys tourney) {
 		logRequest("adding a /tournament post");
 		tourneysDAO.createATourney(tourney.getTourneyName(), tourney.getTourneyDesc(), tourney.getTourneyHost(), tourney.getStartDate(), tourney.getEndDate(),
-								   tourney.isActive(), tourney.isOpenForReg(), tourney.getMaxNumOfParticipants(), tourney.getNumOfParticipants());}
+								   tourney.isActive(), tourney.isOpenForReg(), tourney.getMaxNumOfParticipants(), tourney.getNumOfParticipants());
+	}
 
-@RequestMapping			/* Get all tournaments in a list */
+/* Get all tournaments in a list */
+@RequestMapping
 	(value = "/tournaments", method = RequestMethod.GET)
 	public List<Tourneys> tournament() { 
 		logRequest("Getting all tournaments");
-    	return tourneysDAO.getAllTourneys();}
+    	return tourneysDAO.getAllTourneys();
+    }
 
-@RequestMapping			/* Update a Tournament by tourney_id */
+/* Update a Tournament by tourney_id */
+@RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.PUT)
 	public void tournamentUpdate(@RequestBody Tourneys tourney, @PathVariable long id) {
 		logRequest("Updating a tournament");
-		tourneysDAO.updateATourney(tourney);}
+		tourneysDAO.updateATourney(tourney);
+	}
 
+/* Delete a tournament by tourney_id */
 @ResponseStatus(HttpStatus.NO_CONTENT)
-@RequestMapping			/* Delete a tournament by tourney_id */
+@RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable int id) {
 		logRequest("Deleting a tournament");
-		tourneysDAO.deleteATourney(id);}	
-
-@RequestMapping			/* Get a tournament by tourney_id */
+		tourneysDAO.deleteATourney(id);
+	}
+	
+/* Get a tournament by tourney_id */
+@RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.GET) 
 	public Tourneys getTourney(@PathVariable long id) {
 		logRequest("Getting a tournament by Tourney ID");
-		return tourneysDAO.getATourneyById(id);}
+		return tourneysDAO.getATourneyById(id);
+	}
 
-@RequestMapping			/* Add a user to a tournament */
+// Add a user to a tournament
+@RequestMapping
 	(path = "/tournaments/{tourneyID}/{username}", method = RequestMethod.POST)
 	public void addUserToTourney(@PathVariable String username,  @PathVariable int tourneyID) {
 		logRequest("Adding user to a tournament");
-		tourneysDAO.addUserToTourney(username, tourneyID);}
+		tourneysDAO.addUserToTourney(username, tourneyID);
+	}
 
-@RequestMapping			/* Get a tournament by user (for regular users not for hosts) */
+/* Get a tournament by user (for regular users not for hosts) */
+@RequestMapping
 	(path = "/tournaments/users/{username}", method = RequestMethod.GET)
 	public List<Tourneys> allUserTourneys(@PathVariable String username) { 
 		logRequest("Getting all tourneys by user");
-		return tourneysDAO.getTourneysByName(username);}
+		return tourneysDAO.getTourneysByName(username);
+	}
 
-@RequestMapping			/* Update tournament the user is in */
+/* Update tournament the user is in */
+@RequestMapping
 	(path = "/tournaments/{username}/{currentTourneyID}/{newTourneyID}", method = RequestMethod.PUT)
 	public void updateUsernameTourneys(@PathVariable String username,@PathVariable int currentTourneyID,@PathVariable int newTourneyID) { 
 		logRequest("Updating the tournament the user is in");
-		tourneysDAO.updateUserTourney(username, newTourneyID, currentTourneyID);}
+		tourneysDAO.updateUserTourney(username, newTourneyID, currentTourneyID);
+	}
 
+/* Delete a user from tournament */
 @ResponseStatus(HttpStatus.NO_CONTENT)
-@RequestMapping			/* Delete a user from tournament */
+@RequestMapping
 	(path = "/tournaments/users/{username}/{tourneyID}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable String username,@PathVariable int tourneyID) {
 		logRequest("Deleting user from tournament");
-		tourneysDAO.removeUserFromTourney(username, tourneyID);}
+		tourneysDAO.removeUserFromTourney(username, tourneyID);
+	}
 
-@RequestMapping			/* Get all users in a tournament */
+@RequestMapping
 (path = "tournaments/{tourneyID}/users/", method = RequestMethod.GET)
 public List<Users> getAllUsersInATourney(@PathVariable int tourneyID) {
 	logRequest("Getting all tourneys by user");
-	return tourneysDAO.getAllUsersInATourney(tourneyID);}
+	return tourneysDAO.getAllUsersInATourney(tourneyID);
+}
 
 /******************************************************************************
 ***   ***   ***   *** Matches API Controllers ***   ***   ***   ***   ***
 *******************************************************************************/
 
-@RequestMapping			/* Add a new match to database */
+/* Add a new Match to Database */
+@RequestMapping
 (path = "/matches", method = RequestMethod.POST)
 public void addMatches( @RequestBody Matches match) {
 	logRequest("Add a list of matches");
-	matchesDAO.createAMatch(match.getStartTime(), match.getStartDate());}
+	matchesDAO.createAMatch(match.getStartTime(), match.getStartDate());
+}
 
-@RequestMapping			/* Get all matches in a list */
-(path = "/matches/{matchId}", method = RequestMethod.GET)
-public List<Matches> getMatchById() { 
-	logRequest("Getting all matches");
-	return matchesDAO.getAllMatches();}
-
-@RequestMapping			/* Get all matches in a list */
+/* Get all matches in a list */
+@RequestMapping
 	(path = "/matches", method = RequestMethod.GET)
 	public List<Matches> match() { 
 		logRequest("Getting all matches");
-    	return matchesDAO.getAllMatches();}
+    	return matchesDAO.getAllMatches();
+    }
 
-@RequestMapping			/* Get matches by start date */
+/* Get matches by start date */
+@RequestMapping
 	(path = "/matches/{startDate}", method = RequestMethod.GET)
 	public List<Matches> allMatchesByDate(@PathVariable LocalDate startDate, LocalDate startTime) { 
 		logRequest("Getting all tourneys by user");
-		return matchesDAO.getMatchesByDate();}
-
-@RequestMapping			/* Get all matches in a tournament */
-	(path = "/matches/tourneys/{tourneyID}", method = RequestMethod.GET)
-	public List<Matches> getAllMatchesInATourney(@PathVariable long tourneyID) { 
-			logRequest("Getting all matches in a tournament");
-		return matchesDAO.getAllMatchesInATourney(tourneyID);}
-
-@ResponseStatus(HttpStatus.NO_CONTENT)			
-@RequestMapping			/* Delete a user from match */
+		return matchesDAO.getMatchesByDate();
+	}
+/* Delete a user from match */
+@ResponseStatus(HttpStatus.NO_CONTENT)
+@RequestMapping
 	(path = "/matches/{matchId}/{username}", method = RequestMethod.DELETE)
 	public void removeUserFromMatch(@PathVariable String username, long matchId) {
 		logRequest("Deleting user from match");
-		matchesDAO.removeUserFromMatch(username, matchId);}
+		matchesDAO.removeUserFromMatch(username, matchId);
+	}
 
+/* Delete a match from tournament*/
 @ResponseStatus(HttpStatus.NO_CONTENT)
-@RequestMapping			/* Delete a match from tournament*/
+@RequestMapping
 	(path = "/matches/{tourneys}", method = RequestMethod.DELETE)
 	public void removeMatchFromTourney(@PathVariable long tourneyID,long matchId) {
 		logRequest("Deleting a match from tourney");
-		matchesDAO.removeMatchFromTourney(tourneyID, matchId);}
-
+		matchesDAO.removeMatchFromTourney(tourneyID, matchId);
+	}
+/* Delete a match */
 @ResponseStatus(HttpStatus.NO_CONTENT)
-@RequestMapping			/* Delete a match */
+@RequestMapping
 	(path = "/matches/{matchId}", method = RequestMethod.DELETE)
 	public void deleteAMatch(@PathVariable int matchId) {
 		logRequest("Deleting a match");
-		matchesDAO.deleteAMatch(matchId);}
+		matchesDAO.deleteAMatch(matchId);
+	}
+
+/* get all matches in a tournament */
+@RequestMapping
+	(path = "/matches/tourneys/{tourneyID}", method = RequestMethod.GET)
+	public List<Matches> getAllMatchesInATourney(@PathVariable long tourneyID) { 
+			logRequest("Getting all matches in a tournament");
+		return matchesDAO.getAllMatchesInATourney(tourneyID);
+}
+
 
 /******************************************************************************
 ***   ***   ***   *** Users API Controllers ***   ***   ***   ***   ***
 *******************************************************************************/
-@RequestMapping			/* Get username by tourney id */
+@RequestMapping
 (path = "/tournaments/{tourneyID}/username", method = RequestMethod.GET)
 public String usernameByHostID(@PathVariable long tourneyID) {
 	logRequest("Getting username by tourneyID");
