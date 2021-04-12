@@ -16,7 +16,7 @@
           <input type="text" id="tournamentNameFilter" v-model="filter.tourneyName" />
         </td>
         <td>
-          <input type="text" id="descriptionFilter" v-model="filter.tourneyDesc" />
+          <!-- <input type="text" id="descriptionFilter" v-model="filter.tourneyDesc" /> -->
         </td>        
         <td>
           <input type="date" id="startDateFilter" v-model="filter.startDate" />
@@ -39,7 +39,7 @@
 
       <tr class="browse-list" v-for="tournament in filteredList" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
-              <td class="description">{{tournament.tourneyDesc}}</td>
+              <td class="description">{{tournament.tourneyDesc}} </td>
               <td class="start-date">{{tournament.startDate}}</td>
               <td class="end-date">{{tournament.endDate}}</td>
               <td class="host">{{tournament.tourneyHost}}</td>
@@ -165,6 +165,7 @@ export default {
   #column2{
    grid-area: column2;
    background-color: rgb(235, 235, 235);
+   
  }
   #column3{
    grid-area: column3;
@@ -173,6 +174,7 @@ export default {
   #column4{
    grid-area: column4;
    background-color: rgb(235, 235, 235);
+   
  }
   #column5{
    grid-area: column5;
@@ -182,6 +184,10 @@ export default {
    grid-area: column6;
    background-color: rgb(235, 235, 235);
  }
+
+.description{
+ max-width: 250px;
+}
 
  #tournamentNameFilter{
    grid-area: column1;
