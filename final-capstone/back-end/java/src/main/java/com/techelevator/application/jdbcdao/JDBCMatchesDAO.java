@@ -50,9 +50,15 @@ public class JDBCMatchesDAO implements MatchesDAO {
 	}
 
 	@Override
-	 public void createAMatch(LocalDate startDate, LocalDate startTime) { // needs specified
+	 public int createAMatch(LocalDate startDate, LocalDate startTime) { // needs specified
 			String sql = "insert into matches (start_time, start_date) values (?, ?)";
-			jdbcTemplate.update(sql, startDate, startTime);}
+			 jdbcTemplate.update(sql, startDate, startTime);
+			
+			String newSql = "select max(match_id) from matches";
+			SqlRowSet result = jdbcTemplate.queryForRowSet(newSql);
+			result.next();
+		return	result.getInt("match_id");
+	}
 		
 	@Override
 	 public void updateAMatch(LocalDate startDate, LocalDate startTime, int matchId) {
