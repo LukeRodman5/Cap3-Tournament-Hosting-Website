@@ -223,7 +223,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		tourneysRow.setTourneyDesc(results.getString("tourney_desc"));
 		
 		String sql = "select username from users where user_id = ?";
-		SqlRowSet tourneyHost = jdbcTemplate.queryForRowSet(sql, results.getString("tourney_host"));
+		SqlRowSet tourneyHost = jdbcTemplate.queryForRowSet(sql, results.getInt("tourney_host"));
 		tourneyHost.next();
 		
 		tourneysRow.setTourneyHost(tourneyHost.getString("username"));
