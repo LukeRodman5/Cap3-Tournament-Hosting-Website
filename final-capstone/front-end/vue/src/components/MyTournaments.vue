@@ -11,7 +11,7 @@
           <th> Current Participants</th>
           <th> Maximum Participants</th>
         </thead>
-      <tbody id="tournament host">
+      <tbody id="tournament-host">
            <tr v-for="tournament in this.myHostTournaments" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
@@ -34,7 +34,7 @@
           <th> Current Participants</th>
           <th> Maximum Participants</th>
         </thead>
-      <tbody id="tournament play">
+      <tbody id="tournament-play">
             <tr v-for="tournament in this.myPlayTournaments" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
@@ -110,5 +110,30 @@ export default {
 </script>
 
 <style>
+.name{
+  text-align: center;
+}
+.description{
+  text-align: center;
+}
+.start-date{
+  text-align: center;
+}
+.end-date{
+  text-align: center;
+}
+.participants{
+  text-align: center;
+}
+.max-participants{
+  text-align: center;
+}
+
+#tournament-host{
+
+ box-shadow: 0px 10px 10px rgb(112, 112, 112);
+
+}
+
 
 </style>
