@@ -9,37 +9,35 @@ import com.techelevator.application.model.Users;
 	
 @Component
 	public class JDBCUsersDAO implements UsersDAO{
-		
 	private JdbcTemplate jdbcTemplate;
-
 	public JDBCUsersDAO(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
-	}
+		}
 
 // Retrieve all users from database
 @Override
-	public List<Users> getAllUsers() {
-		List<Users>listOfUsers = new ArrayList<>();
-		String sql = "select * from users";
+public List<Users> getAllUsers() {
+	   List<Users>listOfUsers = new ArrayList<>();
+	   String sql = "select * from users";
 	
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-			while(results.next()) {
+	  SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+		while(results.next()) {
 			Users user = mapRowToUsers(results);
 			listOfUsers.add(user);
-		}	
+			}	
 		return listOfUsers;
-	}
+		}
 
 // Retrieve all users by username
 private Users mapRowToUsers(SqlRowSet results) {
-	// TODO Auto-generated method stub
-	return null;
-}
+		// TODO Auto-generated method stub
+		return null;
+		}
 
 @Override
 public List<Users> getAllUsersInATourney(int tourneyID) {
-	List<Users>listOfUsers = new ArrayList<>();
-	String sql = "select username, users.user_id "
+	   List<Users>listOfUsers = new ArrayList<>();
+	   String sql = "select username, users.user_id "
 			   + "from users inner join users_tournaments "
 			   + "on users.user_id = users_tournaments.user_id "
 			   + "where tourney_id = ?";
@@ -51,71 +49,58 @@ public List<Users> getAllUsersInATourney(int tourneyID) {
 			user.setUsername(results.getString("username"));
 			listOfUsers.add(user);
 			}	
-	return listOfUsers;
-	
-}
+		return listOfUsers;
+		}
 
 @Override
 public String getUsernameByTourneyId(long tourneyID) {
-	String sql = "select username "
+	   String sql = "select username "
 			   + "from users "
 			   + "inner join tournaments "
 			   + "on tournaments.tourney_host = users.user_id "
 			   + "where tourney_id = ?";
 
-SqlRowSet hostUser = jdbcTemplate.queryForRowSet(sql, tourneyID);
+       SqlRowSet hostUser = jdbcTemplate.queryForRowSet(sql, tourneyID);
+    return hostUser.toString();
+    }
 
-return hostUser.toString();
 
-
-}
 @Override
-public String getUsernameByUserID(long userID) {
-	String sql = "select username from users where user_id = ?";
-	
-	SqlRowSet user = jdbcTemplate.queryForRowSet(sql, userID);
-	
+public String getUsernameByUserID(long userId) {
+	   String sql = "select username from users where user_id = ?";
+	   SqlRowSet user = jdbcTemplate.queryForRowSet(sql, userId);
 	return user.toString();
-}
-
+	}
 
 @Override
-	public List<Users> getUserByUserId(long userId) {
+public List<Users> getUserByUserId(long userId) {
 		// TODO Auto-generated method stub
-		return null;
+	return null;
 	}
 
 @Override
 public void createAUser(long userId, String username) {
-	// TODO Auto-generated method stub
-	
-}
+		// TODO Auto-generated method stub
+	}
 
 @Override
 public void deleteAUser(long userId, String username) {
-	// TODO Auto-generated method stub
-	
-}
+		// TODO Auto-generated method stub
+	}
 
 @Override
 public void updateAUser(long userId, String username) {
-	// TODO Auto-generated method stub
-	
+		// TODO Auto-generated method stub
 }
 
 @Override
 public void addUser(long userId, String username) {
-	// TODO Auto-generated method stub
-	
+		// TODO Auto-generated method stub
 }
 
 @Override
 public List<Users> getUserByUsername(String username) {
-	// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 	return null;
-}
-
-
-
-
+	}
 }
