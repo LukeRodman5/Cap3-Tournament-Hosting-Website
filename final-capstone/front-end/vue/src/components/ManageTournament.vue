@@ -8,33 +8,48 @@
             </thead>
             <tr>
                 <td>Tournament Name</td>
-                <td>v-bind="this.tournament.tourneyName"
+                <td>{{this.currentTournament.tourneyName}}</td>
+                <td><label for="name"></label>
+                    <input id="name" type="text" v-model="tournament.tourneyName" /></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>{{this.currentTournament.tourneyDesc}}</td>
+                <td><label for="description"></label>
+                    <input id="name" type="text" v-model="tournament.tourneyDesc"/></td>
+            </tr>
+            <tr>
+                <td>Start Date</td>
+                <td>{{this.currentTournament.startDate}}</td>
+                <td><label for ="start-date"></label>
+                    <input id="start-date" type="date" v-model="tournament.startDate"/></td>
+            </tr>
+            <tr>
+                <td>End Date</td>
+                <td>{{this.currentTournament.endDate}}</td>
+                <td><label for ="end-date"></label>
+                <input id="end-date" type="date" v-model="tournament.endDate"/></td>
+            </tr>
+            <tr>
+                <td>Open for Registration?</td>
+                <td>{{this.currentTournament.openForReg}}</td>
+                <td><label for ="open-reg"></label>
+                    <input id="open-reg" type="checkbox" v-model="tournament.openForReg"/></td>
+            </tr>
+            <tr>
+                <td>Maximum Participants</td>
+                <td>{{this.currentTournament.maxNumOfParticipants}}
+                <td><label for ="participantMax"></label>
+                    <select id="participantMax" v-model="tournament.maxNumOfParticipants">
+                        <option value=4>4</option>
+                        <option value=8>8</option>
+                        <option value=16>16</option>                        
+                        <option value=32>32</option>
+                    </select>
+                </td>
+            </tr>
         </table>
-
-        <label for="name">Tournament Name:</label>
-        <input id="name" type="text" v-model="this.tournament.tourneyName" />
-
-        <label for="description"> Tournament Description:</label>
-        <input id="name" type="text" v-model="this.tournament.tourneyDesc"/>
-
-        <label for ="start-date"> Start Date:</label>
-        <input id="start-date" type="date" v-model="this.tournament.startDate"/>
-
-        <label for ="end-date"> End Date:</label>
-        <input id="end-date" type="date" v-model="this.tournament.endDate"/>
-
-        <label for ="open-reg"> Open For Registration? </label>
-        <input id="open-reg" type="checkbox" v-model="this.tournament.openForReg"/>
-
-        <label for ="participantMax"> Max Participants: </label>
-        <select id="participantMax" v-model="this.tournament.maxNumOfParticipants">
-            <option value=4>4</option>
-            <option value=8>8</option>
-            <option value=16>16</option>                        
-            <option value=32>32</option>
-        </select>    
-
-    <button type="submit" class="btn save">Save Tournament</button> 
+    <button type="submit" class="btn save">Save Changes</button> 
     </form>
 </template>
 
@@ -46,39 +61,72 @@ export default {
     data(){
         return{
             tournament:{
-                tourneyName: '',
+                tourneyName:'',
                 tourneyDesc:'',
                 tourneyHost: this.$store.state.user.username,
                 startDate:'',
                 endDate:'',
                 active:true,
                 openForReg:true,
-                maxNumOfParticipants: 20,
+                maxNumOfParticipants: 4,
                 numOfParticipants:0
             },
-            tournaments:[]
+            currentTournament: {}
         }//end of return
     },//end of data
+    created(){
+      this.retrieveTournament()
+    },//end of creates
     methods:{
+      retrieveTournament() {
+      applicationServices
+        .getTournament(this.$route.params.tourneyID)
+        .then(response => {
+          this.currentTournament = response.data
+              }
+          )}
+      },//end of retreiveTournament  
+      saveTournament(){
+          if(this.tournament.tourneyName===''){
+              this.tournament.tourneyName=this.currentTournament.tourneyName
+          }
+          if(this.tournament.tourneyDesc===''){
+              this.tournament.tourneyDesc=this.currentTournament.tourneyDesc
+          }
+          if(this.tournament.startDate===''){
+              this.tournament.startDate=this.currentTournament.startDate
+          }
+          if(this.tournament.endDate===''){
+              this.tournament.endDate=this.currentTournament.endDate
+          }
+          if(this.tournament.maxNumOfParticipants===''){
+              this.tournament.maxNumOfParticipants=this.currentTournament.maxNumOfParticipants
+          }
+      },
       saveManageTournament(){
-            console.log(this.tournament)
-             applicationServices.updateTournament(this.tournament, this.$route.params.tourneyID).then(response =>{
+        saveTournamant()
+        applicationServices.updateTournament(this.tournament, this.$route.params.tourneyID).then(response =>{
              if(response.status === 201 || response.status === 200){
-                    this.tournament={
-                        tourneyName: '',
-                        tourneyDesc:'',
-                        tourneyHost: this.$store.state.user.username,
-                        startDate:'',
-                        endDate:'',
-                        active:true,
-                        openForReg:true,
-                        maxNumOfParticipants: 20,
-                        numOfParticipants:0
-            }
-                 this.$router.push("/")
+                this.tournament={
+                    tourneyName: '',
+                    tourneyDesc:'',
+                    tourneyHost: this.$store.state.user.username,
+                    startDate:'',
+                    endDate:'',
+                    active:true,
+                    openForReg:true,
+                    maxNumOfParticipants: '',
+                    numOfParticipants:0
+                    }
+                alert("You have succesfully updated the tournament")
+                this.$router.push("/")
             }//end of if 
+            else{
+                alert("Update to tournament has failed.")
+            }
         })//end then
-    },//end add tournament
+        
+    //end saveManageTournament
         
 }   
 
