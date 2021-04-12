@@ -31,11 +31,11 @@ html {
   font-family:'Arial Narrow Bold', sans-serif;
   padding: 10px 40px 10px 40px;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.726);
+  color: rgba(255, 255, 255, 0.842);
 }
 #nav > a:hover {
   color: rgb(255, 255, 255);
-  text-shadow: rgb(116, 101, 255) 0px 1px 4px;
+  text-shadow: rgb(36, 22, 161) 0px 1px 4px;
   
 }
 
