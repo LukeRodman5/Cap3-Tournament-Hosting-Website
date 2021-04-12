@@ -26,7 +26,7 @@ export default{
         return axios.post(`/tournaments/${tourneyID}/${username}`)
     },
     leaveTourney(tourneyID, username){
-        return axios.delete(`/tournaments/${tourneyID}/${username}`)
+        return axios.delete(`/tournaments/users/${username}/${tourneyID}`)
     },
     updateTournament(tournament, tourneyID){
         return axios.put(`/tournaments/${tourneyID}`, tournament)

@@ -9,6 +9,8 @@ import AddTournament from '@/views/AddTournament.vue'
 import AboutUs from '@/views/AboutUs.vue'
 import TournamentDetail from '@/views/TournamentDetail.vue'
 import MyTournaments from '@/views/MyTournaments.vue'
+import ManageTournament from '@/views/ManageTournament.vue'
+
 
 Vue.use(Router)
 
@@ -86,6 +88,14 @@ const router = new Router({
       path: "/tournaments/:username",
       name: "my-tournaments",
       component: MyTournaments,
+      meta:{
+        requiresAuth:true
+      }
+    },
+    {
+      path: "/tournaments/manage-tournament/:tourneyID",
+      name: "manage-tournament",
+      component: ManageTournament,
       meta:{
         requiresAuth:true
       }

@@ -19,7 +19,7 @@
               <td class="end-date">{{tournament.endDate}}</td>
               <td class="participants">{{tournament.numOfParticipants}}</td>
               <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
-              <router-link v-bind:to="{name: 'tournament-manage', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="Manage Tournament"></router-link>
+              <router-link v-bind:to="{name: 'manage-tournament', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="Manage Tournament"></router-link>
             </tr>
       </tbody>
     </table>
@@ -42,7 +42,8 @@
               <td class="end-date">{{tournament.endDate}}</td>
               <td class="participants">{{tournament.numOfParticipants}}</td>
               <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
-              <button class="btnLeaveTourney" v-on:click="leaveTourney(currentTournament.tourneyId, $store.state.user.username)">Leave Tournament</button>
+              <button class="btnLeaveTourney" v-on:click="leaveTourney(tournament.tourneyId)">Leave Tournament</button>
+              <router-link v-bind:to="{name: 'tournament-detail', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="Tournament Details"></router-link>
             </tr>
       </tbody>
     </table>
@@ -83,13 +84,15 @@ export default {
         applicationServices.getTourneysByName(this.$store.state.user.username).then(response =>{
           this.$store.commit("SET_MY_TOURNAMENTS", response.data)
           this.myPlayTournaments = this.$store.state.myTournaments
-          console.table(this.$store.state.myTournaments)
         })
       },
-      leaveTourney(tourneyId, username){
-      applicationServices.leaveTourney(tourneyId, username)
+      leaveTourney(tourneyId){
+        console.log(tourneyId)
+        console.log(this.$store.state.user.username)
+      applicationServices.leaveTourney(tourneyId, this.$store.state.user.username)
     .then(response=>{
-        if(response.status===200 || response.status===201){
+      console.log(response.status)
+        if(response.status>=200 && response.status<300){
           alert("You have successfully left this tournament.")
         }//end of if
         else{
@@ -97,7 +100,6 @@ export default {
         }//end of else
         this.$router.push("/")
     } //end of then
-    
     )}//end of leaveTourney
     }   
 }
