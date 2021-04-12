@@ -19,7 +19,7 @@ public void setUserId(long userId) {
 public void setUsername(String username) {
 	this.username = username;
 }
-									/****************** ToString *********************/
+									/****************** @Overrides *********************/
 									/*************************************************/
 @Override
 public String toString() {
