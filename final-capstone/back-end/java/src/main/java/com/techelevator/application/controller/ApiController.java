@@ -121,10 +121,9 @@ public List<Users> getAllUsersInATourney(@PathVariable int tourneyID) {
 /* Add a new Match to Database */
 @RequestMapping
 (path = "/matches", method = RequestMethod.POST)
-public int addMatches( @RequestBody Matches match) {
+public void addMatches( @RequestBody Matches match) {
 	logRequest("Add a list of matches");
-	return matchesDAO.createAMatch(match.getStartTime(), match.getStartDate());
-	
+	matchesDAO.createAMatch(match.getStartTime(), match.getStartDate());
 }
 
 /* Get all matches in a list */
