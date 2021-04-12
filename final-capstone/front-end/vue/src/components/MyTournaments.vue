@@ -78,7 +78,6 @@ export default {
     methods:{
       getMyHostTournaments(){
         this.myHostTournaments = this.$store.state.tournaments
-        console.log(this.myHostTournaments)
         for(let i = 0; i<this.myHostTournaments.length; i++){
           applicationServices.getHostUsernameByTourneyID(this.myHostTournaments[i].tourneyId).then(response=>
           this.myHostTournaments[i].tourneyHost = response.data
