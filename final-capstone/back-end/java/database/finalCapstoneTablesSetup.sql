@@ -44,6 +44,7 @@ CREATE TABLE tournaments_matches
 CREATE TABLE users_matches
   ( user_id    INTEGER
   , match_id   INTEGER
+  , win_status BOOLEAN
   , CONSTRAINT pk_users_matches_user_id_match_id
        PRIMARY KEY (user_id, match_id));
 
