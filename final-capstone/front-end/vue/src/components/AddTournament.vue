@@ -16,8 +16,14 @@
         <input id="open-reg" type="checkbox" v-model="newTournament.openForReg"/>
 
         <label for ="participantMax"> Max Participants: </label>
-        <input id="participantMax" type="text" v-model="newTournament.maxNumOfParticipants"/>
-    
+        <!-- <input id="participantMax" type="text" v-model="newTournament.maxNumOfParticipants"/> -->
+        <select id="participantMax" v-model="newTournament.maxNumOfParticipants">
+            <option value=4>4</option>
+            <option value=4>8</option>
+            <option value=4>16</option>                        
+            <option value=4>32</option>
+        </select>    
+
     <button type="submit" class="btn save">Save Tournament</button> 
     </form>
 </template>
