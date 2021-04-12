@@ -209,4 +209,8 @@ export default {
   /* ; */
 }
 
+.container{
+  text-align: center;
+}
+
 </style>
