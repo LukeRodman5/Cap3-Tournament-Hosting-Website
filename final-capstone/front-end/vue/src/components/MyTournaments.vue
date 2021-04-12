@@ -72,25 +72,20 @@ export default {
         }//end of return
     },//end of data
     created(){
-      this.getMyHostTournaments()/* ,
-      this.getMyPlayTournaments() */
+      this.getMyHostTournaments() ,
+      this.getMyPlayTournaments() 
     },//end of create
     methods:{
       getMyHostTournaments(){
-        this.myHostTournaments = this.$store.state.tournaments
-        for(let i = 0; i<this.myHostTournaments.length; i++){
-          applicationServices.getHostUsernameByTourneyID(this.myHostTournaments[i].tourneyId).then(response=>
-          this.myHostTournaments[i].tourneyHost = response.data
-          )
-        }
-        this.myHostTournaments.filter(tournament=>tournament.tourneyHost===this.$store.state.user.username)
+        this.myHostTournaments = this.$store.state.tournaments.filter(tournament=>tournament.tourneyHost===this.$store.state.user.username)
       },
-     /*  getMyPlayTournaments(username){
-        applicationServices.getTourneysByName(username).then(response =>{
-          this.$store.commit("SET_TOURNAMENTS", response.data)
+     getMyPlayTournaments(){
+        applicationServices.getTourneysByName(this.$store.state.user.username).then(response =>{
+          this.$store.commit("SET_MY_TOURNAMENTS", response.data)
+          this.myPlayTournaments = this.$store.state.myTournaments
+          console.table(this.$store.state.myTournaments)
         })
-        this.myPlayTournaments=this.$store.state.tournaments
-      }, */
+      },
       leaveTourney(tourneyId, username){
       applicationServices.leaveTourney(tourneyId, username)
     .then(response=>{
