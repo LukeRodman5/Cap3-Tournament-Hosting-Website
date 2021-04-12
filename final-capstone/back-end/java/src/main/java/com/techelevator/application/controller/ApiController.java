@@ -183,8 +183,13 @@ public void addMatches( @RequestBody Matches match) {
 (path = "/tournaments/{tourneyID}/username", method = RequestMethod.GET)
 public String usernameByHostID(@PathVariable long tourneyID) {
 	logRequest("Getting username by tourneyID");
-	return usersDAO.getUsernameByTourneyId(tourneyID);
-}
+	return usersDAO.getUsernameByTourneyId(tourneyID);}
+
+@RequestMapping			/* Get all user*/
+(path = "/users", method = RequestMethod.GET)
+public List<Users> getAllUsers() {
+	logRequest("Getting all users");
+	return usersDAO.getAllUsers();}
 
 /********************************************************************************************************************* 
 * Use this method if you'd like to log calls to your controllers - these message can aid in your troubleshooting
