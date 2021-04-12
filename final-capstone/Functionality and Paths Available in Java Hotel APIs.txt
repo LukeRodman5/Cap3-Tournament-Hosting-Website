@@ -1,52 +1,48 @@
 Functionality and Paths Available in Java Hotel APIs
 
-/* 
- * Add a new Tournament to Database	
- */
+/* Add a new Tournament to Database */
 @RequestMapping
 	(path = "/tournaments", method = RequestMethod.POST)
 	
-
-/*
- * Get all tournaments in a list
- */
+/* Get all tournaments in a list */
 @RequestMapping
 	(value = "/tournaments", method = RequestMethod.GET)
 
-
-/*
- * Update a Tournament by tourney_id
- */
+/* Update a Tournament by tourney_id */
 @RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.PUT)
 
-
-/*
- * Delete a tournament by tourney_id
- */
+/* Delete a tournament by tourney_id */
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.DELETE)
 
-/*
- * Get a tournament by tourney_id
- */
+/* Get a tournament by tourney_id */
 @RequestMapping
 	(path = "/tournaments/{id}", method = RequestMethod.GET) 
 
-// Add a user to a tournament
+/* Add a user to a tournament */
 @RequestMapping
 	(path = "/tournaments/{tourneyID}/{username}", method = RequestMethod.POST)
-	
 
 /* Get a tournament by user (for regular users not for hosts) */
 @RequestMapping
 	(path = "/tournaments/users/{username}", method = RequestMethod.GET)
-	
 
 /* Update tournament the user is in */
 @RequestMapping
 	(path = "/tournaments/{username}/{currentTourneyID}/{newTourneyID}", method = RequestMethod.PUT)
-	
+
+/* Add a new Match to Database */
+@RequestMapping
+	(path = "/matches", method = RequestMethod.POST)
+
+/* Get all matches in a list */
+@RequestMapping
+	(path = "/matches", method = RequestMethod.GET)	
+
+/* Update tournament by user */
+@RequestMapping
+	(path = "/tournaments/{tourneyID}/username", method = RequestMethod.GET)
 
 	

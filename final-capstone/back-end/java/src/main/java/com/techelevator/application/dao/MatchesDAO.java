@@ -15,11 +15,11 @@ public interface MatchesDAO {// update match
 	void deleteAMatch(int matchId);// Keep
 	void addUserToMatch(String username, int matchId);//
 	void updateUserToDiffMatch(int newMatchId, String username, int currentMatchId);//
-	void removeUserFromMatch(String username, long matchID);
+	void removeUserFromMatch(String username, long matchId);
 	String updateAMatchId();// Not this time
 	Long updateStartDate();// Changed to update an entire match instead
 	Long updateStartTime();// Changed to update an entire match instead
-	void addMatchToTourney(long tourneyID, long matchID);
-	void removeMatchFromTourney(long tourneyID, long matchID);
+	void addMatchToTourney(long tourneyID, long matchId);
+	void removeMatchFromTourney(long tourneysID, long matchID);
 	
 	}

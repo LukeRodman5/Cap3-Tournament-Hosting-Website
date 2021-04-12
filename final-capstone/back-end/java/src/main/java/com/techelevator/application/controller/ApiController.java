@@ -134,6 +134,47 @@ public void addMatches( @RequestBody Matches match) {
     	return matchesDAO.getAllMatches();
     }
 
+/* Get matches by start date */
+@RequestMapping
+	(path = "/matches/{startDate}", method = RequestMethod.GET)
+	public List<Matches> allMatchesByDate(@PathVariable LocalDate startDate, LocalDate startTime) { 
+		logRequest("Getting all tourneys by user");
+		return matchesDAO.getMatchesByDate();
+	}
+/* Delete a user from match */
+@ResponseStatus(HttpStatus.NO_CONTENT)
+@RequestMapping
+	(path = "/matches/{matchId}/{username}", method = RequestMethod.DELETE)
+	public void removeUserFromMatch(@PathVariable String username, long matchId) {
+		logRequest("Deleting user from match");
+		matchesDAO.removeUserFromMatch(username, matchId);
+	}
+
+/* Delete a match from tournament*/
+@ResponseStatus(HttpStatus.NO_CONTENT)
+@RequestMapping
+	(path = "/matches/{tourneys}", method = RequestMethod.DELETE)
+	public void removeMatchFromTourney(@PathVariable long tourneyID,long matchId) {
+		logRequest("Deleting a match from tourney");
+		matchesDAO.removeMatchFromTourney(tourneyID, matchId);
+	}
+/* Delete a match */
+@ResponseStatus(HttpStatus.NO_CONTENT)
+@RequestMapping
+	(path = "/matches/{matchId}", method = RequestMethod.DELETE)
+	public void deleteAMatch(@PathVariable int matchId) {
+		logRequest("Deleting a match");
+		matchesDAO.deleteAMatch(matchId);
+	}
+
+/* get all matches in a tournament */
+@RequestMapping
+	(path = "/matches/tourneys/{tourneyID}", method = RequestMethod.GET)
+	public List<Matches> getAllMatchesInATourney(@PathVariable long tourneyID) { 
+			logRequest("Getting all matches in a tournament");
+		return matchesDAO.getAllMatchesInATourney(tourneyID);
+}
+
 
 /******************************************************************************
 ***   ***   ***   *** Users API Controllers ***   ***   ***   ***   ***
