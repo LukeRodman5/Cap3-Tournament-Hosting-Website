@@ -170,7 +170,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #bracket {
   display: flex;
   justify-content: center;
