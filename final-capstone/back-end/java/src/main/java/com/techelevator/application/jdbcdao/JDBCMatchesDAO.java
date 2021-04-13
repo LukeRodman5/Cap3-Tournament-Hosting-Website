@@ -41,7 +41,7 @@ public class JDBCMatchesDAO implements MatchesDAO {
 	@Override
 	public List<Matches> getAllMatchesInATourney(long tourneyId) {
 		   List<Matches>listOfMatches = new ArrayList<>();
-		   String sql = "select matches.match_id, round_level from matches inner join tournaments_matches on tournaments_matches.match_id = matches.match_id where tourney_id = 1 order by round_level, matches.match_id;";
+		   String sql = "select matches.match_id, round_level from matches inner join tournaments_matches on tournaments_matches.match_id = matches.match_id where tourney_id = ? order by round_level, matches.match_id";
 		   SqlRowSet results =jdbcTemplate.queryForRowSet(sql, tourneyId);
 		while(results.next()) {
 			Matches aMatch = new Matches();
