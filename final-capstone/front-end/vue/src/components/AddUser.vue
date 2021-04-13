@@ -1,14 +1,17 @@
 <template>
 <div class="invites">
+ <form v-on:submit.prevent="addUser">
   <h1>Send Invites </h1>
   <tbody>
-   <tr>
-       <td class="user-list" v-for="user in this.users" :key="user.username">
-               class="name">{{user.username}}</td>
-        <td input type="checkbox" v-bind:id="user.username" v-bind:value="user.username" v-on:click="user.selected=true"></td>
-      
-      </tr>
+   <tr class="user-list" v-for="user in this.users" :key="user.username">
+        <td class="name">{{user.username}}</td>
+        <input input type="checkbox" v-bind:id="user.username" v-bind:value="user.username" v-on:click="user.selected=true"/>
+   </tr>    
   </tbody>
+     <div>
+       <button type="submit" class="btn save">Invite</button> 
+   </div>
+ </form>
 </div>
 </template>
 
@@ -41,8 +44,17 @@ export default {
 </script>
 
 <style>
-.invites{
-  text-align: center;
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:white;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    box-shadow: 0px 5px 5px rgb(112, 112, 112);
+}
+button{
+    justify-content: space-around;
 }
 tbody{
   text-align: center;
