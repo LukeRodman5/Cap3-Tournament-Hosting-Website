@@ -132,7 +132,7 @@ public class ApiController {
 
 @RequestMapping		/* Update start time */
 	(path = "/matches/localDate/{startTime}", method = RequestMethod.PUT)
-	ublic void updateStartTime(@PathVariable LocalDate startTime, @PathVariable long currentStartTime, @PathVariable long newStartTime) {
+	public void updateStartTime(@PathVariable LocalDate startTime, @PathVariable long currentStartTime, @PathVariable long newStartTime) {
 		logRequest("Updating a start time");
 		matchesDAO.updateStartTime(startTime, currentStartTime, newStartTime);
 	}
