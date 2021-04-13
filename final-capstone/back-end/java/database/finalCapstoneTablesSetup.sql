@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS users_matches       CASCADE;
 
 CREATE TABLE tournaments
     ( tourney_id        SERIAL
-    , tourney_name      CHARACTER VARYING(20)
-    , tourney_desc      CHARACTER VARYING(100)
+    , tourney_name      CHARACTER VARYING(50)
+    , tourney_desc      CHARACTER VARYING(200)
     , tourney_host      INTEGER
     , participant_max   INTEGER
     , participant_num   INTEGER
