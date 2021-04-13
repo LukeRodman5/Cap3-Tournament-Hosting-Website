@@ -18,7 +18,7 @@ import com.techelevator.application.model.Users;
 @Override
 public List<Users> getAllUsers() {
 	   List<Users>listOfUsers = new ArrayList<>();
-	   String sql = "select * from users";
+	   String sql = "select username from users";
 	
 	  SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 		while(results.next()) {

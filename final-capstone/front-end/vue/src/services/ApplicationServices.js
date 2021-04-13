@@ -14,8 +14,11 @@ export default{
 
     getTournaments(){
         return axios.get('/tournaments')
-    },//end getTournaments
-    
+    },
+    getAllUsers(){
+        return axios.get('/users')
+    },
+
     getTournament(tourneyID){
         return axios.get(`/tournaments/${tourneyID}`)
     },
@@ -39,8 +42,8 @@ export default{
     },
     getHostUsernameByTourneyID(tourneyID){
         return axios.get(`/tournaments/${tourneyID}/username`)
+    },
+    getMatchesInTourney(tourneyID){
+        return axios.get(`/matches/tourneys/${tourneyID}`)
     }
-
-   
-
 }
