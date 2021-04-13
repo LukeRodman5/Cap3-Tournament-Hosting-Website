@@ -151,6 +151,13 @@ public class ApiController {
 		return matchesDAO.getMatchesByDate();
 	}
 
+@RequestMapping
+	(path = "/matches/{matchID}/{username}", method = RequestMethod.POST)
+	public void addAUserToAMatch(@PathVariable int matchID, @PathVariable String username) {
+	logRequest("Adding a user to a match");
+	matchesDAO.addUserToMatch(username, matchID);
+}
+
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @RequestMapping		/* Delete a user from match */
 	(path = "/matches/{matchId}/{username}", method = RequestMethod.DELETE)

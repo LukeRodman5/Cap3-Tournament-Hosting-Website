@@ -82,9 +82,9 @@ public class JDBCMatchesDAO implements MatchesDAO {
 			}
 	
 	@Override
-	 public void addUserToMatch(String username, int matchId) {
+	 public void addUserToMatch(String username, int matchID) {
 			String sql = "insert into users_matches (user_id, match_id, win_status) values ((select user_id from users where username = ?), ?, null)";
-			jdbcTemplate.update(sql, username, matchId);
+			jdbcTemplate.update(sql, username, matchID);
 			}
 	
 	@Override
