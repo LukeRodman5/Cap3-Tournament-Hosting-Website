@@ -1,9 +1,12 @@
 <template>
-<div>
+<div class="invites">
   <h1>Send Invites </h1>
   <tbody>
-   <tr class="user-list" v-for="user in this.users" :key="user.username">
-              <td class="name">{{user.username}}</td>
+   <tr>
+       <td class="user-list" v-for="user in this.users" :key="user.username">
+               class="name">{{user.username}}</td>
+        <td input type="checkbox" v-bind:id="user.username" v-bind:value="user.username" v-on:click="user.selected=true"></td>
+      
       </tr>
   </tbody>
 </div>
@@ -18,7 +21,8 @@ export default {
           users: [],
           user: {
               userId: "",
-              username: ""
+              username: "",
+              selected: false
           }
       }  
     },
@@ -37,5 +41,32 @@ export default {
 </script>
 
 <style>
+.invites{
+  text-align: center;
+}
+tbody{
+  text-align: center;
+}
+.start-date{
+  text-align: center;
+}
+.end-date{
+  text-align: center;
+}
+.participants{
+  text-align: center;
+}
+.max-participants{
+  text-align: center;
+}
 
+#tournament-host{
+
+ box-shadow: 0px 5px 5px rgb(112, 112, 112);
+}
+
+#tournament-play{
+
+ box-shadow: 0px 5px 5px rgb(112, 112, 112);
+}
 </style>
