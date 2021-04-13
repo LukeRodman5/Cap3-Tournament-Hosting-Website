@@ -79,7 +79,7 @@ export default {
     created(){
       this.retrieveTournament()
     
-    },//end of creates
+    },//end of created
     methods:{
       retrieveTournament() {
       applicationServices

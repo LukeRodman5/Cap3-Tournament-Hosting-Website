@@ -30,8 +30,7 @@ export default {
         // },
             getUsers(){
             applicationServices.getAllUsers().then(response =>{
-                this.$store.commit("SET_USERS", response.data)
-                
+                this.users=response.data
             })
     },
     created() {
