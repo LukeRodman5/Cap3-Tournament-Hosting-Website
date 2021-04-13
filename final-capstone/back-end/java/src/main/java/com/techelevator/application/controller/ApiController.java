@@ -41,10 +41,10 @@ public class ApiController {
 	}
 
 @RequestMapping		/* Add a user to a tournament */
-	(path = "/tournaments/{tourneyID}/{username}", method = RequestMethod.POST)
-	public void addUserToTourney(@PathVariable String username,  @PathVariable int tourneyID) {
+	(path = "/tournaments/{tourneyID}/{username}/{status}", method = RequestMethod.POST)
+	public void addUserToTourney(@PathVariable String username,  @PathVariable int tourneyID, @PathVariable String status) {
 		logRequest("Adding user to a tournament");
-		tourneysDAO.addUserToTourney(username, tourneyID);
+		tourneysDAO.addUserToTourney(username, tourneyID, status);
 	}
 
 @RequestMapping		/* Get all tournaments in a list */

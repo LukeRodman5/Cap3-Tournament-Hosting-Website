@@ -142,10 +142,10 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	
 	// Add a user to a tournament
 	@Override
-	public void addUserToTourney(String username, int tourneyId) {
-		String sql = "insert into users_tournaments (user_id, tourney_id) values ((select user_id from users where username = ?), ?)";
+	public void addUserToTourney(String username, int tourneyId, String status) {
+		String sql = "insert into users_tournaments (user_id, tourney_id, status) values ((select user_id from users where username = ?), ?, ?)";
 		
-		jdbcTemplate.update(sql, username, tourneyId);
+		jdbcTemplate.update(sql, username, tourneyId, status);
 		
 	}
 	
