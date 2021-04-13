@@ -32,6 +32,7 @@ CREATE TABLE matches
 CREATE TABLE users_tournaments
   ( user_id      INTEGER
   , tourney_id   INTEGER
+  , status       CHARACTER VARYING(50)
   , CONSTRAINT pk_users_tournaments_user_id_tourney_id
        PRIMARY KEY (user_id, tourney_id));
 
