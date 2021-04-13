@@ -7,9 +7,9 @@ public interface UsersDAO {
 	List<Users> getAllUsers();
 	List<Users> getUserByUsername(String username);
 	List<Users> getUserByUserId(long userId);
-	List<Users> getAllUsersInATourney(int tourneyID);
-	String getUsernameByTourneyId(long tourneyID);
-	String getUsernameByUserID (long userID);
+	List<Users> getAllUsersInATourney(int tourneyId);
+	String getUsernameByTourneyId(long tourneyId);
+	String getUsernameByUserID (long userId);
 	void createAUser(long userId, String username); 
 	void deleteAUser(long userId, String username);
 	void updateAUser(long userId, String username);

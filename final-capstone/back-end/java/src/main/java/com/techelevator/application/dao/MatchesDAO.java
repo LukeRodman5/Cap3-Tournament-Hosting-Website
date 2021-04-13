@@ -9,7 +9,7 @@ public interface MatchesDAO {// update match
 	List<Matches> getAllMatches();//
 	List<Matches> getMatchById(int matchId);//
 	List<Matches> getMatchesByDate();// No
-	List<Matches> getAllMatchesInATourney(long tourneyID);
+	List<Matches> getAllMatchesInATourney(long tourneyId);
 	int createAMatch(LocalDate startDate, LocalDate startTime);//
 	void updateAMatch(LocalDate startDate, LocalDate startTime, int matchId);//
 	void deleteAMatch(int matchId);// Keep
@@ -17,9 +17,9 @@ public interface MatchesDAO {// update match
 	void updateUserToDiffMatch(int newMatchId, String username, int currentMatchId);//
 	void removeUserFromMatch(String username, long matchId);//
 	String updateAMatchId();// Not this time
-	Long updateStartDate();// Changed to update an entire match instead
-	Long updateStartTime();// Changed to update an entire match instead
-	void addMatchToTourney(long tourneyID, long matchId);
-	void removeMatchFromTourney(long tourneysID, long matchID);//
+	Long updateStartDate(LocalDate startDate, long currentStartDate, long newStartDate);// Changed to update an entire match instead
+	Long updateStartTime(LocalDate startTime, long currentStartTime, long newStartTime);// Changed to update an entire match instead
+	void addAMatchToTourney(long tourneyId, long matchId);
+	void removeMatchFromTourney(long tourneysId, long matchId);//
 	
 	}

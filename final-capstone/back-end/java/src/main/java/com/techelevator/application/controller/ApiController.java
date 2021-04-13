@@ -61,11 +61,11 @@ public class ApiController {
 		return tourneysDAO.getAllUsersInATourney(tourneyID);
 	}
 
-@RequestMapping		/* Get a tournament by tourney_id */
-	(path = "/tournaments/{id}", method = RequestMethod.GET) 
-	public Tourneys getTourney(@PathVariable long id) {
-		logRequest("Getting a tournament by Tourney ID");
-		return tourneysDAO.getATourneyById(id);
+@RequestMapping		/* Get a tournament by tourney_Id */
+	(path = "/tournaments/{Id}", method = RequestMethod.GET) 
+	public Tourneys getTourney(@PathVariable long Id) {
+		logRequest("Getting a tournament by Tourney Id");
+		return tourneysDAO.getATourneyById(Id);
 	}
 
 @RequestMapping		/* Get a tournament by user (for regular users not for hosts) */
@@ -76,33 +76,33 @@ public class ApiController {
 	}
 
 @RequestMapping		/* Update a Tournament by tourney_id */
-	(path = "/tournaments/{id}", method = RequestMethod.PUT)
-	public void tournamentUpdate(@RequestBody Tourneys tourney, @PathVariable long id) {
+	(path = "/tournaments/{Id}", method = RequestMethod.PUT)
+	public void tournamentUpdate(@RequestBody Tourneys tourney, @PathVariable long Id) {
 		logRequest("Updating a tournament");
 		tourneysDAO.updateATourney(tourney);
 	}
 
 @RequestMapping		/* Update tournament the user is in */
-	(path = "/tournaments/{username}/{currentTourneyID}/{newTourneyID}", method = RequestMethod.PUT)
-	public void updateUsernameTourneys(@PathVariable String username,@PathVariable int currentTourneyID,@PathVariable int newTourneyID) { 
+	(path = "/tournaments/{username}/{currentTourneyId}/{newTourneyId}", method = RequestMethod.PUT)
+	public void updateUsernameTourneys(@PathVariable String username,@PathVariable int currentTourneyId,@PathVariable int newTourneyId) { 
 		logRequest("Updating the tournament the user is in");
-		tourneysDAO.updateUserTourney(username, newTourneyID, currentTourneyID);
+		tourneysDAO.updateUserTourney(username, newTourneyId, currentTourneyId);
 	}
 
 @ResponseStatus(HttpStatus.NO_CONTENT)
-@RequestMapping		/* Delete a tournament by tourney_id */
-	(path = "/tournaments/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable int id) {
+@RequestMapping		/* Delete a tournament by tourney_Id */
+	(path = "/tournaments/{Id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable int Id) {
 		logRequest("Deleting a tournament");
-		tourneysDAO.deleteATourney(id);
+		tourneysDAO.deleteATourney(Id);
 	}
 	
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @RequestMapping		/* Delete a user from tournament */
-	(path = "/tournaments/users/{username}/{tourneyID}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable String username,@PathVariable int tourneyID) {
+	(path = "/tournaments/{tourneyId}/users/{username}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable String username,@PathVariable int tourneyId) {
 		logRequest("Deleting user from tournament");
-		tourneysDAO.removeUserFromTourney(username, tourneyID);
+		tourneysDAO.removeUserFromTourney(username, tourneyId);
 	}
 
 /******************************************************************************
@@ -114,6 +114,27 @@ public class ApiController {
 	public int addMatches( @RequestBody Matches match) {
 		logRequest("Add a list of matches");
 		return matchesDAO.createAMatch(match.getStartTime(), match.getStartDate());
+	}
+
+@RequestMapping		/* Add a match to a tournament */
+	(path = "/tournaments/{tourneyId}/matches/{matchId}", method = RequestMethod.POST)
+	public void addAMatchToTourney(@PathVariable long tourneyId,  @PathVariable long matchId) {
+		logRequest("Adding match to a tournament");
+		matchesDAO.addAMatchToTourney(tourneyId, matchId);
+	}
+
+@RequestMapping		/* Update start date */
+	(path = "/matches/localDate/{startDate}", method = RequestMethod.PUT)
+	public void updateStartDate(@PathVariable LocalDate startDate, @PathVariable long currentStartDate, @PathVariable long newStartDate) {
+		logRequest("Updating a start date");
+		matchesDAO.updateStartDate(startDate, currentStartDate, newStartDate);
+	}
+
+@RequestMapping		/* Update start time */
+	(path = "/matches/localDate/{startTime}", method = RequestMethod.PUT)
+	ublic void updateStartTime(@PathVariable LocalDate startTime, @PathVariable long currentStartTime, @PathVariable long newStartTime) {
+		logRequest("Updating a start time");
+		matchesDAO.updateStartTime(startTime, currentStartTime, newStartTime);
 	}
 
 @RequestMapping		/* Get all matches in a list */
@@ -141,9 +162,9 @@ public class ApiController {
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @RequestMapping		/* Delete a match from tournament*/
 	(path = "/matches/{tourneys}", method = RequestMethod.DELETE)
-	public void removeMatchFromTourney(@PathVariable long tourneyID,long matchId) {
+	public void removeMatchFromTourney(@PathVariable long tourneyId,long matchId) {
 		logRequest("Deleting a match from tourney");
-		matchesDAO.removeMatchFromTourney(tourneyID, matchId);
+		matchesDAO.removeMatchFromTourney(tourneyId, matchId);
 	}
 
 @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -155,20 +176,20 @@ public class ApiController {
 	}
 
 @RequestMapping 	/* Get all matches in a tournament */
-	(path = "/tourneys/matches/{tourneyID}", method = RequestMethod.GET)
-	public List<Matches> getAllMatchesInATourney(@PathVariable long tourneyID) { 
+	(path = "/tourneys/matches/{tourneyId}", method = RequestMethod.GET)
+	public List<Matches> getAllMatchesInATourney(@PathVariable long tourneyId) { 
 			logRequest("Getting all matches in a tournament");
-			return matchesDAO.getAllMatchesInATourney(tourneyID);
+			return matchesDAO.getAllMatchesInATourney(tourneyId);
 	}
 
 /******************************************************************************
 ***   ***   ***   *** Users API Controllers ***   ***   ***   ***   ***
 *******************************************************************************/
 @RequestMapping		/* Get username by tourney id */
-	(path = "/tournaments/{tourneyID}/username", method = RequestMethod.GET)
-	public String usernameByHostID(@PathVariable long tourneyID) {
-		logRequest("Getting username by tourneyID");
-		return usersDAO.getUsernameByTourneyId(tourneyID);}
+	(path = "/tournaments/{tourneyId}/username", method = RequestMethod.GET)
+	public String usernameByHostID(@PathVariable long tourneyId) {
+		logRequest("Getting username by tourneyId");
+		return usersDAO.getUsernameByTourneyId(tourneyId);}
 
 @RequestMapping			/* Get all users */
 	(path = "/users", method = RequestMethod.GET)

@@ -14,8 +14,7 @@ import com.techelevator.application.model.Users;
 		this.jdbcTemplate = jdbcTemplate;
 		}
 
-// Retrieve all users from database
-@Override
+@Override	/* Retrieve all users from database */
 public List<Users> getAllUsers() {
 	   List<Users>listOfUsers = new ArrayList<>();
 	   String sql = "select user_id, username from users";
@@ -25,11 +24,10 @@ public List<Users> getAllUsers() {
 			Users user = mapRowToUsers(results);
 			listOfUsers.add(user);
 			}	
-		
 		return listOfUsers;
 		}
 
-// Retrieve all users by username
+/* Retrieve all users by username */
 private Users mapRowToUsers(SqlRowSet results) {
 	Users usersRow = new Users();
 	usersRow.setUserId(results.getLong("user_id"));
@@ -38,34 +36,32 @@ private Users mapRowToUsers(SqlRowSet results) {
 		}
 
 @Override
-public List<Users> getAllUsersInATourney(int tourneyID) {
+public List<Users> getAllUsersInATourney(int tourneyId) {
 	   List<Users>listOfUsers = new ArrayList<>();
 	   String sql = "select username, users.user_id "
 			   + "from users inner join users_tournaments "
 			   + "on users.user_id = users_tournaments.user_id "
 			   + "where tourney_id = ?";
 	
-	SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyID);
+	SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyId);
 		while(results.next()) {
 			Users user = new Users();
 			user.setUserId(results.getLong("user_id"));
 			user.setUsername(results.getString("username"));
-			listOfUsers.add(user);
-			}	
-		return listOfUsers;
-		}
+			listOfUsers.add(user);}	
+		return listOfUsers;}
+
 
 @Override
-public String getUsernameByTourneyId(long tourneyID) {
+public String getUsernameByTourneyId(long tourneyId) {
 	   String sql = "select username "
 			   + "from users "
 			   + "inner join tournaments "
 			   + "on tournaments.tourney_host = users.user_id "
 			   + "where tourney_id = ?";
 
-       SqlRowSet hostUser = jdbcTemplate.queryForRowSet(sql, tourneyID);
-    return hostUser.toString();
-    }
+       SqlRowSet hostUser = jdbcTemplate.queryForRowSet(sql, tourneyId);
+    return hostUser.toString();}
 
 
 @Override

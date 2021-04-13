@@ -67,14 +67,14 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	
 	// Get all users in a tournament
 		@Override
-		public List<Users> getAllUsersInATourney(int tourneyID) {
+		public List<Users> getAllUsersInATourney(int tourneyId) {
 			List<Users>listOfUsers = new ArrayList<>();
 			String sql = "select username, users.user_id "
 					   + "from users inner join users_tournaments "
 					   + "on users.user_id = users_tournaments.user_id "
 					   + "where tourney_id = ?";
 			
-			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyID);
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyId);
 				while(results.next()) {
 					Users user = new Users();
 					user.setUserId(results.getLong("user_id"));
@@ -142,28 +142,28 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	
 	// Add a user to a tournament
 	@Override
-	public void addUserToTourney(String username, int tourneyID) {
+	public void addUserToTourney(String username, int tourneyId) {
 		String sql = "insert into users_tournaments (user_id, tourney_id) values ((select user_id from users where username = ?), ?)";
 		
-		jdbcTemplate.update(sql, username, tourneyID);
+		jdbcTemplate.update(sql, username, tourneyId);
 		
 	}
 	
 	// Update a user from their current tournament to another
 	@Override
-	public void updateUserTourney(String username, int newTourneyID, int currentTourneyID) {
+	public void updateUserTourney(String username, int newTourneyId, int currentTourneyId) {
 		String sql = "update users_tournament set tourney_id = ? where user_id = (select user_id from users where username = ? and tourney_id = ?";
 		
-		jdbcTemplate.update(sql, newTourneyID, username, currentTourneyID);
+		jdbcTemplate.update(sql, newTourneyId, username, currentTourneyId);
 	}
 	
 	// Remove a user from a tournament
 	@Override
-	public void removeUserFromTourney(String username, int tourneyID) {
+	public void removeUserFromTourney(String username, int tourneyId) {
 		String sql = "delete from users_tournaments "
 				+ "where user_id = (select user_id from users where username = ?) "
 				+ "and tourney_id = ?";
-		jdbcTemplate.update(sql, username, tourneyID);
+		jdbcTemplate.update(sql, username, tourneyId);
 		
 	}
 		
