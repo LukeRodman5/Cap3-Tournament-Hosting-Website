@@ -155,11 +155,11 @@ public class ApiController {
 	}
 
 @RequestMapping 	/* Get all matches in a tournament */
-	(path = "/matches/tourneys/{tourneyID}", method = RequestMethod.GET)
+	(path = "/tourneys/matches/{tourneyID}", method = RequestMethod.GET)
 	public List<Matches> getAllMatchesInATourney(@PathVariable long tourneyID) { 
 			logRequest("Getting all matches in a tournament");
-		return matchesDAO.getAllMatchesInATourney(tourneyID);
-}
+			return matchesDAO.getAllMatchesInATourney(tourneyID);
+	}
 
 /******************************************************************************
 ***   ***   ***   *** Users API Controllers ***   ***   ***   ***   ***
