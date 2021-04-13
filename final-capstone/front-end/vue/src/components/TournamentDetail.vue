@@ -89,7 +89,7 @@ export default {
       }
     },//end of delete card
     joinTourney(tourneyId, username){
-      applicationServices.joinTourney(tourneyId, username)
+      applicationServices.joinTourney(tourneyId, username, 'Approved')
       .then(response=>{
         if(response.status===200 || response.status===201){
           alert("You have successfully joined this tournament")
@@ -124,9 +124,9 @@ export default {
     setUpIniBracket() {
       // let matchToAddDb = {}
       
-      let gamesHolder = {games: []}
-      let match = {}
-      let matchCount = 0;
+      // let gamesHolder = {games: []}
+      // let match = {}
+      // let matchCount = 0;
       // this.usersInTourney.forEach((user) => {
       //   let player = {id: user.userId, name: user.username, winner: null}
         
@@ -147,24 +147,25 @@ export default {
       // }
       let matchesCount = this.currentTournament.maxNumOfParticipants / 2
       let roundCount = 0
+      let match = {}
 
       for (let i = 0; i < matchesCount; i++) {
         match = {startDate: this.currentTournament.startDate, startTime: null, roundLevel: roundCount}
-        applicationServices.createMatch(match).then(() => {
+        applicationServices.createMatch(match).then((response) => {
           // Created match response
           if (response.status === 200 || response.status === 201) {
             match = {}
+            if (i === matchesCount - 1 && matchesCount > 1) {
+              i = -1
+              matchesCount = matchesCount / 2
+              roundCount++
+            }
+            // maybe add to current tournament? applicationServices
           } else {
             console.log("Create match error")
           }
           
         })
-        if (i === matchesCount - 1) {
-          i = -1
-          matchesCount = matchesCount / 2
-          roundCount++
-        }
-
       }
 
       // let iniRoundsCount = this.currentTournament.maxNumOfParticipants / 2

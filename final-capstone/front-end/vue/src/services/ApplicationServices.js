@@ -25,8 +25,8 @@ export default{
     deleteTournament(tourneyID){
         return axios.delete(`/tournaments/${tourneyID}`)
     },
-    joinTourney(tourneyID, username){
-        return axios.post(`/tournaments/${tourneyID}/${username}`)
+    joinTourney(tourneyID, username, status){
+        return axios.post(`/tournaments/${tourneyID}/${username}/${status}`)
     },
     leaveTourney(tourneyID, username){
         return axios.delete(`/tournaments/users/${username}/${tourneyID}`)

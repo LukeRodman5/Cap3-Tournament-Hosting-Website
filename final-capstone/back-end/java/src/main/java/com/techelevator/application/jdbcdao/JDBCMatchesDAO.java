@@ -51,7 +51,7 @@ public class JDBCMatchesDAO implements MatchesDAO {
 			String newSql = "select max(match_id) from matches"; 
 			SqlRowSet result = jdbcTemplate.queryForRowSet(newSql);
 				result.next();
-		return	result.getInt("max(match_id)");}
+		return	result.getInt(1);}
 		
 	@Override
 	 public void updateAMatch(LocalDate startDate, LocalDate startTime, int matchId) {
