@@ -44,14 +44,21 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		 return listOfMatches;}
 
 	@Override
-	 public int createAMatch(Matches newMatch) { // needs specified
+	 public int createAMatch(Matches newMatch, long tourneyId) { // needs specified
 			String sql = "insert into matches (start_time, start_date, round_level) values (?, ?, ?)"; 
 			jdbcTemplate.update(sql, newMatch.getStartTime(), newMatch.getStartDate(), newMatch.getRoundLevel());
 			
-			String newSql = "select max(match_id) from matches"; 
+			String secondSql = "insert into tournaments_matches (tourney_id, match_id) values (?,(select currval('matches_match_id_seq')))";
+			jdbcTemplate.update(secondSql, tourneyId);
+			
+			String newSql = "select currval('matches_match_id_seq')"; 
 			SqlRowSet result = jdbcTemplate.queryForRowSet(newSql);
-				result.next();
-		return	result.getInt(1);}
+				if(result.next()) {
+					return result.getInt(1);
+				}
+				return 0;
+		
+		}
 		
 	@Override
 	 public void updateAMatch(LocalDate startDate, LocalDate startTime, int matchId) {

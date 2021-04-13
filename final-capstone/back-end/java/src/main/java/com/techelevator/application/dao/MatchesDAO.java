@@ -10,7 +10,7 @@ public interface MatchesDAO {// update match
 	List<Matches> getMatchById(int matchId);//
 	List<Matches> getMatchesByDate();// No
 	List<Matches> getAllMatchesInATourney(long tourneyId);
-	int createAMatch(Matches newMatch);//
+	int createAMatch(Matches newMatch, long tourneyId);//
 	void updateAMatch(LocalDate startDate, LocalDate startTime, int matchId);//
 	void deleteAMatch(int matchId);// Keep
 	void addUserToMatch(String username, int matchId);//
