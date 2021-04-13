@@ -110,7 +110,7 @@ public class ApiController {
 *******************************************************************************/
 
 @RequestMapping		/* Add a new Match to Database */
-	(path = "/matches/tourneyID/(tourneyID}", method = RequestMethod.POST)
+	(path = "/matches/tourneyID/{tourneyID}", method = RequestMethod.POST)
 	public int addMatches( @RequestBody Matches match, @PathVariable long tourneyID) {
 		logRequest("Add a list of matches");
 		return matchesDAO.createAMatch(match, tourneyID);
