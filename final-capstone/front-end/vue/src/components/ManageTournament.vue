@@ -76,6 +76,7 @@ export default {
     },//end of data
     created(){
       this.retrieveTournament()
+    
     },//end of creates
     methods:{
       retrieveTournament() {
@@ -99,12 +100,9 @@ export default {
           if(this.tournament.endDate===''){
               this.tournament.endDate=this.currentTournament.endDate
           }
-          if(this.tournament.maxNumOfParticipants===''){
-              this.tournament.maxNumOfParticipants=this.currentTournament.maxNumOfParticipants
-          }
-      },
+      },//end of saveTournament
       saveManageTournament(){
-        saveTournamant()
+        this.saveTournamant()
         applicationServices.updateTournament(this.tournament, this.$route.params.tourneyID).then(response =>{
              if(response.status === 201 || response.status === 200){
                 this.tournament={
