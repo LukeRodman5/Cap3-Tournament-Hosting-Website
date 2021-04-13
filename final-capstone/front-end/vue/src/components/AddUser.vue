@@ -2,7 +2,7 @@
 <div>
   <h1>Send Invites </h1>
   <tbody>
-   <tr class="user-list" v-for="user in this.$store.state.users" :key="user.username">
+   <tr class="user-list" v-for="user in this.users" :key="user.username">
               <td class="name">{{user.username}}</td>
       </tr>
   </tbody>
@@ -23,22 +23,16 @@ export default {
       }  
     },
     methods: {
-        // getUsers(){
-        // applicationServices.getAllUsers().then(response =>{
-        //   this.users=response.data
-        // })
-        // },
-            getUsers(){
+        getUsers(){
             applicationServices.getAllUsers().then(response =>{
                 this.users=response.data
-            })
-    },
+            })//end of then
+    }//end of get users
+    },//end of methods
     created() {
         this.getUsers();
-    }
-    }
-
-}
+    }//end of created
+    }//end of export
 
 </script>
 
