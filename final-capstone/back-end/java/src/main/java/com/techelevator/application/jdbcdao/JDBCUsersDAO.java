@@ -30,8 +30,10 @@ public List<Users> getAllUsers() {
 
 // Retrieve all users by username
 private Users mapRowToUsers(SqlRowSet results) {
-		// TODO Auto-generated method stub
-		return null;
+	Users usersRow = new Users();
+	usersRow.setUserId(results.getLong("user_id"));
+	usersRow.setUsername(results.getString("username"));
+		return usersRow;
 		}
 
 @Override
