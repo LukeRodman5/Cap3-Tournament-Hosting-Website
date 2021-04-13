@@ -133,6 +133,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0px 5px 5px rgb(112, 112, 112);  
 }
 form > * {
     margin: 5px;

@@ -47,6 +47,29 @@
             </tr>
       </tbody>
     </table>
+    <h2> My Invites</h2>
+    <table class = "play">
+      <thead>
+          <th> Tournament Name</th>
+          <th> Tournament Description</th>
+          <th> Start Date</th>
+          <th> End Date</th>
+          <th> Current Participants</th>
+          <th> Maximum Participants</th>
+        </thead>
+      <tbody id="tournament-play">
+            <tr v-for="tournament in this.myPlayTournaments" :key="tournament.tourneyId">
+              <td class="name">{{tournament.tourneyName}}</td>
+              <td class="description">{{tournament.tourneyDesc}}</td>
+              <td class="start-date">{{tournament.startDate}}</td>
+              <td class="end-date">{{tournament.endDate}}</td>
+              <td class="participants">{{tournament.numOfParticipants}}</td>
+              <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
+              <button class="btnAcceptInvite" v-on:click="acceptInvite(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
+              <button class="btnDeclineInvite" v-on:click="declineInvite(tournament.tourneyId)">Decline</button>
+            </tr>
+      </tbody>
+    </table>
 </div>
 </template>
 
@@ -100,7 +123,14 @@ export default {
         }//end of else
         this.$router.push("/")
     } //end of then
-    )}//end of leaveTourney
+    )},//end of leaveTourney
+     declineInvite(){
+
+     },
+     acceptInvite(){
+
+     }
+
     }   
 }
 </script>
