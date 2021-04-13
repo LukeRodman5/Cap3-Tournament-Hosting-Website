@@ -51,7 +51,6 @@ export default {
     },//end of data
     methods:{
       addTournament(){
-            console.log(this.newTournament)
              applicationServices.addTournament(this.newTournament).then(response =>{
              if(response.status === 201 || response.status === 200){
                      // this.getTournaments()

@@ -46,10 +46,13 @@ export default{
     getMatchesInTourney(tourneyID){
         return axios.get(`/tourneys/matches/${tourneyID}`)
     },
-    createMatch(match) {
-        return axios.post(`/matches`, match)
+    createMatch(match, tourneyID) {
+        return axios.post(`/matches/tourneyID/${tourneyID}`, match)
     },
-    addMatchToTourney(match, tourneyID, matchID) {
+    addMatchToTourney(tourneyID, matchID) {
         return axios.post(`/tournaments/${tourneyID}/matches/${matchID}`)
+    },
+    addUserToMatch(username, matchID) {
+        return axios.post('')
     }
 }

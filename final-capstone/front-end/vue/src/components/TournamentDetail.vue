@@ -10,7 +10,7 @@
       <p>Max Number of Participants: {{ currentTournament.maxNumOfParticipants }}</p>
       <p> Start Date: {{currentTournament.startDate}} | End Date: {{currentTournament.endDate}}</p>
       <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
-      <!-- <generate-tournament v-if="isHost" v-bind:currentTourney=currentTournament /> -->
+      <generate-tournament v-if="isHost" v-bind:currentTourney=currentTournament v-bind:usersInTourney=usersInTourney v-bind:matchesInTourney=matchesInTourney />
     </div>
 
     <!-- <div v-if="!isLoading">
@@ -29,7 +29,7 @@
 <script>
 import applicationServices from "../services/ApplicationServices";
 import Bracket from "vue-tournament-bracket";
-// import GenerateTournament from './GenerateTournament.vue';
+import GenerateTournament from './GenerateTournament.vue';
 
 const tbdPlayers = { name: "TBD", winner: null }
 
@@ -37,7 +37,7 @@ export default {
   name: "tournament-detail",
   components: {
     Bracket,
-    // GenerateTournament
+    GenerateTournament
   },
   data() {
     return {
@@ -51,18 +51,16 @@ export default {
     };
   },
   created() {
+    this.getUsersInTourney(),
     this.retrieveTournament()
   },
   methods: {
     retrieveTournament() {
       applicationServices.getTournament(this.$route.params.tourneyID).then(response => {
         this.currentTournament = response.data
-        this.isLoading = false
         this.isHost = this.currentTournament.tourneyHost === this.$store.state.user.username
         this.getMatchesInTourney(this.$route.params.tourneyID)
-        if (this.matchesInTourney.length === 0) {
-          this.getUsersInTourney()
-        }
+        this.isLoading = false
       })
     },
     deleteTournament() {
@@ -111,19 +109,48 @@ export default {
       }) //end of then
     
     },//end of joinTourney
+    getMatchesInTourney(tourneyId) {
+      applicationServices.getMatchesInTourney(tourneyId).then((response) => {
+        if (response.status === 200 || response.status === 201) {
+          this.matchesInTourney = response.data
+          if (this.matchesInTourney.length === 0) {
+            this.SetUpMatches()
+          }
+        }
+      })
+    },
     getUsersInTourney() {
       applicationServices.getUsersInTourney(this.$route.params.tourneyID).then((response) => {
         if (response.status === 200 || response.status === 201) {
           this.usersInTourney = response.data
-          this.setUpIniBracket()
         } else {
           console.log("Error")
         }
       })
     },
-    setUpIniBracket() {
-      // let matchToAddDb = {}
+    SetUpMatches() {
+      let roundCount = 0
+      let match = {}
+      let matchesCount = this.currentTournament.maxNumOfParticipants / 2
       
+      for (let i = 0; i < matchesCount; i++) {
+        match = {startDate: null, startTime: null, roundLevel: roundCount}
+        applicationServices.createMatch(match, this.currentTournament.tourneyId).then((response) => {
+          // Created match response
+          if (response.status === 200 || response.status === 201) {
+            // this.matchesInTourney.push(response.data)
+          } else {
+            console.log("Create match error")
+          }
+        })
+        if (i === matchesCount - 1 && matchesCount > 1) {
+          i = -1
+          matchesCount = matchesCount / 2
+          roundCount++
+        }
+      }
+    }
+      // displayIniBracket
       // let gamesHolder = {games: []}
       // let match = {}
       // let matchCount = 0;
@@ -145,27 +172,6 @@ export default {
       //   match = {}
       //   matchCount++
       // }
-      let matchesCount = this.currentTournament.maxNumOfParticipants / 2
-      let roundCount = 0
-      let match = {}
-
-      for (let i = 0; i < matchesCount; i++) {
-        match = {startDate: this.currentTournament.startDate, startTime: null, roundLevel: roundCount}
-        applicationServices.createMatch(match).then((response) => {
-          // Created match response
-          if (response.status === 200 || response.status === 201) {
-            // maybe add to current tournament? applicationServices
-          } else {
-            console.log("Create match error")
-          }
-        })
-        if (i === matchesCount - 1 && matchesCount > 1) {
-          i = -1
-          matchesCount = matchesCount / 2
-          roundCount++
-        }
-      }
-
       // let iniRoundsCount = this.currentTournament.maxNumOfParticipants / 2
       // for (let i = matchCount; i < iniRoundsCount; i++) {
       //   match = {player1: tbdPlayers, player2: tbdPlayers}
@@ -180,14 +186,6 @@ export default {
       //     }
       //   }
       // }
-    },
-    getMatchesInTourney(tourneyId) {
-      applicationServices.getMatchesInTourney(tourneyId).then((response) => {
-        if (response.status === 200 || response.status === 201) {
-          this.matchesInTourney = response.data
-        }
-      })
-    }
   }//end of methods
 };
 </script>
