@@ -10,6 +10,7 @@
       <p>Max Number of Participants: {{ currentTournament.maxNumOfParticipants }}</p>
       <p> Start Date: {{currentTournament.startDate}} | End Date: {{currentTournament.endDate}}</p>
       <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
+      <!-- <generate-tournament v-if="isHost" v-bind:currentTourney=currentTournament /> -->
     </div>
 
     <!-- <div v-if="!isLoading">
@@ -28,46 +29,25 @@
 <script>
 import applicationServices from "../services/ApplicationServices";
 import Bracket from "vue-tournament-bracket";
+// import GenerateTournament from './GenerateTournament.vue';
 
 const tbdPlayers = { name: "TBD", winner: null }
 
 export default {
   name: "tournament-detail",
   components: {
-    Bracket
+    Bracket,
+    // GenerateTournament
   },
   data() {
     return {
+      isHost: false,
       isLoading: true,
       errorMsg: "",
       currentTournament: {},
       usersInTourney: [],
       matchesInTourney: [],
       rounds: []
-//       rounds: [
-//         //Semi finals
-//     {
-//         games: [
-//             {
-//                 player1: { id: "1", name: "Competitor 1", winner: null, score: 0 },
-//                 player2: { id: "4", name: "Competitor 4", winner: null, score: 0 },
-//             },
-//             {
-//                 player1: { id: "5", name: "Competitor 4", winner: null, score: 0 },
-//                 player2: { id: "8", name: "Competitor 8", winner: null, score: 0 },
-//             }
-//         ]
-//     },
-//     //Final
-//     {
-//         games: [
-//             {
-//                 player1: tbdPlayers,
-//                 player2: tbdPlayers,
-//             }
-//         ]
-//     }
-// ]
     };
   },
   created() {
@@ -75,45 +55,37 @@ export default {
   },
   methods: {
     retrieveTournament() {
-      applicationServices
-        .getTournament(this.$route.params.tourneyID)
-        .then(response => {
-          this.currentTournament = response.data
-          this.isLoading = false
-          this.getMatchesInTourney(this.$route.params.tourneyID)
-          if (this.matchesInTourney.length === 0) {
-            this.getUsersInTourney()
-          }
-        })
+      applicationServices.getTournament(this.$route.params.tourneyID).then(response => {
+        this.currentTournament = response.data
+        this.isLoading = false
+        this.isHost = this.currentTournament.tourneyHost === this.$store.state.user.username
+        this.getMatchesInTourney(this.$route.params.tourneyID)
+        if (this.matchesInTourney.length === 0) {
+          this.getUsersInTourney()
+        }
+      })
     },
     deleteTournament() {
-      if (
-        confirm(
-          "Are you sure you want to delete this tournament? This action cannot be undone."
-        )
-      ) {
-        applicationServices
-          .deleteTournament(this.currentTournament.tourneyID)
-          .then(response => {
-            if (response.status === 200) {
-              alert("Tournament successfully deleted");
-              this.$router.push(`/`);
-            }
-          })
-          .catch(error => {
-            if (error.response) {
-              this.errorMsg =
-                "Error deleting tournament. Response received was '" +
-                error.response.statusText +
-                "'.";
-            } else if (error.request) {
-              this.errorMsg =
-                "Error deleting tournament. Server could not be reached.";
-            } else {
-              this.errorMsg =
-                "Error deleting tournament. Request could not be created.";
-            }
-          });
+      if (confirm("Are you sure you want to delete this tournament? This action cannot be undone.")) {
+        applicationServices.deleteTournament(this.currentTournament.tourneyID).then(response => {
+          if (response.status === 200) {
+            alert("Tournament successfully deleted");
+            this.$router.push(`/`);
+          }
+        }).catch(error => {
+          if (error.response) {
+            this.errorMsg =
+              "Error deleting tournament. Response received was '" +
+              error.response.statusText +
+              "'.";
+          } else if (error.request) {
+            this.errorMsg =
+              "Error deleting tournament. Server could not be reached.";
+          } else {
+            this.errorMsg =
+              "Error deleting tournament. Request could not be created.";
+          }
+        })
       }
     },//end of delete card
     joinTourney(tourneyId, username){
@@ -147,7 +119,6 @@ export default {
         } else {
           console.log("Error")
         }
-        
       })
     },
     setUpIniBracket() {
@@ -156,45 +127,60 @@ export default {
       let gamesHolder = {games: []}
       let match = {}
       let matchCount = 0;
-      this.usersInTourney.forEach((user) => {
-        // if (matchCount % 2) {
-        //   applicationServices.createMatch(this.currentTournament.startDate, null).then((response) => {
-        //     matchToAddDb = response.data
-        //   })
-        // }
-        // applicationServices.addMatchToTourney(this.$router.params.tourneyID, matchToAddDb.matchId)
-
-        let player = {id: user.userId, name: user.username, winner: null}
+      // this.usersInTourney.forEach((user) => {
+      //   let player = {id: user.userId, name: user.username, winner: null}
         
-        if (!('player1' in match)) {
-          match.player1 = player
-        } else {
-          match.player2 = player
-          gamesHolder.games.push(match)
-          match = {}
-          matchCount++
-        }
-      })
-      if (('player1' in match) && !('player2' in match)) {
-        match.player2 = tbdPlayers
-        gamesHolder.games.push(match)
-        match = {}
-        matchCount++
-      }
-      let iniRoundsCount = this.currentTournament.maxNumOfParticipants / 2
-      for (let i = matchCount; i < iniRoundsCount; i++) {
-        match = {player1: tbdPlayers, player2: tbdPlayers}
-        gamesHolder.games.push(match)
-        match = {}
-        if (i === iniRoundsCount - 1) {
-          this.rounds.push(gamesHolder)
-          gamesHolder = {games: []}
-          if (iniRoundsCount >= 1) {
-            i = -1
-            iniRoundsCount = iniRoundsCount / 2
+      //   if (!('player1' in match)) {
+      //     match.player1 = player
+      //   } else {
+      //     match.player2 = player
+      //     gamesHolder.games.push(match)
+      //     match = {}
+      //     matchCount++
+      //   }
+      // })
+      // if (('player1' in match) && !('player2' in match)) {
+      //   match.player2 = tbdPlayers
+      //   gamesHolder.games.push(match)
+      //   match = {}
+      //   matchCount++
+      // }
+      let matchesCount = this.currentTournament.maxNumOfParticipants / 2
+      let roundCount = 0
+
+      for (let i = 0; i < matchesCount; i++) {
+        match = {startDate: this.currentTournament.startDate, startTime: null, roundLevel: roundCount}
+        applicationServices.createMatch(match).then(() => {
+          // Created match response
+          if (response.status === 200 || response.status === 201) {
+            match = {}
+          } else {
+            console.log("Create match error")
           }
+          
+        })
+        if (i === matchesCount - 1) {
+          i = -1
+          matchesCount = matchesCount / 2
+          roundCount++
         }
+
       }
+
+      // let iniRoundsCount = this.currentTournament.maxNumOfParticipants / 2
+      // for (let i = matchCount; i < iniRoundsCount; i++) {
+      //   match = {player1: tbdPlayers, player2: tbdPlayers}
+      //   gamesHolder.games.push(match)
+      //   match = {}
+      //   if (i === iniRoundsCount - 1) {
+      //     this.rounds.push(gamesHolder)
+      //     gamesHolder = {games: []}
+      //     if (iniRoundsCount >= 1) {
+      //       i = -1
+      //       iniRoundsCount = iniRoundsCount / 2
+      //     }
+      //   }
+      // }
     },
     getMatchesInTourney(tourneyId) {
       applicationServices.getMatchesInTourney(tourneyId).then((response) => {

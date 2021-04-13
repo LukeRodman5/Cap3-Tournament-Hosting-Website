@@ -26,6 +26,7 @@ CREATE TABLE matches
   ( match_id   SERIAL
   , start_time TIME
   , start_date DATE
+  , round_level INTEGER
   , CONSTRAINT pk_matches_match_id
        PRIMARY KEY (match_id));
        

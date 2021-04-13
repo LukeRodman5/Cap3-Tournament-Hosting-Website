@@ -7,7 +7,16 @@ public class Matches {
 		private Long matchId;
 		private LocalDate startDate;
 		private LocalDate startTime;
+		private int roundLevel;
 		
+		public int getRoundLevel() {
+			return roundLevel;
+		}
+
+		public void setRoundLevel(int roundLevel) {
+			this.roundLevel = roundLevel;
+		}
+
 		/* @return the matchId */
 		public Long getMatchId() {
 			return matchId;
@@ -40,6 +49,7 @@ public class Matches {
 		
 		@Override
 		public String toString() {
-			return "Matches [matchId=" + matchId + ", startDate=" + startDate + ", startTime=" + startTime + "]";
+			return "Matches [matchId=" + matchId + ", startDate=" + startDate + ", startTime=" + startTime
+					+ ", roundLevel=" + roundLevel + "]";
 		}
 	}

@@ -113,7 +113,7 @@ public class ApiController {
 	(path = "/matches", method = RequestMethod.POST)
 	public int addMatches( @RequestBody Matches match) {
 		logRequest("Add a list of matches");
-		return matchesDAO.createAMatch(match.getStartTime(), match.getStartDate());
+		return matchesDAO.createAMatch(match);
 	}
 
 @RequestMapping		/* Add a match to a tournament */
@@ -127,14 +127,14 @@ public class ApiController {
 	(path = "/matches/localDate/{startDate}", method = RequestMethod.PUT)
 	public void updateStartDate(@PathVariable LocalDate startDate, @PathVariable long currentStartDate, @PathVariable long newStartDate) {
 		logRequest("Updating a start date");
-		matchesDAO.updateStartDate(startDate, currentStartDate, newStartDate);
+		matchesDAO.updateStartDate();
 	}
 
 @RequestMapping		/* Update start time */
 	(path = "/matches/localDate/{startTime}", method = RequestMethod.PUT)
 	public void updateStartTime(@PathVariable LocalDate startTime, @PathVariable long currentStartTime, @PathVariable long newStartTime) {
 		logRequest("Updating a start time");
-		matchesDAO.updateStartTime(startTime, currentStartTime, newStartTime);
+		matchesDAO.updateStartTime();
 	}
 
 @RequestMapping		/* Get all matches in a list */
