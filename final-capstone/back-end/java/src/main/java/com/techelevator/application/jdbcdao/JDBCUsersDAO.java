@@ -18,7 +18,7 @@ import com.techelevator.application.model.Users;
 @Override
 public List<Users> getAllUsers() {
 	   List<Users>listOfUsers = new ArrayList<>();
-	   String sql = "select username from users";
+	   String sql = "select user_id, username from users";
 	
 	  SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 		while(results.next()) {
@@ -32,7 +32,7 @@ public List<Users> getAllUsers() {
 // Retrieve all users by username
 private Users mapRowToUsers(SqlRowSet results) {
 	Users usersRow = new Users();
-	//usersRow.setUserId(results.getLong("user_id"));
+	usersRow.setUserId(results.getLong("user_id"));
 	usersRow.setUsername(results.getString("username"));
 		return usersRow;
 		}
