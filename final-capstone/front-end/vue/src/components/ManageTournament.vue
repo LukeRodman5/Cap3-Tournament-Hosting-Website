@@ -85,8 +85,7 @@ export default {
         .then(response => {
           this.currentTournament = response.data
               }
-          )}
-      },//end of retreiveTournament  
+          )},//end of retreiveTournament  
       saveTournament(){
           if(this.tournament.tourneyName===''){
               this.tournament.tourneyName=this.currentTournament.tourneyName
@@ -102,7 +101,7 @@ export default {
           }
       },//end of saveTournament
       saveManageTournament(){
-        this.saveTournamant()
+        this.saveTournament()
         applicationServices.updateTournament(this.tournament, this.$route.params.tourneyID).then(response =>{
              if(response.status === 201 || response.status === 200){
                 this.tournament={
@@ -123,12 +122,8 @@ export default {
                 alert("Update to tournament has failed.")
             }
         })//end then
-        
-    //end saveManageTournament
-        
-}   
-
-
+    }//end saveManageTournament
+}
 }
 </script>
 
