@@ -25,13 +25,14 @@ public List<Users> getAllUsers() {
 			Users user = mapRowToUsers(results);
 			listOfUsers.add(user);
 			}	
+		
 		return listOfUsers;
 		}
 
 // Retrieve all users by username
 private Users mapRowToUsers(SqlRowSet results) {
 	Users usersRow = new Users();
-	usersRow.setUserId(results.getLong("user_id"));
+	//usersRow.setUserId(results.getLong("user_id"));
 	usersRow.setUsername(results.getString("username"));
 		return usersRow;
 		}
