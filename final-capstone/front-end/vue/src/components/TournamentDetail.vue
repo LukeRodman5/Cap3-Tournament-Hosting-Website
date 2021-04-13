@@ -154,18 +154,16 @@ export default {
         applicationServices.createMatch(match).then((response) => {
           // Created match response
           if (response.status === 200 || response.status === 201) {
-            match = {}
-            if (i === matchesCount - 1 && matchesCount > 1) {
-              i = -1
-              matchesCount = matchesCount / 2
-              roundCount++
-            }
             // maybe add to current tournament? applicationServices
           } else {
             console.log("Create match error")
           }
-          
         })
+        if (i === matchesCount - 1 && matchesCount > 1) {
+          i = -1
+          matchesCount = matchesCount / 2
+          roundCount++
+        }
       }
 
       // let iniRoundsCount = this.currentTournament.maxNumOfParticipants / 2
