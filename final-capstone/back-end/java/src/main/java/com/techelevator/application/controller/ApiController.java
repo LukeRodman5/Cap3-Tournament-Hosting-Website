@@ -6,13 +6,8 @@ package com.techelevator.application.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.web.bind.annotation.*;
 import com.techelevator.application.dao.*;
 import com.techelevator.application.model.*;
