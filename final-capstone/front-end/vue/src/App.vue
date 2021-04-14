@@ -6,6 +6,7 @@
     <i class="fas fa-user"></i>      
     </p>
     
+    
 
     <div id="nav">
       <router-link v-bind:to="{ name: 'home' }">Home</router-link>
@@ -16,8 +17,16 @@
       <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link>
     </div>
     <router-view />
- 
+  <footer> follow us |
+    <i class="fab fa-facebook"></i> |
+    <i class="fab fa-twitter"></i> |
+    <i class="fab fa-reddit"></i> |
+    contact 
+    <i class="far fa-envelope"></i>
+
+ </footer>
   </div>
+  
 </template>
 <style>
 html {
@@ -80,6 +89,18 @@ h2{
 div{
   font-family: times, Times New Roman, times-roman, georgia, serif;
 	color: #444;
+}
+footer{
+  margin-top: 20px;
+  background-color: lightgray;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  align-items: center;
+  text-align: center;
+  margin-right: 42%;
+  margin-left: 42%;
+  border-radius: 25px;
+  box-shadow: 0px 2px 2px rgb(112, 112, 112);
 }
 
 
