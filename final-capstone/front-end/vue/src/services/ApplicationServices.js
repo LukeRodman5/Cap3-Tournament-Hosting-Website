@@ -52,7 +52,7 @@ export default{
     addMatchToTourney(tourneyID, matchID) {
         return axios.post(`/tournaments/${tourneyID}/matches/${matchID}`)
     },
-    addUserToMatch(username, matchID) {
-        return axios.post('')
+    addUserToMatch(matchID, username) {
+        return axios.post(`/matches/${matchID}/${username}`)
     }
 }

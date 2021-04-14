@@ -10,12 +10,12 @@
       <p>Max Number of Participants: {{ currentTournament.maxNumOfParticipants }}</p>
       <p> Start Date: {{currentTournament.startDate}} | End Date: {{currentTournament.endDate}}</p>
       <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
-      <generate-tournament v-if="isHost" v-bind:currentTourney=currentTournament v-bind:usersInTourney=usersInTourney v-bind:matchesInTourney=matchesInTourney />
+      <generate-tournament v-if="isHost"
+        v-bind:currentTourney=currentTournament
+        v-bind:usersInTourney=usersInTourney
+        v-bind:matchesInTourney=matchesInTourney />
     </div>
 
-    <!-- <div v-if="!isLoading">
-      <router-link :to="{ name: 'home'}">Back to Tournaments</router-link>
-    </div> -->
     <div id="bracket">
       <bracket :rounds="rounds">
         <template slot="player" slot-scope="{ player }">
@@ -31,7 +31,7 @@ import applicationServices from "../services/ApplicationServices";
 import Bracket from "vue-tournament-bracket";
 import GenerateTournament from './GenerateTournament.vue';
 
-const tbdPlayers = { name: "TBD", winner: null }
+// const tbdPlayers = { name: "TBD", winner: null }
 
 export default {
   name: "tournament-detail",
