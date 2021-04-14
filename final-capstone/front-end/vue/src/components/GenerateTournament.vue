@@ -101,21 +101,25 @@ export default {
             }
 
             for (let i = matchCount; i < matchCountPerRound; i++) {
-                // if (roundLevel > 0 && matchCountPerRound >= 1) {
+                if (roundLevel > 0 && matchCountPerRound >= 1) {
                     
-                //     for (let j = 0; j < this.rounds[roundLevel - 1].games.length; j += 2) {
-                //         if ((this.rounds[roundLevel - 1].games[j].player1.winner ||
-                //             this.rounds[roundLevel - 1].games[j].player2.winner) &&
-                //             (this.rounds[roundLevel - 1].games[j + 1].player1.winner ||
-                //             this.rounds[roundLevel - 1].games[j + 1].player2.winner)) {
-                //             let match1Winner = this.rounds[roundLevel - 1].games[j].player1.winner === true ? this.rounds[roundLevel - 1].games[j].player1 : this.rounds[roundLevel - 1].games[j].player2
-                //             let match2Winner = this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ? this.rounds[roundLevel - 1].games[j + 1].player1 : this.rounds[roundLevel - 1].games[j + 1].player2
-                //             match = {player1: match1Winner, player2: match2Winner}
-                //         }
-                //     }
-                // } else {
-                    match = {player1: tbdPlayers, player2: tbdPlayers}
-                // }
+                    for (let j = 0; j < this.rounds[roundLevel - 1].games.length; j += 2) {
+                        let isThereTwoWinners = (this.rounds[roundLevel - 1].games[j].player1.winner ||
+                                                 this.rounds[roundLevel - 1].games[j].player2.winner) &&
+                                                (this.rounds[roundLevel - 1].games[j + 1].player1.winner ||
+                                                 this.rounds[roundLevel - 1].games[j + 1].player2.winner)
+                        if (isThereTwoWinners == true) {
+                            // this.userMatchLink.filter((link) => {
+
+                            // })
+                            let match1Winner = this.rounds[roundLevel - 1].games[j].player1.winner === true ? this.rounds[roundLevel - 1].games[j].player1 : this.rounds[roundLevel - 1].games[j].player2
+                            let match2Winner = this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ? this.rounds[roundLevel - 1].games[j + 1].player1 : this.rounds[roundLevel - 1].games[j + 1].player2
+                            match = {player1: match1Winner, player2: match2Winner}
+                        } else {
+                            match = {player1: tbdPlayers, player2: tbdPlayers}
+                        }
+                    }
+                }
                 gamesHolder.games.push(match)
                 match = {}
 
@@ -129,7 +133,6 @@ export default {
                     }
                 }
             }
-            console.log(this.rounds)
         },
         getUserMatchLink() {
             this.isHost = this.currentTourney.tourneyHost === this.$store.state.user.username
