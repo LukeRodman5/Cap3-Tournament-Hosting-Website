@@ -39,10 +39,10 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		 }
 	
 	@Override
-	public List<Matches> getAllMatchesInATourney(long tourneyId) {
+	public List<Matches> getAllMatchesInATourney(long tourneyID) {
 		   List<Matches>listOfMatches = new ArrayList<>();
 		   String sql = "select matches.match_id, round_level from matches inner join tournaments_matches on tournaments_matches.match_id = matches.match_id where tourney_id = ? order by round_level, matches.match_id";
-		   SqlRowSet results =jdbcTemplate.queryForRowSet(sql, tourneyId);
+		   SqlRowSet results =jdbcTemplate.queryForRowSet(sql, tourneyID);
 		while(results.next()) {
 			Matches aMatch = new Matches();
 			aMatch.setMatchId(results.getLong("match_id"));
@@ -51,6 +51,26 @@ public class JDBCMatchesDAO implements MatchesDAO {
 				}
 		 return listOfMatches;
 		 }
+	
+	@Override
+	public List<Matches> getAllMatchesInUMByTourneyID(long tourneyID) {
+		List<Matches>listOfMatches = new ArrayList<>();
+		String sql = "select user_id, matches.match_id, win_status "
+				+ "from users_matches "
+				+ "inner join matches "
+				+ "on matches.match_id = users_matches.match_id "
+				+ "inner join tournaments_matches "
+				+ "on matches.match_id = tournaments_matches.match_id "
+				+ "where tourney_id = ?";
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyID);
+			while(results.next()) {
+				Matches aMatch = mapRowToMatches(results);
+					listOfMatches.add(aMatch);
+			}
+		
+		return listOfMatches;
+	}
+
 
 	@Override
 	 public int createAMatch(Matches newMatch, long tourneyId) { // needs specified
@@ -144,5 +164,6 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		 return matchRow;
 		 }
 
+	
 	
 }

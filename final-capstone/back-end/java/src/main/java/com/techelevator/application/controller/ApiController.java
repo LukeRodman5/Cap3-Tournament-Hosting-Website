@@ -144,6 +144,13 @@ public class ApiController {
     	return matchesDAO.getAllMatches();
     }
 
+@RequestMapping
+	(path="/user-matches/{tourneyID}", method = RequestMethod.GET)
+	public List<Matches> getAllUserMatchesByTourneyID(@PathVariable long tourneyID) {
+		logRequest("Getting all user_matches by Tourney ID");
+		return matchesDAO.getAllMatchesInATourney(tourneyID);
+}
+
 @RequestMapping		/* Get matches by start date */
 	(path = "/matches/{startDate}", method = RequestMethod.GET)
 	public List<Matches> allMatchesByDate(@PathVariable LocalDate startDate, LocalDate startTime) { 
