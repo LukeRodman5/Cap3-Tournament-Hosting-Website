@@ -65,7 +65,7 @@
               <td class="end-date">{{tournament.endDate}}</td>
               <td class="participants">{{tournament.numOfParticipants}}</td>
               <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
-              <button class="btnAcceptInvite" v-on:click="acceptInvite(currentTournament.tourneyId, $store.state.user.username)">Join</button>
+              <button class="btnAcceptInvite" v-on:click="acceptInvite(tournament.tourneyId)">Join</button>
               <button class="btnDeclineInvite" v-on:click="declineInvite(tournament.tourneyId)">Decline</button>
             </tr>
       </tbody>
@@ -106,7 +106,7 @@ export default {
         this.myHostTournaments = this.$store.state.tournaments.filter(tournament=>tournament.tourneyHost===this.$store.state.user.username)
       },
      getMyPlayTournaments(){
-        applicationServices.getTourneysByName(this.$store.state.user.username, "Approved").then(response =>{
+        applicationServices.tournamentsByUserStatus(this.$store.state.user.username, "Approved").then(response =>{
           this.$store.commit("SET_MY_TOURNAMENTS", response.data)
           this.myPlayTournaments = this.$store.state.myTournaments
         })

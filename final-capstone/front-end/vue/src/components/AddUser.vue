@@ -55,6 +55,7 @@ export default {
                 console.log(response.status)
                 if(response.status === 200 || response.status===201){
                   this.addedUsers.unshift(this.users[i])
+                  alert("Invite successful!")
                   //let successAlert = toString(addedUsers)
                   //console.log(successAlert)
                 }
