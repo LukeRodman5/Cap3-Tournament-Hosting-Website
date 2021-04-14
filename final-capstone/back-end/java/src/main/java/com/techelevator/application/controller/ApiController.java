@@ -17,14 +17,16 @@ import com.techelevator.application.model.*;
 @CrossOrigin
 public class ApiController {
 	private TourneysDAO tourneysDAO;
+	private UsersTournamentsDAO usersTournamentsDAO;
 	private MatchesDAO matchesDAO;
 	private UsersDAO usersDAO;
 	private UsersMatchesDAO usersMatchesDAO;
-	public ApiController(TourneysDAO tourneysDAO, MatchesDAO matchesDAO, UsersDAO usersDAO, UsersMatchesDAO usersMatchesDAO) {
+	public ApiController(TourneysDAO tourneysDAO, MatchesDAO matchesDAO, UsersDAO usersDAO, UsersMatchesDAO usersMatchesDAO, UsersTournamentsDAO usersTournamentsDAO ) {
 		this.tourneysDAO = tourneysDAO;
 		this.matchesDAO = matchesDAO;
 		this.usersDAO = usersDAO;
 		this.usersMatchesDAO = usersMatchesDAO;
+		this.usersTournamentsDAO = usersTournamentsDAO;
 		}	
 /******************************************************************************
 ***   ***   ***   *** Tournaments API Controllers ***   ***   ***   ***   ***
@@ -215,6 +217,13 @@ public class ApiController {
 		return matchesDAO.getAllMatchesInATourney(tourneyId);
 		}
 
+@RequestMapping		/* Update user tourney status */
+	(path = "/tournaments/{tourneyID}/{username}/{status}", method = RequestMethod.PUT)
+	public void changeUserTourneyStatus(@PathVariable String status, @PathVariable String username, @PathVariable int tourneyID) {
+		logRequest("update user tourney status");
+		usersTournamentsDAO.changeUsersTourneyStatus(status, username, tourneyID);
+		}
+
 /******************************************************************************
 ***   ***   ***   *** Users API Controllers ***   ***   ***   ***   ***
 *******************************************************************************/
@@ -245,7 +254,7 @@ public class ApiController {
 	public List<UsersMatches> getAllMatchesInUMByTourneyID(long tourneyID) {
 		logRequest("Getting all matches in um by tourneyID");
 		return tourneysDAO.getAllMatchesInUMByTourneyID(tourneyID);
-	}
+		}
 
 /********************************************************************************************************************* 
 * Use this method if you'd like to log calls to your controllers - these message can aid in your troubleshooting
@@ -256,7 +265,6 @@ public class ApiController {
 **********************************************************************************************************************/	
     static void logRequest(String message) {
     	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    	 
     	System.out.println(timestamp + " - " + message);
     }
 }
