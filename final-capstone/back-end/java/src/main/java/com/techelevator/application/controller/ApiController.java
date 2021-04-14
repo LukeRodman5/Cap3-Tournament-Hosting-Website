@@ -217,7 +217,7 @@ public class ApiController {
 
 
 @RequestMapping
-	(path = "/usersmatches/{winstatus)/{userID}/{matchID}", method = RequestMethod.PUT)
+	(path = "/usersmatches/{winStatus}/{userID}/{matchID}", method = RequestMethod.PUT)
 	public void updateUsersMatches(@PathVariable boolean winStatus, @PathVariable int userID, @PathVariable int matchID) {
 		logRequest("update Users_Matches table");
 		usersMatchesDAO.updateUserMatches(winStatus, userID, matchID);

@@ -10,25 +10,16 @@
       <p>Max Number of Participants: {{ currentTournament.maxNumOfParticipants }}</p>
       <p> Start Date: {{currentTournament.startDate}} | End Date: {{currentTournament.endDate}}</p>
       <button class="btnJoinTourney" v-on:click="joinTourney(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
-      <generate-tournament v-if="isHost"
+      <generate-tournament
         v-bind:currentTourney=currentTournament
         v-bind:usersInTourney=usersInTourney
         v-bind:matchesInTourney=matchesInTourney />
-    </div>
-
-    <div id="bracket">
-      <bracket :rounds="rounds">
-        <template slot="player" slot-scope="{ player }">
-            {{ player.name }}
-          </template>
-      </bracket>
     </div>
   </div>
 </template>
 
 <script>
 import applicationServices from "../services/ApplicationServices";
-import Bracket from "vue-tournament-bracket";
 import GenerateTournament from './GenerateTournament.vue';
 
 // const tbdPlayers = { name: "TBD", winner: null }
@@ -36,12 +27,10 @@ import GenerateTournament from './GenerateTournament.vue';
 export default {
   name: "tournament-detail",
   components: {
-    Bracket,
     GenerateTournament
   },
   data() {
     return {
-      isHost: false,
       isLoading: true,
       errorMsg: "",
       currentTournament: {},
@@ -58,7 +47,6 @@ export default {
     retrieveTournament() {
       applicationServices.getTournament(this.$route.params.tourneyID).then(response => {
         this.currentTournament = response.data
-        this.isHost = this.currentTournament.tourneyHost === this.$store.state.user.username
         this.getMatchesInTourney(this.$route.params.tourneyID)
         this.isLoading = false
       })
@@ -138,7 +126,7 @@ export default {
         applicationServices.createMatch(match, this.currentTournament.tourneyId).then((response) => {
           // Created match response
           if (response.status === 200 || response.status === 201) {
-            // this.matchesInTourney.push(response.data)
+            this.matchesInTourney.push(response.data)
           } else {
             console.log("Create match error")
           }
@@ -150,42 +138,6 @@ export default {
         }
       }
     }
-      // displayIniBracket
-      // let gamesHolder = {games: []}
-      // let match = {}
-      // let matchCount = 0;
-      // this.usersInTourney.forEach((user) => {
-      //   let player = {id: user.userId, name: user.username, winner: null}
-        
-      //   if (!('player1' in match)) {
-      //     match.player1 = player
-      //   } else {
-      //     match.player2 = player
-      //     gamesHolder.games.push(match)
-      //     match = {}
-      //     matchCount++
-      //   }
-      // })
-      // if (('player1' in match) && !('player2' in match)) {
-      //   match.player2 = tbdPlayers
-      //   gamesHolder.games.push(match)
-      //   match = {}
-      //   matchCount++
-      // }
-      // let iniRoundsCount = this.currentTournament.maxNumOfParticipants / 2
-      // for (let i = matchCount; i < iniRoundsCount; i++) {
-      //   match = {player1: tbdPlayers, player2: tbdPlayers}
-      //   gamesHolder.games.push(match)
-      //   match = {}
-      //   if (i === iniRoundsCount - 1) {
-      //     this.rounds.push(gamesHolder)
-      //     gamesHolder = {games: []}
-      //     if (iniRoundsCount >= 1) {
-      //       i = -1
-      //       iniRoundsCount = iniRoundsCount / 2
-      //     }
-      //   }
-      // }
   }//end of methods
 };
 </script>

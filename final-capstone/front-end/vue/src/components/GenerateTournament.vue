@@ -21,8 +21,8 @@
     <div id="bracket">
       <bracket :rounds="rounds">
         <template slot="player" slot-scope="{ player }">
-            {{ player.name }}
-          </template>
+            <div v-on:click="changeStatus(player)">{{ player.name }}</div>
+        </template>
       </bracket>
     </div>
 </div>
@@ -30,7 +30,7 @@
 
 <script>
 import applicationServices from '@/services/ApplicationServices.js'
-import Bracket from "vue-tournament-bracket";
+import Bracket from "vue-tournament-bracket"
 
 const tbdPlayers = { name: "TBD", winner: null }
 
@@ -42,6 +42,7 @@ export default {
     },
     data() {
         return {
+            isHost: false,
             matchesInDb: false,
             userMatchLink: [],
             rounds: []
@@ -71,53 +72,89 @@ export default {
         displayBracket() {
             let gamesHolder = {games: []}
             let match = {}
-            let matchCount = 0;
+            let matchCount = 0
+            let roundLevel = 0
 
             this.initialMatches.forEach((iniMatch) => {
+                let userIdsInMatch = this.userMatchLink.filter((link) => {
+                    return link.matchId === iniMatch.matchId
+                })
                 let player1 = this.usersInTourney.find((user) => {
-                    return user.username === iniMatch.player1
+                    return user.userId === userIdsInMatch[0].userId
                 })
                 let player2 = this.usersInTourney.find((user) => {
-                    return user.username === iniMatch.player2
+                    return user.userId === userIdsInMatch[1].userId
                 })
-                match.player1 = {id: player1.userId, name: player1.username, winner: null}
-                match.player2 = {id: player2.userId, name: player2.username, winner: null}
+                if (!userIdsInMatch[0].winStatus && !userIdsInMatch[1].winStatus) {
+                    userIdsInMatch[0].winStatus = null
+                    userIdsInMatch[1].winStatus = null
+                }
+                match.player1 = {id: player1.userId, name: player1.username, winner: userIdsInMatch[0].winStatus}
+                match.player2 = {id: player2.userId, name: player2.username, winner: userIdsInMatch[1].winStatus}
+
                 gamesHolder.games.push(match)
                 match = {}
                 matchCount++
             })
 
-            let iniMatchCount = this.currentTourney.maxNumOfParticipants / 2
-            if (matchCount === iniMatchCount) {
+            let matchCountPerRound = this.currentTourney.maxNumOfParticipants / 2
+            if (matchCount === matchCountPerRound) {
                 this.rounds.push(gamesHolder)
                 gamesHolder = {games: []}
-                iniMatchCount = iniMatchCount / 2
+                matchCountPerRound = matchCountPerRound / 2
                 matchCount = 0
             }
 
-            for (let i = matchCount; i < iniMatchCount; i++) {
-                match = {player1: tbdPlayers, player2: tbdPlayers}
+            for (let i = matchCount; i < matchCountPerRound; i++) {
+                // if (roundLevel > 0) {
+                //     for (let j = 0; j < this.rounds[0].length; j +=2) {
+                //         console.log('Hello')
+                //         if ((this.rounds[roundLevel - 1].games[j].player1.winner === true ||
+                //             this.rounds[roundLevel - 1].games[j].player2.winner === true) &&
+                //             (this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ||
+                //             this.rounds[roundLevel - 1].games[j + 1].player1.winner === true)) {
+                //             let match1Winner = this.rounds[roundLevel - 1].games[j].player1.winner === true ? this.rounds[roundLevel - 1].games[j].player1 : this.rounds[roundLevel - 1].games[j].player2
+                //             let match2Winner = this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ? this.rounds[roundLevel - 1].games[j + 1].player1 : this.rounds[roundLevel - 1].games[j + 1].player2
+                //             match = {player1: match1Winner, player2: match2Winner}
+                //         }
+                //     }
+                // } else {
+                    match = {player1: tbdPlayers, player2: tbdPlayers}
+                // }
                 gamesHolder.games.push(match)
                 match = {}
 
-                if (i === iniMatchCount - 1) {
+                if (i === matchCountPerRound - 1) {
                     this.rounds.push(gamesHolder)
+                    roundLevel++
                     gamesHolder = {games: []}
-                    if (iniMatchCount >= 1) {
+                    if (matchCountPerRound >= 1) {
                         i = -1
-                        iniMatchCount = iniMatchCount / 2
+                        matchCountPerRound = matchCountPerRound / 2
                     }
                 }
             }
         },
         getUserMatchLink() {
+            this.isHost = this.currentTourney.tourneyHost === this.$store.state.user.username
             applicationServices.getUserMatchLink(this.currentTourney.tourneyId).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     this.userMatchLink = response.data
                     if (this.userMatchLink.length > 0) {
                         this.matchesInDb = true
-                        console.log(this.userMatchLink)
+                        this.displayBracket()
                     }
+                }
+            })
+        },
+        changeStatus(player) {
+            let userInMatch = this.userMatchLink.find((link) => {
+                return link.userId === player.id
+            })
+            userInMatch.winStatus = true
+            applicationServices.updateWinStatus(userInMatch.winStatus, userInMatch.userId, userInMatch.matchId).then((response) => {
+                if (response.status === 200 || response.status === 201) {
+                    player.winner = true
                 }
             })
         }
@@ -136,5 +173,8 @@ export default {
 </script>
 
 <style scoped>
-
+#bracket {
+    display: flex;
+    justify-content: center;
+}
 </style>

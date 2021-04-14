@@ -57,5 +57,8 @@ export default{
     },
     getUserMatchLink(tourneyID) {
         return axios.get(`/user-matches/${tourneyID}`)
+    },
+    updateWinStatus(winStatus, userID, matchID) {
+        return axios.put(`/usersmatches/${winStatus}/${userID}/${matchID}`)
     }
 }
