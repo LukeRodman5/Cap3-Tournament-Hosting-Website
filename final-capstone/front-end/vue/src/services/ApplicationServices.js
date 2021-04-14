@@ -54,5 +54,8 @@ export default{
     },
     addUserToMatch(matchID, username) {
         return axios.post(`/matches/${matchID}/${username}`)
+    },
+    getUserMatchLink(tourneyID) {
+        return axios.get(`/user-matches/${tourneyID}`)
     }
 }
