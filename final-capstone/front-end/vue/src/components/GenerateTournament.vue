@@ -1,5 +1,6 @@
 <template>
-<div id="set-bracket-area">
+<div id="bracket-generator">
+    <div id="set-bracket-area"  v-if="!matchesInDb">
     <h1>Generate Tournament Helper</h1>
     <p>Hello! As host, use the below form to setup the tournament.</p>
     <div v-for="match in initialMatches" v-bind:key="match.matchId">
@@ -16,6 +17,7 @@
         v-bind:disabled="usersInTourney.length !== initialMatches.length * 2" 
         v-on:click.prevent="addToDatabase()"
     />
+    </div>
     <div id="bracket">
       <bracket :rounds="rounds">
         <template slot="player" slot-scope="{ player }">
@@ -40,7 +42,8 @@ export default {
     },
     data() {
         return {
-            bracketSet: false,
+            matchesInDb: false,
+            userMatchLink: [],
             rounds: []
         }
     },
@@ -62,6 +65,7 @@ export default {
                     }
                 })
             })
+            this.matchesInDb = true
             this.displayBracket()
         },
         displayBracket() {
@@ -105,6 +109,17 @@ export default {
                     }
                 }
             }
+        },
+        getUserMatchLink() {
+            applicationServices.getUserMatchLink(this.currentTourney.tourneyId).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    this.userMatchLink = response.data
+                    if (this.userMatchLink.length > 0) {
+                        this.matchesInDb = true
+                        console.log(this.userMatchLink)
+                    }
+                }
+            })
         }
     },
     computed: {
@@ -113,6 +128,9 @@ export default {
                 return match.roundLevel === 0
             })
         }
+    },
+    created() {
+        this.getUserMatchLink()
     }
 }
 </script>
