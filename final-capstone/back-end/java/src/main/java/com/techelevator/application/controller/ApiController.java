@@ -29,6 +29,13 @@ public class ApiController {
 ***   ***   ***   *** Tournaments API Controllers ***   ***   ***   ***   ***
 *******************************************************************************/
 
+@RequestMapping
+	(path = "/tournaments/user/{username}/status/{status}", method = RequestMethod.GET)
+	public List<Tourneys> tournamentsByUserStatus(@PathVariable String username, @PathVariable String status) {
+		logRequest("Getting all tournaments by Username and Status");
+		return tourneysDAO.getAllTourneysByUserStatus(username, status);
+}
+	
 @RequestMapping		/* Add a new Tournament to Database */
 	(path = "/tournaments", method = RequestMethod.POST)
 	public void addTournament(@RequestBody Tourneys tourney) {

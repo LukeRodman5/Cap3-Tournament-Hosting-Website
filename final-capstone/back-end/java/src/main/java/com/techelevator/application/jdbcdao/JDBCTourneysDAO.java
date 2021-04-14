@@ -97,10 +97,13 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 		long id = subQuery.getInt("user_id");
 		
-		String sql = "insert into tournaments (tourney_name, tourney_desc, tourney_host, start_date, end_date, tourney_is_active, "
-				   + "open_for_reg, participant_max, participant_num) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into tournaments (tourney_name, tourney_desc, "
+				   + "tourney_host, start_date, end_date, tourney_is_active, "
+				   + "open_for_reg, participant_max, participant_num) "
+				   + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
-		jdbcTemplate.update(sql, name, description, id, startDate, endDate, tourneyIsActive, regIsActive, maxNumberOfParticipants, numberOfParticipants);
+		jdbcTemplate.update(sql, name, description, id, startDate, endDate, 
+				tourneyIsActive, regIsActive, maxNumberOfParticipants, numberOfParticipants);
 		
 	}
 		
@@ -108,12 +111,15 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	@Override
 	public void updateATourney(Tourneys updatedTourney) {
 		String sql = "update tournaments set tourney_name = ?, tourney_desc = ?,  tourney_host = ?, "
-				+ "start_date = ?, end_date = ?, tourney_is_active = ?,"
-				+ "open_for_reg = ?, participant_max = ?, participant_num = ? "
-				+ "where tourney_id = ?";
+				   + "start_date = ?, end_date = ?, tourney_is_active = ?,"
+				   + "open_for_reg = ?, participant_max = ?, participant_num = ? "
+				   + "where tourney_id = ?";
 		
-		jdbcTemplate.update(sql, updatedTourney.getTourneyName(), updatedTourney.getTourneyDesc(), findHostByUsername(updatedTourney.getTourneyHost()),
-				updatedTourney.getStartDate(), updatedTourney.getEndDate(), updatedTourney.isActive(), updatedTourney.isOpenForReg(), updatedTourney.getMaxNumOfParticipants(),
+		jdbcTemplate.update(sql, updatedTourney.getTourneyName(), updatedTourney.getTourneyDesc(), 
+				findHostByUsername(updatedTourney.getTourneyHost()),
+				updatedTourney.getStartDate(), updatedTourney.getEndDate(), updatedTourney.isActive(), 
+				updatedTourney.isOpenForReg(), 
+				updatedTourney.getMaxNumOfParticipants(),
 				updatedTourney.getNumOfParticipants(), updatedTourney.getTourneyId());
 		
 	}
@@ -143,7 +149,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	// Add a user to a tournament
 	@Override
 	public void addUserToTourney(String username, int tourneyId, String status) {
-		String sql = "insert into users_tournaments (user_id, tourney_id, status) values ((select user_id from users where username = ?), ?, ?)";
+		String sql = "insert into users_tournaments (user_id, tourney_id, status) "
+				+ "values ((select user_id from users where username = ?), ?, ?)";
 		
 		jdbcTemplate.update(sql, username, tourneyId, status);
 		
@@ -152,7 +159,8 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	// Update a user from their current tournament to another
 	@Override
 	public void updateUserTourney(String username, int newTourneyId, int currentTourneyId) {
-		String sql = "update users_tournament set tourney_id = ? where user_id = (select user_id from users where username = ? and tourney_id = ?";
+		String sql = "update users_tournament set tourney_id = ? where user_id = "
+				+ "(select user_id from users where username = ? and tourney_id = ?";
 		
 		jdbcTemplate.update(sql, newTourneyId, username, currentTourneyId);
 	}
@@ -168,6 +176,23 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	}
 		
 
+	@Override
+	public List<Tourneys> getAllTourneysByUserStatus(String username, String userStatus) {
+		List<Tourneys> listOfTourneys = new ArrayList<>();
+		String sql = "select * from tournaments inner join users_tournaments "
+				   + "on tournaments.tourney_id = users_tournaments.tourney_id "
+				   + "where user_id = (select user_id from users where username = ?) "
+				   + "and status = ?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username, userStatus);
+		while(results.next()) {
+			Tourneys aTourney = mapRowToTourneys(results);
+			listOfTourneys.add(aTourney);
+		}
+		return listOfTourneys;
+		
+		
+	}
+	
 	@Override
 	public List<Tourneys> getTourneysByDate() { //Filtering will be done on FrontEnd side
 		// TODO Auto-generated method stub
@@ -246,7 +271,6 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		int id = subQuery.getInt("user_id");
 		return id;
 	}
-
 
 	
 }

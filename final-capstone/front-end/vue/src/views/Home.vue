@@ -29,7 +29,7 @@ export default {
 </script>
 <style>
 h2{
-  padding-left: 20px
+  padding-left: 50px
 }
 
 

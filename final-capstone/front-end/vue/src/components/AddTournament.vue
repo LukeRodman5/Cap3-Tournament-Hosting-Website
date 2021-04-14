@@ -1,5 +1,6 @@
 <template>
     <form v-on:submit.prevent="addTournament">
+        <h1>Create Tournament</h1>
         <label for="name">Tournament Name:</label>
         <input id="name" type="text" v-model="newTournament.tourneyName" />
 
@@ -81,6 +82,10 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-left:30%;
+    margin-right:30%;
+    margin-top: 20px;
+
 }
 form > * {
     margin: 5px;

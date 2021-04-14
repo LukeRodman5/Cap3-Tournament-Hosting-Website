@@ -22,16 +22,15 @@ export default {
     data(){
       return {
           users: [],
-          addedUsers: [],
-          failedUsers:[],
-          currentTournament: {},
+          selectedUsers: [],
           user: {
               userId: "",
               username: "",
-              selected: false
-          }//end of user
-          }  //end of return
-    },//end of data
+              selected: false,
+              status: ""
+          }
+      }  
+    },
     methods: {
       retrieveTournament() {
       applicationServices
@@ -44,32 +43,17 @@ export default {
             applicationServices.getAllUsers().then(response =>{
               this.users=response.data
             })//end of then
-        }, //end of getUsers
-        inviteUser(tourneyId){
-            for(let i=0; i<this.users.length; i++){
-              if(this.users[i].selected === true){
-                applicationServices.joinTourney(tourneyId, this.users[i].username, "Invited")
-                .then(response=>{
-                  console.log(response.status)
-                  if(response.status === 200 || response.status === 201){
-                    this.addedUsers.unshift(this.users[i])
-                    //let successAlert = toString(addedUsers)
-                    //console.log(successAlert)
-                  }//end of if successful status
-                })//end of then response
-              }//end of if selected
-            }//end of for loop
-/* 
-            if(addedUsers.length>0){
-              
-              
-            alert(`You have successfully invited users: addedUsers`)
+    },//end of get users
+
+        inviteUsers(){//any user selected will be added to table with pending status
+            selectedUsers.filter(user => user.selected === true)
+            for(i=0; i<this.selectedUsers.length; i++){
+                applicationServices.inviteUser(this.user.username, "pending").then(response =>{
+                    this.user=response.data
+                })
             }
-            if(failedUsers.length>0){
-              alert('Invite failed for users: failedUsers')
-            }
-             */
-        }//end of inviteUser
+
+        }
     },//end of methods
     created() {
         this.getUsers(),
@@ -90,7 +74,7 @@ form {
     box-shadow: 0px 5px 5px rgb(112, 112, 112);
 }
 button{
-    justify-content: space-around;
+    
 }
 tbody{
   text-align: center;

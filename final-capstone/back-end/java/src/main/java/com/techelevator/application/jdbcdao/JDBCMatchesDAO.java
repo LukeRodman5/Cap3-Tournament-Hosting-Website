@@ -16,10 +16,12 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		 	this.jdbcTemplate = jdbcTemplate;
 		 	}
 
+	 // Get all matches
 	@Override
 	 public List<Matches> getAllMatches() { // update to by tourneyId
 			List<Matches>listOfMatches = new ArrayList<>();
-			String sql = "select * from matches"; SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+			String sql = "select * from matches"; 
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 		 while(results.next()) {
 			Matches aMatch = mapRowToMatches(results);
 				listOfMatches.add(aMatch);
@@ -27,10 +29,12 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		 return listOfMatches;
 		 }
 
+	// Get all matches by matchID
 	@Override
 	 public List<Matches> getMatchById(int matchId) { // needs it by user id not match id
 			List<Matches>listOfMatches = new ArrayList<>();
-			String sql = "select * from matches where match_Id = ?"; SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchId);
+			String sql = "select * from matches where match_Id = ?"; 
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchId);
 		while(results.next()) {
 			Matches aMatch = mapRowToMatches(results);
 				listOfMatches.add(aMatch);
@@ -38,16 +42,21 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		 return listOfMatches;
 		 }
 	
+	// Get all matches currently in a tournament by tourneyID
 	@Override
 	public List<Matches> getAllMatchesInATourney(long tourneyID) {
 		   List<Matches>listOfMatches = new ArrayList<>();
-		   String sql = "select matches.match_id, round_level from matches inner join tournaments_matches on tournaments_matches.match_id = matches.match_id where tourney_id = ? order by round_level, matches.match_id";
+		   String sql = "select matches.match_id, round_level "
+		   		      + "from matches inner join tournaments_matches "
+		   		      + "on tournaments_matches.match_id "
+		   		      + "= matches.match_id where tourney_id "
+		   		      + "= ? order by round_level, matches.match_id";
 		   SqlRowSet results =jdbcTemplate.queryForRowSet(sql, tourneyID);
-		while(results.next()) {
-			Matches aMatch = new Matches();
-			aMatch.setMatchId(results.getLong("match_id"));
-			aMatch.setRoundLevel(results.getInt("round_level"));
-				listOfMatches.add(aMatch);
+		   while(results.next()) {
+			   Matches aMatch = new Matches();
+			   aMatch.setMatchId(results.getLong("match_id"));
+			   aMatch.setRoundLevel(results.getInt("round_level"));
+			   listOfMatches.add(aMatch);
 				}
 		 return listOfMatches;
 		 }
@@ -71,13 +80,14 @@ public class JDBCMatchesDAO implements MatchesDAO {
 //		return listOfMatches;
 //	}
 
-
+	// Create a match
 	@Override
 	 public int createAMatch(Matches newMatch, long tourneyId) { // needs specified
 			String sql = "insert into matches (start_time, start_date, round_level) values (?, ?, ?)"; 
 			jdbcTemplate.update(sql, newMatch.getStartTime(), newMatch.getStartDate(), newMatch.getRoundLevel());
 			
-			String secondSql = "insert into tournaments_matches (tourney_id, match_id) values (?,(select currval('matches_match_id_seq')))";
+			String secondSql = "insert into tournaments_matches (tourney_id, match_id) "
+					         + "values (?,(select currval('matches_match_id_seq')))";
 			jdbcTemplate.update(secondSql, tourneyId);
 			
 			String newSql = "select currval('matches_match_id_seq')"; 
@@ -86,45 +96,56 @@ public class JDBCMatchesDAO implements MatchesDAO {
 					return result.getInt(1);
 				}
 				return 0;
-		
 		}
 		
+	// Update a match row
 	@Override
 	 public void updateAMatch(LocalDate startDate, LocalDate startTime, int matchId) {
 			String sql = "update matches set where match_id = ?, start_time = ?, start_date = ?";
 			jdbcTemplate.update(sql, startDate, startTime, matchId);
 			}
 	
+	// Delete a match
 	@Override
 	 public void deleteAMatch(int matchId) { 							
 			String sql = "delete from matches where match_id = ?";
 			jdbcTemplate.update(sql, matchId);
 			}
 	
+	// Add a user to a match
 	@Override
 	 public void addUserToMatch(String username, int matchID) {
-			String sql = "insert into users_matches (user_id, match_id, win_status) values ((select user_id from users where username = ?), ?, null)";
+			String sql = "insert into users_matches (user_id, match_id, win_status) "
+					   + "values ((select user_id from users where username = ?), ?, null)";
 			jdbcTemplate.update(sql, username, matchID);
 			}
 	
+	// Move a user from one match to another
 	@Override
 	 public void updateUserToDiffMatch(int newMatchId, String username, int currentMatchId) {
-			String sql = "update users_matches set match_id = ? where user_id = (select user_id from users where username = ?) and match_id = ?";
+			String sql = "update users_matches set match_id = ? "
+					   + "where user_id = (select user_id from users where username = ?) "
+					   + "and match_id = ?";
 			jdbcTemplate.update(sql, newMatchId, username, currentMatchId);
 			}
 	
+	// Remove a user from a match they are currently in
 	@Override
 	public void removeUserFromMatch(String username, long matchID) {
-			String sql = "delete from users_matches where user_id = (select user_id from users where username = ?) and match_id = ?";
+			String sql = "delete from users_matches "
+					   + "where user_id = (select user_id from users where username = ?) "
+					   + "and match_id = ?";
 			jdbcTemplate.update(sql, username, matchID);
 			}
 	
+	// Add a match to a tournament
 	@Override
 	public void addAMatchToTourney(long tourneyId, long matchId) {
 			String sql = "insert into tournaments_matches (tourney_id, match_id) values (?,?)";
 			jdbcTemplate.update(sql, tourneyId, matchId);
 			}
 	
+	// Remove a match from a tournament
 	@Override
 	public void removeMatchFromTourney(long tourneyId, long matchId) {
 			String sql = "delete from tournaments_matches where tourney_id = ? and match_id = ?";
