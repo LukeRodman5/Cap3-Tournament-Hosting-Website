@@ -219,6 +219,8 @@ export default {
 
 .container{
   text-align: center;
+  margin-right: 2%;
+  margin-left: 2%;
 }
 
 </style>
