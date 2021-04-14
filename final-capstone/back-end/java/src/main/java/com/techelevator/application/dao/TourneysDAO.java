@@ -11,6 +11,7 @@ public interface TourneysDAO {
 	List<Tourneys> getTourneysByName(String username);
 	List<Tourneys> getTourneysByHostID(int hostID);
 	List<Users> getAllUsersInATourney(int tourneyId);
+	List<UsersMatches> getAllMatchesInUMByTourneyID(long tourneyID);
 	List<Tourneys> getAllTourneysByUserStatus(String username, String userStatus);
 	void createATourney(String tourneyName, String tourneyDesc, String tourneyHost, LocalDate startDate, 
 			            LocalDate endDate, boolean isActive, boolean regIsActive, int numOfParticipants, int maxNumOfParticipants);
@@ -28,6 +29,7 @@ public interface TourneysDAO {
 	int changeNumOfParticipants();
 	Long updateStartTime();
 	Tourneys getATourneyById(long Id);
+	
 	
 	
 }
