@@ -32,7 +32,7 @@ export default{
         return axios.delete(`/tournaments/${tourneyID}/users/${username}`)
     },
     changeUserTourneyStatus(tourneyID, username, status){
-        return axios.put(`/status/${tourneyID}/${username}/${status}`)
+        return axios.put(`/status/${status}/${username}/${tourneyID}`)
     },
     updateTournament(tournament, tourneyID){
         return axios.put(`/tournaments/${tourneyID}`, tournament)
