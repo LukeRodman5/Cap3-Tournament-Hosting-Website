@@ -23,10 +23,12 @@ public class ApiController {
 	private TourneysDAO tourneysDAO;
 	private MatchesDAO matchesDAO;
 	private UsersDAO usersDAO;
-	public ApiController(TourneysDAO tourneysDAO, MatchesDAO matchesDAO, UsersDAO usersDAO) {
+	private UsersMatchesDAO usersMatchesDAO;
+	public ApiController(TourneysDAO tourneysDAO, MatchesDAO matchesDAO, UsersDAO usersDAO, UsersMatchesDAO usersMatchesDAO) {
 		this.tourneysDAO = tourneysDAO;
 		this.matchesDAO = matchesDAO;
 		this.usersDAO = usersDAO;
+		this.usersMatchesDAO = usersMatchesDAO;
 		}	
 /******************************************************************************
 ***   ***   ***   *** Tournaments API Controllers ***   ***   ***   ***   ***
@@ -148,7 +150,7 @@ public class ApiController {
 	(path="/user-matches/{tourneyID}", method = RequestMethod.GET)
 	public List<Matches> getAllUserMatchesByTourneyID(@PathVariable long tourneyID) {
 		logRequest("Getting all user_matches by Tourney ID");
-		return matchesDAO.getAllMatchesInATourney(tourneyID);
+		return matchesDAO.getAllMatchesInUMByTourneyID(tourneyID);
 }
 
 @RequestMapping		/* Get matches by start date */
@@ -210,6 +212,16 @@ public class ApiController {
 	public List<Users> getAllUsers() {
 		logRequest("Getting all users");
 		return usersDAO.getAllUsers();}
+
+
+
+
+@RequestMapping
+	(path = "/usersmatches/{winstatus)/{userID}/{matchID}", method = RequestMethod.GET)
+	public void updateUsersMatches(@PathVariable boolean winStatus, @PathVariable int userID, @PathVariable int matchID) {
+		logRequest("update Users_Matches table");
+		usersMatchesDAO.updateUserMatches(winStatus, userID, matchID);
+}
 
 /********************************************************************************************************************* 
 * Use this method if you'd like to log calls to your controllers - these message can aid in your troubleshooting
