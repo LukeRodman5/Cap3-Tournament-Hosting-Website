@@ -96,7 +96,7 @@ div{
 	color: #444;
 }
 footer{
-  margin-top: 20px;
+  margin-top: 5px;
   background-color: lightgray;
   padding-bottom: 10px;
   padding-top: 10px;
