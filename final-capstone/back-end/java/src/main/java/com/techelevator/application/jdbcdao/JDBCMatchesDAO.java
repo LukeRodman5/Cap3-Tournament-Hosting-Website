@@ -52,24 +52,24 @@ public class JDBCMatchesDAO implements MatchesDAO {
 		 return listOfMatches;
 		 }
 	
-	@Override
-	public List<Matches> getAllMatchesInUMByTourneyID(long tourneyID) {
-		List<Matches>listOfMatches = new ArrayList<>();
-		String sql = "select user_id, matches.match_id, win_status "
-				+ "from users_matches "
-				+ "inner join matches "
-				+ "on matches.match_id = users_matches.match_id "
-				+ "inner join tournaments_matches "
-				+ "on matches.match_id = tournaments_matches.match_id "
-				+ "where tourney_id = ?";
-			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyID);
-			while(results.next()) {
-				Matches aMatch = mapRowToMatches(results);
-					listOfMatches.add(aMatch);
-			}
-		
-		return listOfMatches;
-	}
+//	@Override
+//	public List<Matches> getAllMatchesInUMByTourneyID(long tourneyID) {
+//		List<Matches>listOfMatches = new ArrayList<>();
+//		String sql = "select user_id, users_matches.match_id, win_status "
+//				+ "from users_matches "
+//				+ "inner join matches "
+//				+ "on matches.match_id = users_matches.match_id "
+//				+ "inner join tournaments_matches "
+//				+ "on matches.match_id = tournaments_matches.match_id "
+//				+ "where tourney_id = ?";
+//			SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tourneyID);
+//			while(results.next()) {
+//				Matches aMatch = mapRowToMatches(results);
+//					listOfMatches.add(aMatch);
+//			}
+//		
+//		return listOfMatches;
+//	}
 
 
 	@Override
