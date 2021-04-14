@@ -1,6 +1,6 @@
 <template>
 <div class="invites">
- <form v-on:submit.prevent="addUser">
+ <form v-on:submit.prevent="inviteUser(currentTournament.tourneyId)">
   <h1>Send Invites </h1>
   <tbody>
    <tr class="user-list" v-for="user in this.users" :key="user.username">
@@ -32,9 +32,16 @@ export default {
       }  
     },
     methods: {
+      retrieveTournament() {
+      applicationServices
+        .getTournament(this.$route.params.tourneyID)
+        .then(response => {
+          this.currentTournament = response.data
+              }
+          )},//end of retreiveTournament 
         getUsers(){
             applicationServices.getAllUsers().then(response =>{
-                this.users=response.data
+              this.users=response.data
             })//end of then
     },//end of get users
 
@@ -49,7 +56,8 @@ export default {
         }
     },//end of methods
     created() {
-        this.getUsers();
+        this.getUsers(),
+        this.retrieveTournament()
     }//end of created
     }//end of export
 

@@ -1,9 +1,10 @@
 <template>
   <div id="app">
+    
     <h1 class ="header">Tournament Manager</h1>
     <p class ="header">Your home for hosting, finding, and playing tournaments of all kinds</p>
     <p class ="user"> Hello {{$store.state.user.username}}! 
-      <i style='font-size:24px' class='fas'>&#xf406;</i>
+      <!-- <i style='font-size:24px' class='fas'>&#xf406;</i> -->
     </p>
     
 
