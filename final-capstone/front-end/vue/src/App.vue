@@ -29,6 +29,11 @@
   
 </template>
 <style>
+#app{
+  position: relative;
+  min-height: 100vh;
+  
+}
 html {
   background-color: rgb(245, 244, 244);
 }
@@ -97,10 +102,15 @@ footer{
   padding-top: 10px;
   align-items: center;
   text-align: center;
-  margin-right: 42%;
-  margin-left: 42%;
+  margin-right: 40%;
+  margin-left: 40%;
+  padding-right: 12px;
+  padding-left: 12px;
   border-radius: 25px;
   box-shadow: 0px 2px 2px rgb(112, 112, 112);
+  position: absolute;
+  bottom: 0;
+ 
 }
 
 
