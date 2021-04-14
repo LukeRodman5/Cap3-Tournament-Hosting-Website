@@ -21,7 +21,7 @@
     <div id="bracket">
       <bracket :rounds="rounds">
         <template slot="player" slot-scope="{ player }">
-            <div v-on:click="changeStatus(player)">{{ player.name }}</div>
+            <div class="bracket-name" v-on:click="changeToWin(player)">{{ player.name }}</div>
         </template>
       </bracket>
     </div>
@@ -53,23 +53,19 @@ export default {
             this.initialMatches.forEach((iniMatch) => {
                 applicationServices.addUserToMatch(iniMatch.matchId, iniMatch.player1).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
-                        console.log('Succuess')
-                    } else {
-                        console.log('Error')
-                    }
-                })
-                applicationServices.addUserToMatch(iniMatch.matchId, iniMatch.player2).then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        console.log('Succuess')
-                    } else {
-                        console.log('Error')
+                        applicationServices.addUserToMatch(iniMatch.matchId, iniMatch.player2).then((response) => {
+                            if (response.status >= 200 && response.status < 300) {
+                                console.log('Succuess')
+                                this.matchesInDb = true
+                                this.getUserMatchLink()
+                            }
+                        })
                     }
                 })
             })
-            this.matchesInDb = true
-            this.displayBracket()
         },
         displayBracket() {
+            this.rounds = []
             let gamesHolder = {games: []}
             let match = {}
             let matchCount = 0
@@ -100,27 +96,30 @@ export default {
             let matchCountPerRound = this.currentTourney.maxNumOfParticipants / 2
             if (matchCount === matchCountPerRound) {
                 this.rounds.push(gamesHolder)
+                roundLevel++
                 gamesHolder = {games: []}
                 matchCountPerRound = matchCountPerRound / 2
                 matchCount = 0
             }
 
             for (let i = matchCount; i < matchCountPerRound; i++) {
-                // if (roundLevel > 0) {
-                //     for (let j = 0; j < this.rounds[0].length; j +=2) {
-                //         console.log('Hello')
-                //         if ((this.rounds[roundLevel - 1].games[j].player1.winner === true ||
-                //             this.rounds[roundLevel - 1].games[j].player2.winner === true) &&
-                //             (this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ||
-                //             this.rounds[roundLevel - 1].games[j + 1].player1.winner === true)) {
-                //             let match1Winner = this.rounds[roundLevel - 1].games[j].player1.winner === true ? this.rounds[roundLevel - 1].games[j].player1 : this.rounds[roundLevel - 1].games[j].player2
-                //             let match2Winner = this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ? this.rounds[roundLevel - 1].games[j + 1].player1 : this.rounds[roundLevel - 1].games[j + 1].player2
-                //             match = {player1: match1Winner, player2: match2Winner}
-                //         }
-                //     }
-                // } else {
+                if (roundLevel > 0 && matchCountPerRound >= 1) {
+                    
+                    for (let j = 0; j < this.rounds[roundLevel - 1].games.length; j += 2) {
+                        if ((this.rounds[roundLevel - 1].games[j].player1.winner ||
+                            this.rounds[roundLevel - 1].games[j].player2.winner) &&
+                            (this.rounds[roundLevel - 1].games[j + 1].player1.winner ||
+                            this.rounds[roundLevel - 1].games[j + 1].player2.winner)) {
+                            let match1Winner = this.rounds[roundLevel - 1].games[j].player1.winner === true ? this.rounds[roundLevel - 1].games[j].player1 : this.rounds[roundLevel - 1].games[j].player2
+                            let match2Winner = this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ? this.rounds[roundLevel - 1].games[j + 1].player1 : this.rounds[roundLevel - 1].games[j + 1].player2
+                            console.log('Hello')
+                            match = {player1: match1Winner, player2: match2Winner}
+                            // this.updateFollowUpMatch(match, roundLevel, j)
+                        }
+                    }
+                } else {
                     match = {player1: tbdPlayers, player2: tbdPlayers}
-                // }
+                }
                 gamesHolder.games.push(match)
                 match = {}
 
@@ -147,14 +146,24 @@ export default {
                 }
             })
         },
-        changeStatus(player) {
+        changeToWin(player) {
             let userInMatch = this.userMatchLink.find((link) => {
                 return link.userId === player.id
             })
             userInMatch.winStatus = true
+
+            let otherUserInMatch = this.userMatchLink.find((link) => {
+                return link.userId !== player.id && link.matchId === userInMatch.matchId
+            })
+            otherUserInMatch.winStatus = false
+
             applicationServices.updateWinStatus(userInMatch.winStatus, userInMatch.userId, userInMatch.matchId).then((response) => {
                 if (response.status === 200 || response.status === 201) {
-                    player.winner = true
+                    applicationServices.updateWinStatus(otherUserInMatch.winStatus, otherUserInMatch.userId, otherUserInMatch.matchId).then((response) => {
+                        if (response.status === 200 || response.status === 201) {
+                            this.getUserMatchLink()
+                        }
+                    })
                 }
             })
         }
@@ -176,5 +185,8 @@ export default {
 #bracket {
     display: flex;
     justify-content: center;
+}
+.bracket-name {
+    color: white;
 }
 </style>
