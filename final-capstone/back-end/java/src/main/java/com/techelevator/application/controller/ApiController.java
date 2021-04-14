@@ -221,7 +221,7 @@ public class ApiController {
 	(path = "/tournaments/{tourneyID}/{username}/{status}", method = RequestMethod.PUT)
 	public void changeUserTourneyStatus(@PathVariable String status, @PathVariable String username, @PathVariable int tourneyID) {
 		logRequest("update user tourney status");
-		usersTournamentsDAO.changeUsersTourneyStatus(status, username, tourneyID);
+		usersTournamentsDAO.changeUserTourneyStatus(status, username, tourneyID);
 		}
 
 /******************************************************************************
