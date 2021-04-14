@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.techelevator.application.dao.TourneysDAO;
 import com.techelevator.application.model.Tourneys;
 import com.techelevator.application.model.Users;
+import com.techelevator.application.model.UsersMatches;
 @Component
 public class JDBCTourneysDAO implements TourneysDAO {
 	
@@ -270,6 +271,12 @@ public class JDBCTourneysDAO implements TourneysDAO {
 		
 		int id = subQuery.getInt("user_id");
 		return id;
+	}
+
+	@Override
+	public List<UsersMatches> getAllMatchesInUMByTourneyID(long tourneyID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
