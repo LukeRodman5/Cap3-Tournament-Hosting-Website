@@ -8,7 +8,7 @@
        <th class ="column" id ="column3">Start Date</th>
        <th class ="column" id ="column4">End Date</th>
        <th class ="column" id ="column5">Host</th>
-       <!-- <th class ="column" id ="column6">Status</th> -->
+       <th class ="column" id ="column6"></th>
       </tr>
     
       <tr>
@@ -16,7 +16,7 @@
           <input type="text" id="tournamentNameFilter" v-model="filter.tourneyName" />
         </td>
         <td>
-          <!-- <input type="text" id="descriptionFilter" v-model="filter.tourneyDesc" /> -->
+          <input type="text" id="descriptionFilter" v-model="filter.tourneyDesc" />
         </td>        
         <td>
           <input type="date" id="startDateFilter" v-model="filter.startDate" />
@@ -37,7 +37,7 @@
         </td>
       </tr>
 
-      <tr class="browse-list" v-for="tournament in filteredList" :key="tournament.tourneyId">
+      <tr class="browse-list" id="list" v-for="tournament in filteredList" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}} </td>
               <td class="start-date">{{tournament.startDate}}</td>
@@ -221,6 +221,10 @@ export default {
   text-align: center;
   margin-right: 2%;
   margin-left: 2%;
+}
+#list{
+  outline:solid  rgb(179, 179, 179) 1px;
+
 }
 
 </style>
