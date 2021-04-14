@@ -5,7 +5,6 @@
     </div>
     <div v-else id="tourney-desc">
       <h1>{{ currentTournament.tourneyName }}</h1>
-      <h2>Description</h2>
       <p>{{ currentTournament.tourneyDesc }}</p>
       <p>Max Number of Participants: {{ currentTournament.maxNumOfParticipants }}</p>
       <p> Start Date: {{currentTournament.startDate}} | End Date: {{currentTournament.endDate}}</p>
@@ -22,8 +21,6 @@
 import applicationServices from "../services/ApplicationServices";
 import GenerateTournament from './GenerateTournament.vue';
 
-// const tbdPlayers = { name: "TBD", winner: null }
-
 export default {
   name: "tournament-detail",
   components: {
@@ -35,22 +32,10 @@ export default {
       errorMsg: "",
       currentTournament: {},
       usersInTourney: [],
-      matchesInTourney: [],
-      rounds: []
+      matchesInTourney: []
     };
   },
-  created() {
-    this.getUsersInTourney(),
-    this.retrieveTournament()
-  },
   methods: {
-    retrieveTournament() {
-      applicationServices.getTournament(this.$route.params.tourneyID).then(response => {
-        this.currentTournament = response.data
-        this.getMatchesInTourney(this.$route.params.tourneyID)
-        this.isLoading = false
-      })
-    },
     deleteTournament() {
       if (confirm("Are you sure you want to delete this tournament? This action cannot be undone.")) {
         applicationServices.deleteTournament(this.currentTournament.tourneyID).then(response => {
@@ -79,24 +64,21 @@ export default {
       .then(response=>{
         if(response.status===200 || response.status===201){
           alert("You have successfully joined this tournament")
-          // this.currentTournament.numOfParticipants = this.currentTournament.numOfParticipants ++
-          // if(this.currentTournament.numOfParticipants >= this.currentTournament.maxNumOfParticipants){
-          //   this.currentTournament.openForReg = false
-          // }
-          // applicationServices.updateTournament(this.currentTournament, tourneyId)
-          // .then(response=>{
-          //   if(response.status === 200 || response.status===201){
-          //     alert("You have successfully joined this tournament")
-          //   }
-          // })
-        }//end of if
+        }
         else{
           alert("Attempt to join this tournament was unsuccessful.")
-        }//end of else
+        }
       this.$router.push("/")
       }) //end of then
     
-    },//end of joinTourney
+    },
+    retrieveTournament() {
+      applicationServices.getTournament(this.$route.params.tourneyID).then(response => {
+        this.currentTournament = response.data
+        this.getMatchesInTourney(this.$route.params.tourneyID)
+        this.isLoading = false
+      })
+    },
     getMatchesInTourney(tourneyId) {
       applicationServices.getMatchesInTourney(tourneyId).then((response) => {
         if (response.status === 200 || response.status === 201) {
@@ -123,8 +105,7 @@ export default {
       
       for (let i = 0; i < matchesCount; i++) {
         match = {startDate: null, startTime: null, roundLevel: roundCount}
-        applicationServices.createMatch(match, this.currentTournament.tourneyId).then((response) => {
-          // Created match response
+        applicationServices.createMatch(match, this.$route.params.tourneyID).then((response) => {
           if (response.status === 200 || response.status === 201) {
             this.matchesInTourney.push(response.data)
           } else {
@@ -138,7 +119,11 @@ export default {
         }
       }
     }
-  }//end of methods
+  },//end of methods
+  created() {
+    this.retrieveTournament(),
+    this.getUsersInTourney()
+  }
 };
 </script>
 

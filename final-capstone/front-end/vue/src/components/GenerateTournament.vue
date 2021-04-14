@@ -1,6 +1,6 @@
 <template>
-<div id="bracket-generator">
-    <div id="set-bracket-area"  v-if="!matchesInDb && isHost">
+<div id="bracket">
+    <div id="bracket-generator"  v-if="!matchesInDb && isHost">
         <h1>Generate Tournament Helper</h1>
         <p>Hello! As host, use the below form to setup the tournament.</p>
         <div v-for="match in initialMatches" v-bind:key="match.matchId">
@@ -13,12 +13,12 @@
         </select>
         </div>
         <input type="button" 
-            v-bind:value="(usersInTourney.length !== initialMatches.length * 2) ? 'Not enough users!' : 'Generate Tournament'"
-            v-bind:disabled="usersInTourney.length !== initialMatches.length * 2" 
+            v-bind:value="(usersInTourney.length < initialMatches.length * 2) ? 'Not enough users!' : 'Generate Tournament'"
+            v-bind:disabled="usersInTourney.length < initialMatches.length * 2" 
             v-on:click.prevent="addToDatabase()"
         />
     </div>
-    <div id="bracket">
+    <div id="bracket-area">
       <bracket :rounds="rounds">
         <template slot="player" slot-scope="{ player }">
             <div class="bracket-name" v-on:click="changeToWin(player)">{{ player.name }}</div>
@@ -63,7 +63,7 @@ export default {
                 })
             })
         },
-        displayBracket() {
+        setBracketData() {
             this.rounds = []
             let gamesHolder = {games: []}
             let match = {}
@@ -101,21 +101,21 @@ export default {
             }
 
             for (let i = matchCount; i < matchCountPerRound; i++) {
-                if (roundLevel > 0 && matchCountPerRound >= 1) {
+                // if (roundLevel > 0 && matchCountPerRound >= 1) {
                     
-                    for (let j = 0; j < this.rounds[roundLevel - 1].games.length; j += 2) {
-                        if ((this.rounds[roundLevel - 1].games[j].player1.winner ||
-                            this.rounds[roundLevel - 1].games[j].player2.winner) &&
-                            (this.rounds[roundLevel - 1].games[j + 1].player1.winner ||
-                            this.rounds[roundLevel - 1].games[j + 1].player2.winner)) {
-                            let match1Winner = this.rounds[roundLevel - 1].games[j].player1.winner === true ? this.rounds[roundLevel - 1].games[j].player1 : this.rounds[roundLevel - 1].games[j].player2
-                            let match2Winner = this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ? this.rounds[roundLevel - 1].games[j + 1].player1 : this.rounds[roundLevel - 1].games[j + 1].player2
-                            match = {player1: match1Winner, player2: match2Winner}
-                        }
-                    }
-                } else {
+                //     for (let j = 0; j < this.rounds[roundLevel - 1].games.length; j += 2) {
+                //         if ((this.rounds[roundLevel - 1].games[j].player1.winner ||
+                //             this.rounds[roundLevel - 1].games[j].player2.winner) &&
+                //             (this.rounds[roundLevel - 1].games[j + 1].player1.winner ||
+                //             this.rounds[roundLevel - 1].games[j + 1].player2.winner)) {
+                //             let match1Winner = this.rounds[roundLevel - 1].games[j].player1.winner === true ? this.rounds[roundLevel - 1].games[j].player1 : this.rounds[roundLevel - 1].games[j].player2
+                //             let match2Winner = this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ? this.rounds[roundLevel - 1].games[j + 1].player1 : this.rounds[roundLevel - 1].games[j + 1].player2
+                //             match = {player1: match1Winner, player2: match2Winner}
+                //         }
+                //     }
+                // } else {
                     match = {player1: tbdPlayers, player2: tbdPlayers}
-                }
+                // }
                 gamesHolder.games.push(match)
                 match = {}
 
@@ -129,6 +129,7 @@ export default {
                     }
                 }
             }
+            console.log(this.rounds)
         },
         getUserMatchLink() {
             this.isHost = this.currentTourney.tourneyHost === this.$store.state.user.username
@@ -137,7 +138,7 @@ export default {
                     this.userMatchLink = response.data
                     if (this.userMatchLink.length > 0) {
                         this.matchesInDb = true
-                        this.displayBracket()
+                        this.setBracketData()
                     }
                 }
             })
@@ -179,7 +180,7 @@ export default {
 </script>
 
 <style scoped>
-#bracket {
+#bracket-area {
     display: flex;
     justify-content: center;
 }
