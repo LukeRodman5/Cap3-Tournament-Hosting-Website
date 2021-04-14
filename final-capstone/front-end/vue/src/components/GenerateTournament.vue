@@ -1,22 +1,22 @@
 <template>
 <div id="bracket-generator">
-    <div id="set-bracket-area"  v-if="!matchesInDb">
-    <h1>Generate Tournament Helper</h1>
-    <p>Hello! As host, use the below form to setup the tournament.</p>
-    <div v-for="match in initialMatches" v-bind:key="match.matchId">
-    <h3>Set Match:</h3>
-    <select v-model="match.player1">
-        <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
-    </select>
-    <select v-model="match.player2">
-        <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
-    </select>
-    </div>
-    <input type="button" 
-        v-bind:value="(usersInTourney.length !== initialMatches.length * 2) ? 'Not enough users!' : 'Generate Tournament'"
-        v-bind:disabled="usersInTourney.length !== initialMatches.length * 2" 
-        v-on:click.prevent="addToDatabase()"
-    />
+    <div id="set-bracket-area"  v-if="!matchesInDb && isHost">
+        <h1>Generate Tournament Helper</h1>
+        <p>Hello! As host, use the below form to setup the tournament.</p>
+        <div v-for="match in initialMatches" v-bind:key="match.matchId">
+        <h3>Set Match:</h3>
+        <select v-model="match.player1">
+            <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
+        </select>
+        <select v-model="match.player2">
+            <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
+        </select>
+        </div>
+        <input type="button" 
+            v-bind:value="(usersInTourney.length !== initialMatches.length * 2) ? 'Not enough users!' : 'Generate Tournament'"
+            v-bind:disabled="usersInTourney.length !== initialMatches.length * 2" 
+            v-on:click.prevent="addToDatabase()"
+        />
     </div>
     <div id="bracket">
       <bracket :rounds="rounds">
@@ -55,7 +55,6 @@ export default {
                     if (response.status >= 200 && response.status < 300) {
                         applicationServices.addUserToMatch(iniMatch.matchId, iniMatch.player2).then((response) => {
                             if (response.status >= 200 && response.status < 300) {
-                                console.log('Succuess')
                                 this.matchesInDb = true
                                 this.getUserMatchLink()
                             }
@@ -92,7 +91,6 @@ export default {
                 match = {}
                 matchCount++
             })
-
             let matchCountPerRound = this.currentTourney.maxNumOfParticipants / 2
             if (matchCount === matchCountPerRound) {
                 this.rounds.push(gamesHolder)
@@ -112,9 +110,7 @@ export default {
                             this.rounds[roundLevel - 1].games[j + 1].player2.winner)) {
                             let match1Winner = this.rounds[roundLevel - 1].games[j].player1.winner === true ? this.rounds[roundLevel - 1].games[j].player1 : this.rounds[roundLevel - 1].games[j].player2
                             let match2Winner = this.rounds[roundLevel - 1].games[j + 1].player1.winner === true ? this.rounds[roundLevel - 1].games[j + 1].player1 : this.rounds[roundLevel - 1].games[j + 1].player2
-                            console.log('Hello')
                             match = {player1: match1Winner, player2: match2Winner}
-                            // this.updateFollowUpMatch(match, roundLevel, j)
                         }
                     }
                 } else {
@@ -176,7 +172,8 @@ export default {
         }
     },
     created() {
-        this.getUserMatchLink()
+        this.getUserMatchLink(),
+        this.isHost = this.currentTourney.tourneyHost === this.$store.state.user.username
     }
 }
 </script>
