@@ -43,7 +43,9 @@
               <td class="start-date">{{tournament.startDate}}</td>
               <td class="end-date">{{tournament.endDate}}</td>
               <td class="host">{{tournament.tourneyHost}}</td>
+              
               <router-link v-bind:to="{name: 'tournament-detail', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="View Details"></router-link>
+              
       </tr>
     </table>
  </div>

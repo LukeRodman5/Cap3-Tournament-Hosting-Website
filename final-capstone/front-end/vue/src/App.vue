@@ -1,10 +1,9 @@
 <template>
   <div id="app">
-    
-    <h1 class ="header">Tournament Manager</h1>
+    <h1 class ="header">Tournament Manager <i class="fas fa-table-tennis"></i></h1>
     <p class ="header">Your home for hosting, finding, and playing tournaments of all kinds</p>
     <p class ="user"> Hello {{$store.state.user.username}}! 
-      <!-- <i style='font-size:24px' class='fas'>&#xf406;</i> -->
+    <i class="fas fa-user"></i>      
     </p>
     
 
@@ -34,7 +33,7 @@ html {
 }
 
 #nav > a {
-  font-family:'Arial Narrow Bold', sans-serif;
+  font-family: times, Times New Roman, times-roman, georgia, serif;
   padding: 10px 40px 10px 40px;
   text-decoration: none;
   color: rgba(255, 255, 255, 0.781);
