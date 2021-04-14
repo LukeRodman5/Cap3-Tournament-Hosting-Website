@@ -22,15 +22,17 @@ export default {
     data(){
       return {
           users: [],
-          selectedUsers: [],
+          addedUsers:[],
+          failedUsers:[],
+          currentTournament:{},
           user: {
               userId: "",
               username: "",
               selected: false,
               status: ""
-          }
-      }  
-    },
+          }//end of user
+      }  //end of return
+    },  //end of data
     methods: {
       retrieveTournament() {
       applicationServices
@@ -45,15 +47,22 @@ export default {
             })//end of then
     },//end of get users
 
-        inviteUsers(){//any user selected will be added to table with pending status
-            selectedUsers.filter(user => user.selected === true)
-            for(i=0; i<this.selectedUsers.length; i++){
-                applicationServices.inviteUser(this.user.username, "pending").then(response =>{
-                    this.user=response.data
-                })
+        inviteUser(tourneyId){
+          for(let i= 0; i<this.users.length;i++){
+            if(this.users[i].selected===true){
+              applicationServices.joinTourney(tourneyId, this.users[i].username, "Invited")
+              .then(response=>{
+                console.log(response.status)
+                if(response.status === 200 || response.status===201){
+                  this.addedUsers.unshift(this.users[i])
+                  //let successAlert = toString(addedUsers)
+                  //console.log(successAlert)
+                }
+              })
             }
-
+          }
         }
+
     },//end of methods
     created() {
         this.getUsers(),

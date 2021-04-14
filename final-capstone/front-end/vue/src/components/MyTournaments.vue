@@ -99,7 +99,7 @@ export default {
     created(){
       this.getMyHostTournaments(),
       this.getMyPlayTournaments(),
-      this.getMyInvites 
+      this.getMyInvites() 
     },//end of create
     methods:{
       getMyHostTournaments(){
@@ -112,7 +112,7 @@ export default {
         })
       },
       getMyInvites(){
-        applicationServices.getTourneysByName(this.$store.state.user.username, "Invited").then(response =>{
+        applicationServices.tournamentsByUserStatus(this.$store.state.user.username, "Invited").then(response =>{
           this.$store.commit("SET_MY_INVITES", response.data)
           this.myInvites = this.$store.state.myInvites
         })
