@@ -87,6 +87,13 @@ public class ApiController {
 		return tourneysDAO.getTourneysByName(username);
 		}
 
+@RequestMapping 	/* Get all tourneys by user status */
+	(path = "/tourneys/{Id}/{username}/{userStatus}", method = RequestMethod.GET)
+	public List<Tourneys> getAllTourneysByUserStatus(@PathVariable String username, @PathVariable String userStatus){
+		logRequest("getAllTourneysByUserStatus");
+		return tourneysDAO.getAllTourneysByUserStatus(username, userStatus);
+		}
+
 @RequestMapping		/* Update a Tournament by tourney_id */
 	(path = "/tournaments/{Id}", method = RequestMethod.PUT)
 	public void tournamentUpdate(@RequestBody Tourneys tourney, @PathVariable long Id) {
