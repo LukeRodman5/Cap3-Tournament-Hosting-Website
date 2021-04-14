@@ -35,6 +35,7 @@ private Users mapRowToUsers(SqlRowSet results) {
 		return usersRow;
 		}
 
+// Get a list of all users currently in a tournament by tourneyID
 @Override
 public List<Users> getAllUsersInATourney(int tourneyId) {
 	   List<Users>listOfUsers = new ArrayList<>();
