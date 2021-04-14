@@ -57,8 +57,8 @@
           <th> Current Participants</th>
           <th> Maximum Participants</th>
         </thead>
-      <tbody id="tournament-play">
-            <tr v-for="tournament in this.myPlayTournaments" :key="tournament.tourneyId">
+      <tbody id="tournament-invites">
+            <tr v-for="tournament in this.myInvites" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
@@ -92,28 +92,36 @@ export default {
                 numOfParticipants:0
             },
             myHostTournaments:[],
-            myPlayTournaments:[]
+            myPlayTournaments:[],
+            myInvites:[]
         }//end of return
     },//end of data
     created(){
-      this.getMyHostTournaments() ,
-      this.getMyPlayTournaments() 
+      this.getMyHostTournaments(),
+      this.getMyPlayTournaments(),
+      this.getMyInvites 
     },//end of create
     methods:{
       getMyHostTournaments(){
         this.myHostTournaments = this.$store.state.tournaments.filter(tournament=>tournament.tourneyHost===this.$store.state.user.username)
       },
      getMyPlayTournaments(){
-        applicationServices.getTourneysByName(this.$store.state.user.username).then(response =>{
+        applicationServices.getTourneysByName(this.$store.state.user.username, "Approved").then(response =>{
           this.$store.commit("SET_MY_TOURNAMENTS", response.data)
           this.myPlayTournaments = this.$store.state.myTournaments
+        })
+      },
+      getMyInvites(){
+        applicationServices.getTourneysByName(this.$store.state.user.username, "Invited").then(response =>{
+          this.$store.commit("SET_MY_INVITES", response.data)
+          this.myInvites = this.$store.state.myInvites
         })
       },
       leaveTourney(tourneyId){
         console.log(tourneyId)
         console.log(this.$store.state.user.username)
       applicationServices.leaveTourney(tourneyId, this.$store.state.user.username)
-    .then(response=>{
+      .then(response=>{
       console.log(response.status)
         if(response.status>=200 && response.status<300){
           alert("You have successfully left this tournament.")
@@ -122,15 +130,33 @@ export default {
           alert("Attempt to leave this tournament was unsuccessful.")
         }//end of else
         this.$router.push("/")
-    } //end of then
-    )},//end of leaveTourney
-     declineInvite(){
+      } //end of then
+      )},//end of leaveTourney
+      declineInvite(tourneyId){
+        applicationServices.leaveTourney(tourneyId, this.$store.state.user.username)
+        .then(response=>{
+          console.log(response.status)
+          if(response.status>=200 && response.status<300){
+            alert("You have declined this tournament")
+          }
+          else{
+            alert("Failed. This tournament has not been declined.")
+          }
+        })
+      },//end of declineInvite
 
-     },
-     acceptInvite(){
-
-     }
-
+      acceptInvite(tourneyId){
+       applicationServices.changeUserTourneyStatus(tourneyId, this.$store.state.user.username, "Approved")
+       .then(response=>{
+         console.log(response.status)
+         if(response.status>=200 && response.status<300){
+           alert("Invitation accepted. You have successfully joined this tournament.")
+         }//end of if
+         else{
+           alert("Failed. This tournament has not been joined.")
+         }//end of else
+       }//end of then
+       )}//end of acceptInvite
     }   
 }
 </script>

@@ -22,6 +22,7 @@ export default new Vuex.Store({
     user: currentUser || {},
     tournaments: [],
     myTournaments:[],
+    myInvites:[],
     users: []
 
   },
@@ -50,6 +51,9 @@ export default new Vuex.Store({
     },//end set_current_tournament
     SET_MY_TOURNAMENTS(state,data){
       state.myTournaments=data
+    },
+    SET_MY_INVITES(state,data){
+      state.myInvites=data
     },
     SET_USERS(state, data) {
       state.users=data
