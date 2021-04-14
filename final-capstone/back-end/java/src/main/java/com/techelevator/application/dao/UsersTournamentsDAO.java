@@ -6,6 +6,6 @@ import com.techelevator.application.model.UsersTournaments;
 
 public interface UsersTournamentsDAO {
 
-	List<UsersTournaments> getAllTourneysByUserStatus();
+	void changeUserTourneyStatus(String status, String username, int tourneyID);
 	
 }

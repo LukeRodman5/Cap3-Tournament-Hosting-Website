@@ -159,7 +159,7 @@ public class JDBCTourneysDAO implements TourneysDAO {
 	// Update a user from their current tournament to another
 	@Override
 	public void updateUserTourney(String username, int newTourneyId, int currentTourneyId) {
-		String sql = "update users_tournament set tourney_id = ? where user_id = "
+		String sql = "update users_tournaments set tourney_id = ? where user_id = "
 				+ "(select user_id from users where username = ? and tourney_id = ?";
 		
 		jdbcTemplate.update(sql, newTourneyId, username, currentTourneyId);
