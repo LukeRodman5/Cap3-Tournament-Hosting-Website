@@ -3,7 +3,9 @@
     <h1 class ="header">Tournament Manager</h1>
     <p class ="header">Your home for hosting, finding, and playing tournaments of all kinds</p>
     <p class ="user"> Hello {{$store.state.user.username}}! 
+      <i style='font-size:24px' class='fas'>&#xf406;</i>
     </p>
+    
 
     <div id="nav">
       <router-link v-bind:to="{ name: 'home' }">Home</router-link>
@@ -49,19 +51,35 @@ a.router-link-exact-active {
 }
 h1{
   text-align: center;
+  font-family: times, Times New Roman, times-roman, georgia, serif;
+	color: #444;
+	margin: 0;
+	padding: 0px 0px 6px 0px;
+	font-size: 51px;
+	line-height: 44px;
+	letter-spacing: -2px;
+	font-weight: bold;
 }
 p{
   text-align: center;
+  font-family: times, Times New Roman, times-roman, georgia, serif;
+	color: #444;
 }
 .user{
   text-align: right;
   padding-right: 20px;
+  font-family: times, Times New Roman, times-roman, georgia, serif;
+	color: #444;
 }
 h2{
   text-align: left;
 }
 .user:hover{
   color:blue
+}
+div{
+  font-family: times, Times New Roman, times-roman, georgia, serif;
+	color: #444;
 }
 
 

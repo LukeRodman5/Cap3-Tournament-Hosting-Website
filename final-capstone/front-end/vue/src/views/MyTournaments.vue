@@ -1,6 +1,6 @@
  <template>
     <div>
-        <h1>My Tournaments</h1>
+        <h1 class="MyTournaments">My Tournaments</h1>
         <my-tournaments/>
     </div>
 </template>
@@ -15,5 +15,12 @@ export default {
 </script>
  
  <style>
+ .MyTournaments{
+   text-align: right;
+   padding-top: 10px;
+   font-size: 30pt;
+   padding-right: 30px;
+   background-color: white;
+ }
  
  </style>

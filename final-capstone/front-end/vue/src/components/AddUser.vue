@@ -22,10 +22,12 @@ export default {
     data(){
       return {
           users: [],
+          selectedUsers: [],
           user: {
               userId: "",
               username: "",
-              selected: false
+              selected: false,
+              status: ""
           }
       }  
     },
@@ -34,7 +36,17 @@ export default {
             applicationServices.getAllUsers().then(response =>{
                 this.users=response.data
             })//end of then
-    }//end of get users
+    },//end of get users
+
+        inviteUsers(){//any user selected will be added to table with pending status
+            selectedUsers.filter(user => user.selected === true)
+            for(i=0; i<this.selectedUsers.length; i++){
+                applicationServices.inviteUser(this.user.username, "pending").then(response =>{
+                    this.user=response.data
+                })
+            }
+
+        }
     },//end of methods
     created() {
         this.getUsers();
@@ -54,7 +66,7 @@ form {
     box-shadow: 0px 5px 5px rgb(112, 112, 112);
 }
 button{
-    justify-content: space-around;
+    
 }
 tbody{
   text-align: center;

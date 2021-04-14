@@ -4,12 +4,12 @@
     <h2> Tournaments I'm Hosting</h2>
     <table class = "host">    
         <thead>
-          <th> Tournament Name</th>
-          <th> Tournament Description</th>
-          <th> Start Date</th>
-          <th> End Date</th>
-          <th> Current Participants</th>
-          <th> Maximum Participants</th>
+          <th id="column1"> Tournament Name</th>
+          <th id="column2"> Tournament Description</th>
+          <th id="column3"> Start Date</th>
+          <th id="column4"> End Date</th>
+          <th id="column5"> Current Participants</th>
+          <th id="column6"> Maximum Participants</th>
         </thead>
       <tbody id="tournament-host">
            <tr v-for="tournament in this.myHostTournaments" :key="tournament.tourneyId">
@@ -19,7 +19,7 @@
               <td class="end-date">{{tournament.endDate}}</td>
               <td class="participants">{{tournament.numOfParticipants}}</td>
               <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
-              <router-link v-bind:to="{name: 'manage-tournament', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="Manage Tournament"></router-link>
+              <router-link v-bind:to="{name: 'manage-tournament', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="Manage"></router-link>
             </tr>
       </tbody>
     </table>
@@ -27,12 +27,12 @@
     <h2> Tournaments I'm Playing</h2>
     <table class = "play">
       <thead>
-          <th> Tournament Name</th>
-          <th> Tournament Description</th>
-          <th> Start Date</th>
-          <th> End Date</th>
-          <th> Current Participants</th>
-          <th> Maximum Participants</th>
+          <th id="column1"> Tournament Name</th>
+          <th id="column2"> Tournament Description</th>
+          <th id="column3"> Start Date</th>
+          <th id="column4"> End Date</th>
+          <th id="column5"> Current Participants</th>
+          <th id="column6"> Maximum Participants</th>
         </thead>
       <tbody id="tournament-play">
             <tr v-for="tournament in this.myPlayTournaments" :key="tournament.tourneyId">
@@ -42,20 +42,20 @@
               <td class="end-date">{{tournament.endDate}}</td>
               <td class="participants">{{tournament.numOfParticipants}}</td>
               <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
-              <button class="btnLeaveTourney" v-on:click="leaveTourney(tournament.tourneyId)">Leave Tournament</button>
-              <router-link v-bind:to="{name: 'tournament-detail', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="Tournament Details"></router-link>
+              <button class="btnLeaveTourney" v-on:click="leaveTourney(tournament.tourneyId)">Leave</button>
+              <router-link v-bind:to="{name: 'tournament-detail', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="Details"></router-link>
             </tr>
       </tbody>
     </table>
     <h2> My Invites</h2>
     <table class = "play">
       <thead>
-          <th> Tournament Name</th>
-          <th> Tournament Description</th>
-          <th> Start Date</th>
-          <th> End Date</th>
-          <th> Current Participants</th>
-          <th> Maximum Participants</th>
+          <th id="column1"> Tournament Name</th>
+          <th id="column2"> Tournament Description</th>
+          <th id="column3"> Start Date</th>
+          <th id="column4"> End Date</th>
+          <th id="column5"> Current Participants</th>
+          <th id="column6"> Maximum Participants</th>
         </thead>
       <tbody id="tournament-play">
             <tr v-for="tournament in this.myPlayTournaments" :key="tournament.tourneyId">
@@ -65,7 +65,7 @@
               <td class="end-date">{{tournament.endDate}}</td>
               <td class="participants">{{tournament.numOfParticipants}}</td>
               <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
-              <button class="btnAcceptInvite" v-on:click="acceptInvite(currentTournament.tourneyId, $store.state.user.username)">Join Tournament</button>
+              <button class="btnAcceptInvite" v-on:click="acceptInvite(currentTournament.tourneyId, $store.state.user.username)">Join</button>
               <button class="btnDeclineInvite" v-on:click="declineInvite(tournament.tourneyId)">Decline</button>
             </tr>
       </tbody>
@@ -164,6 +164,39 @@ export default {
 
  box-shadow: 0px 5px 5px rgb(112, 112, 112);
 }
+ #column1{
+   grid-area: column1;
+   background-color: rgb(235, 235, 235);
+   
+ }
+  #column2{
+   grid-area: column2;
+   background-color: rgb(235, 235, 235);
+   
+ }
+  #column3{
+   grid-area: column3;
+   background-color: rgb(235, 235, 235);
+ }
+  #column4{
+   grid-area: column4;
+   background-color: rgb(235, 235, 235);
+   
+ }
+  #column5{
+   grid-area: column5;
+   background-color: rgb(235, 235, 235);
+ }
+  #column6{
+   grid-area: column6;
+   background-color: rgb(235, 235, 235);
+ }
+  #name{
+    grid-area: column1;
+  }
+   #description{
+     grid-area: column2;
+   }
 
 
 </style>
