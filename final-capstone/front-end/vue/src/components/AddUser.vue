@@ -1,6 +1,6 @@
 <template>
 <div class="invites">
- <form v-on:submit.prevent="addUser">
+ <form v-on:submit.prevent="inviteUser(currentTournament.tourneyId)">
   <h1>Send Invites </h1>
   <tbody>
    <tr class="user-list" v-for="user in this.users" :key="user.username">
@@ -22,22 +22,58 @@ export default {
     data(){
       return {
           users: [],
+          addedUsers: [],
+          failedUsers:[],
+          currentTournament: {},
           user: {
               userId: "",
               username: "",
               selected: false
-          }
-      }  
-    },
+          }//end of user
+          }  //end of return
+    },//end of data
     methods: {
+      retrieveTournament() {
+      applicationServices
+        .getTournament(this.$route.params.tourneyID)
+        .then(response => {
+          this.currentTournament = response.data
+              }
+          )},//end of retreiveTournament 
         getUsers(){
             applicationServices.getAllUsers().then(response =>{
-                this.users=response.data
+              this.users=response.data
             })//end of then
-    }//end of get users
+        }, //end of getUsers
+        inviteUser(tourneyId){
+            for(let i=0; i<this.users.length; i++){
+              if(this.users[i].selected === true){
+                applicationServices.joinTourney(tourneyId, this.users[i].username, "Invited")
+                .then(response=>{
+                  console.log(response.status)
+                  if(response.status === 200 || response.status === 201){
+                    this.addedUsers.unshift(this.users[i])
+                    //let successAlert = toString(addedUsers)
+                    //console.log(successAlert)
+                  }//end of if successful status
+                })//end of then response
+              }//end of if selected
+            }//end of for loop
+/* 
+            if(addedUsers.length>0){
+              
+              
+            alert(`You have successfully invited users: addedUsers`)
+            }
+            if(failedUsers.length>0){
+              alert('Invite failed for users: failedUsers')
+            }
+             */
+        }//end of inviteUser
     },//end of methods
     created() {
-        this.getUsers();
+        this.getUsers(),
+        this.retrieveTournament()
     }//end of created
     }//end of export
 
