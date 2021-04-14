@@ -1,6 +1,6 @@
  <template>
     <div>
-        <h1>Add Tournament</h1>
+
         <add-tournament/>
     </div>
 </template>
