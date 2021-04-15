@@ -56,8 +56,13 @@ export default {
                 if(response.status === 200 || response.status===201){
                   this.addedUsers.unshift(this.users[i])
                   alert("Invite successful!")
+                  // this.$router.push(`/tournaments/${this.$store.state.user.username}`)
+                  this.$router.push("/")
                   //let successAlert = toString(addedUsers)
                   //console.log(successAlert)
+                }
+                else{
+                  alert("Invite unsuccessful. User(s) are already part of the tournament.")
                 }
               })
             }
