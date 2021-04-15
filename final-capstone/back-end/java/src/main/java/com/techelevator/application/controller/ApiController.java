@@ -180,10 +180,10 @@ public class ApiController {
 		}
 
 @RequestMapping		/* Add user to match */
-	(path = "/matches/{matchID}/{username}", method = RequestMethod.POST)
-	public void addAUserToAMatch(@PathVariable int matchID, @PathVariable String username) {
+	(path = "/matches/{matchID}/{username}/{playerNum}", method = RequestMethod.POST)
+	public void addAUserToAMatch(@PathVariable int matchID, @PathVariable String username, @PathVariable int playerNum) {
 		logRequest("Adding a user to a match");
-		matchesDAO.addUserToMatch(username, matchID);
+		usersMatchesDAO.addUserToMatch(username, matchID, playerNum);
 		}
 
 @ResponseStatus(HttpStatus.NO_CONTENT)
