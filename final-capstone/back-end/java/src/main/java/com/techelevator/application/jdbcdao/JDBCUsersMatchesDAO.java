@@ -28,13 +28,13 @@ public class JDBCUsersMatchesDAO implements UsersMatchesDAO {
 	 public void addUserToMatch(String username, int matchID, int playerNum) {
 			String sql = "insert into users_matches (user_id, match_id, win_status, player_num) "
 					   + "values ((select user_id from users where username = ?), ?, null, ?)";
-			jdbcTemplate.update(sql, username, matchID);
+			jdbcTemplate.update(sql, username, matchID, playerNum);
 			}
 	
 	@Override
 	public List<UsersMatches> getAllMatchesInUMByTourneyID(long tourneyID) {
 		List<UsersMatches>listOfUsersMatches = new ArrayList<>();
-		String sql = "select user_id, users_matches.match_id, win_status "
+		String sql = "select user_id, users_matches.match_id, win_status, player_num "
 				+ "from users_matches "
 				+ "inner join matches "
 				+ "on matches.match_id = users_matches.match_id "
@@ -47,6 +47,7 @@ public class JDBCUsersMatchesDAO implements UsersMatchesDAO {
 				aUserMatch.setUserId(results.getInt("user_id"));
 				aUserMatch.setMatchId(results.getInt("match_id"));
 				aUserMatch.setWinStatus(results.getBoolean("win_status"));
+				aUserMatch.setPlayerNum(results.getInt("player_num"));
 				listOfUsersMatches.add(aUserMatch);
 					}
 			 return listOfUsersMatches;

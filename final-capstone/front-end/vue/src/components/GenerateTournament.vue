@@ -4,24 +4,31 @@
         <h1>Generate Tournament Helper</h1>
         <p>Hello! As host, use the below form to setup the tournament.</p>
         <div id="rounds-form">
-            <div v-for="match in matchesInTourney" v-bind:key="match.matchId">
-                <h3>Set Match:</h3>
-                <select v-model="match.player1Name">
-                    <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
-                </select>
-                <select v-model="match.player2Name">
-                    <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
-                </select>
-                <input type="radio" v-model="match.playerWin" value="1" />
-                <label>Switch Winners</label>
-                <!-- <input type="radio" v-model="match.playerWin" value="2" />
-                <input type="radio" v-model="match.playerWin" value="3" /> -->
+            <div v-for="round in eachRoundSegment" v-bind:key="round.id">
+                <h3>{{ round === eachRoundSegment[eachRoundSegment.length - 1] ? 'Finals' : 'Round' }}</h3>
+                <div class="round-setup" v-for="match in round" v-bind:key="match.matchId">
+                    <h3>Set Match:</h3>
+                    <select v-model="match.player1Name">
+                        <option value=""></option>
+                        <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
+                    </select>
+                    <select v-model="match.player2Name">
+                        <option value=""></option>
+                        <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
+                    </select>
+                    <div id="choose-winner">
+                        <p>Select Winner:</p>
+                        <label><input type="radio" v-model="match.playerWin" value="1" v-bind:name="match.matchId" />Player 1</label>
+                        <label><input type="radio" v-model="match.playerWin" value="2" v-bind:name="match.matchId" />Player 2</label>
+                        <label><input type="radio" v-model="match.playerWin" value="3" v-bind:name="match.matchId" />None</label>
+                    </div>
+                </div>
             </div>
-            <input type="button" id="generate-button"
-                v-bind:value="'Generate Tournament'"
-                v-on:click.prevent="checkDelete()"
-            />
         </div>
+        <input type="button" id="generate-button"
+            v-bind:value="'Generate Tournament'"
+            v-on:click.prevent="checkDelete()"
+        />
     </div>
     <div id="bracket">
       <bracket :rounds="rounds">
@@ -49,6 +56,7 @@ export default {
         return {
             isHost: false,
             userMatchLink: [],
+            eachRoundSegment: [],
             rounds: []
         }
     },
@@ -71,28 +79,35 @@ export default {
                 })
 
                 if (currentUsersInMatch.length > 0) {
-                    // if (currentMatch.playerWin == 1) {
-                    //     player1 = {name: currentMatch.player1Name, winner: true}
-                    //     player2 = {name: currentMatch.player2Name, winner: false}
-                    // } else if (currentMatch.playerWin == 2) {
-                    //     player1 = {name: currentMatch.player1Name, winner: false}
-                    //     player2 = {name: currentMatch.player2Name, winner: true}
-                    // } else {
-                    //     player1 = {name: currentMatch.player1Name, winner: null}
-                    //     player2 = {name: currentMatch.player2Name, winner: null}
-                    // }
+                    let player1InMatch = currentUsersInMatch.find((link) => {
+                        return link.playerNum == 1
+                    })
+                    let player2InMatch = currentUsersInMatch.find((link) => {
+                        return link.playerNum == 2
+                    })
+                    
                     let player1Info = this.usersInTourney.find((user) => {
-                        return user.userId === currentUsersInMatch[0].userId
+                        return player1InMatch.userId === user.userId
                     })
                     let player2Info = this.usersInTourney.find((user) => {
-                        return user.userId === currentUsersInMatch[1].userId
+                        return player2InMatch.userId === user.userId
                     })
+
                     currentMatch.player1Name = player1Info.username
                     currentMatch.player2Name = player2Info.username
-                    currentMatch.winnerStatus
-                    
-                    player1 = {name: currentMatch.player1Name, winner: currentUsersInMatch[0].winStatus}
-                    player2 = {name: currentMatch.player2Name, winner: currentUsersInMatch[1].winStatus}
+
+                    if (!player1InMatch.winStatus && !player2InMatch.winStatus) {
+                        currentMatch.playerWin = 3
+                        player1InMatch.winStatus = null
+                        player2InMatch.winStatus = null
+                    } else if (player1InMatch.winStatus) {
+                        currentMatch.playerWin = 1
+                    } else {
+                        currentMatch.playerWin = 2
+                    }
+
+                    player1 = {id: player1Info.userId, name: currentMatch.player1Name, winner: player1InMatch.winStatus}
+                    player2 = {id: player2Info.userId, name: currentMatch.player2Name, winner: player2InMatch.winStatus}
 
                     match = {player1: player1, player2: player2}
                 } else {
@@ -146,18 +161,40 @@ export default {
             let player2Info = this.usersInTourney.find((user) => {
                 return user.username === currentMatch.player2Name
             })
+
+            // if (player1Info != undefined) {
+            //     applicationServices.addUserToMatch(currentMatch.matchId, player1Info.username, 1)
+            // }
+            // if (player2Info != undefined) {
+            //     applicationServices.addUserToMatch(currentMatch.matchId, player2Info.username, 2)
+            // }
+            // if (currentMatch.playerWin == 1) {
+            //     applicationServices.updateWinStatus(true, player1Info.userId, currentMatch.matchId)
+            //     applicationServices.updateWinStatus(false, player2Info.userId, currentMatch.matchId)
+            // } else if (currentMatch.playerWIn == 2) {
+            //     applicationServices.updateWinStatus(false, player1Info.userId, currentMatch.matchId)
+            //     applicationServices.updateWinStatus(true, player2Info.userId, currentMatch.matchId)
+            // } else {
+            //     applicationServices.updateWinStatus(false, player1Info.userId, currentMatch.matchId)
+            //     applicationServices.updateWinStatus(false, player2Info.userId, currentMatch.matchId)
+            // }
+            // this.getUserMatchLink()
+
             if (player1Info != undefined) {
-                applicationServices.addUserToMatch(currentMatch.matchId, player1Info.username).then((response) => {
+                applicationServices.addUserToMatch(currentMatch.matchId, player1Info.username, 1).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         if (player2Info != undefined) {
-                            applicationServices.addUserToMatch(currentMatch.matchId, player2Info.username).then((response) => {
+                            applicationServices.addUserToMatch(currentMatch.matchId, player2Info.username, 2).then((response) => {
                                 if (response.status >= 200 && response.status < 300) {
                                     if (currentMatch.playerWin == 1) {
                                         applicationServices.updateWinStatus(true, player1Info.userId, currentMatch.matchId)
                                         applicationServices.updateWinStatus(false, player2Info.userId, currentMatch.matchId)
-                                    } else if (currentMatch.playerWIn == 2) {
+                                    } else if (currentMatch.playerWin == 2) {
                                         applicationServices.updateWinStatus(false, player1Info.userId, currentMatch.matchId)
                                         applicationServices.updateWinStatus(true, player2Info.userId, currentMatch.matchId)
+                                    } else {
+                                        applicationServices.updateWinStatus(false, player1Info.userId, currentMatch.matchId)
+                                        applicationServices.updateWinStatus(false, player2Info.userId, currentMatch.matchId)
                                     }
                                     this.getUserMatchLink()
                                 }
@@ -174,11 +211,29 @@ export default {
                     this.createBracket()
                 }
             })
+        },
+        seperatedRounds() {
+            let maxRound = this.matchesInTourney[this.matchesInTourney.length - 1].roundLevel
+            for (let i = 0; i <= maxRound; i++) {
+                let roundArray = this.matchesInTourney.filter((match) => {
+                    return match.roundLevel === i
+                })
+                this.eachRoundSegment.push(roundArray)
+            }
+        },
+        checkResponse() {
+            applicationServices.getUserMatchLink(this.currentTourney.tourneyId).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    this.seperatedRounds()
+                    this.createBracket()
+                }
+            })
         }
     },
     created() {
         this.isHost = this.currentTourney.tourneyHost === this.$store.state.user.username,
-        this.getUserMatchLink()
+        this.getUserMatchLink(),
+        this.checkResponse()
     }
 }
 </script>
@@ -187,15 +242,19 @@ export default {
 #rounds-form {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     gap: 30px;
+}
+.round-setup {
+    align-items: center;
+}
+#generate-button {
+    margin: 20px auto 20px auto;
 }
 #bracket {
     display: flex;
     justify-content: center;
-}
-#generate-button {
-    margin-top: 15px;
-    margin-bottom: 30px;
+    padding-bottom: 50px;
 }
 .bracket-name {
     color: white;

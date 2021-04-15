@@ -55,8 +55,8 @@ export default{
     addMatchToTourney(tourneyID, matchID) {
         return axios.post(`/tournaments/${tourneyID}/matches/${matchID}`)
     },
-    addUserToMatch(matchID, username) {
-        return axios.post(`/matches/${matchID}/${username}`)
+    addUserToMatch(matchID, username, playerNum) {
+        return axios.post(`/matches/${matchID}/${username}/${playerNum}`)
     },
     deleteUserFromMatch(matchID, username) {
         return axios.delete(`/matches/${matchID}/${username}`)
