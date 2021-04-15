@@ -113,12 +113,12 @@ public class JDBCMatchesDAO implements MatchesDAO {
 			}
 	
 	// Add a user to a match
-	@Override
-	 public void addUserToMatch(String username, int matchID) {
-			String sql = "insert into users_matches (user_id, match_id, win_status) "
-					   + "values ((select user_id from users where username = ?), ?, null)";
-			jdbcTemplate.update(sql, username, matchID);
-			}
+//	@Override
+//	 public void addUserToMatch(String username, int matchID) {
+//			String sql = "insert into users_matches (user_id, match_id, win_status) "
+//					   + "values ((select user_id from users where username = ?), ?, null)";
+//			jdbcTemplate.update(sql, username, matchID);
+//			}
 	
 	// Move a user from one match to another
 	@Override

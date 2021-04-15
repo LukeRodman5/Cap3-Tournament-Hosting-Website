@@ -25,6 +25,13 @@ public class JDBCUsersMatchesDAO implements UsersMatchesDAO {
 	}
 	
 	@Override
+	 public void addUserToMatch(String username, int matchID, int playerNum) {
+			String sql = "insert into users_matches (user_id, match_id, win_status, player_num) "
+					   + "values ((select user_id from users where username = ?), ?, null, ?)";
+			jdbcTemplate.update(sql, username, matchID);
+			}
+	
+	@Override
 	public List<UsersMatches> getAllMatchesInUMByTourneyID(long tourneyID) {
 		List<UsersMatches>listOfUsersMatches = new ArrayList<>();
 		String sql = "select user_id, users_matches.match_id, win_status "
