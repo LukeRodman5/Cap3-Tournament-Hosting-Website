@@ -138,11 +138,18 @@ export default {
           console.log(response.status)
           if(response.status>=200 && response.status<300){
             alert("You have declined this tournament")
-          }
+            this.getMyHostTournaments()
+            this.getMyPlayTournaments()
+            this.getMyInvites()
+          }//end of if
           else{
             alert("Failed. This tournament has not been declined.")
-          }
-        })
+            this.getMyHostTournaments()
+            this.getMyPlayTournaments()
+            this.getMyInvites()
+          }//end of else
+          
+        })//end of then
       },//end of declineInvite
 
       acceptInvite(tourneyId){
@@ -151,9 +158,15 @@ export default {
          console.log(response.status)
          if(response.status>=200 && response.status<300){
            alert("Invitation accepted. You have successfully joined this tournament.")
+           this.getMyHostTournaments()
+           this.getMyPlayTournaments()
+           this.getMyInvites()
          }//end of if
          else{
            alert("Failed. This tournament has not been joined.")
+           this.getMyHostTournaments()
+           this.getMyPlayTournaments()
+           this.getMyInvites()
          }//end of else
        }//end of then
        )}//end of acceptInvite

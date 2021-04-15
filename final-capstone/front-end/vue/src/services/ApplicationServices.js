@@ -68,6 +68,6 @@ export default{
         return axios.put(`/usersmatches/${winStatus}/${userID}/${matchID}`)
     },
     tournamentsByUserStatus(username, status){
-        return axios.get(`tournaments/user/${username}/status/${status}`)
+        return axios.get(`/tournaments/user/${username}/status/${status}`)
     }
 }
