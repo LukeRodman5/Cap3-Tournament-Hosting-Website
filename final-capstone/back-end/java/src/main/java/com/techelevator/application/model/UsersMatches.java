@@ -4,6 +4,13 @@ public class UsersMatches {
 	private int userId;
 	private int matchId;
 	private boolean winStatus;
+	private int playerNum;
+	public int getPlayerNum() {
+		return playerNum;
+	}
+	public void setPlayerNum(int playerNum) {
+		this.playerNum = playerNum;
+	}
 	public int getUserId() {
 		return userId;
 	}
@@ -24,7 +31,8 @@ public class UsersMatches {
 	}
 	@Override
 	public String toString() {
-		return "Users_Matches [userId=" + userId + ", matchId=" + matchId + ", winStatus=" + winStatus + "]";
+		return "UsersMatches [userId=" + userId + ", matchId=" + matchId + ", winStatus=" + winStatus + ", playerNum="
+				+ playerNum + "]";
 	}
 	
 	

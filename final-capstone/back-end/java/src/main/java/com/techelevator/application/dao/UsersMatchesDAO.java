@@ -9,5 +9,7 @@ public interface UsersMatchesDAO {
 
 	void updateUserMatches(boolean winStatus, int userID, int matchID);
 	List<UsersMatches> getAllMatchesInUMByTourneyID(long tourneyID);
+	void addUserToMatch(String username, int matchID, int playerNum);
+	
 	
 }

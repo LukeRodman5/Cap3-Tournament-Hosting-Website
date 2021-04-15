@@ -14,7 +14,7 @@ public interface MatchesDAO {// update match
 	int createAMatch(Matches newMatch, long tourneyId);//
 	void updateAMatch(LocalDate startDate, LocalDate startTime, int matchId);//
 	void deleteAMatch(int matchId);// Keep
-	void addUserToMatch(String username, int matchId);//
+	//void addUserToMatch(String username, int matchId);//
 	void updateUserToDiffMatch(int newMatchId, String username, int currentMatchId);//
 	void removeUserFromMatch(String username, long matchId);//
 	String updateAMatchId();// Not this time
