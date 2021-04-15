@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1 class ="header">Tournament Manager <i class="fas fa-table-tennis"></i></h1>
+    <h1 class ="header">TELeague<i class="fas fa-table-tennis"></i></h1>
     <p class ="header">Your home for hosting, finding, and playing tournaments of all kinds</p>
     <p class ="user"> Hello {{$store.state.user.username}}! 
     <i class="fas fa-user"></i>      

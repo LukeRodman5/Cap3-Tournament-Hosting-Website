@@ -8,16 +8,16 @@
           <th id="column2"> Tournament Description</th>
           <th id="column3"> Start Date</th>
           <th id="column4"> End Date</th>
-          <th id="column5"> Current Participants</th>
+          <!-- <th id="column5"> Current Participants</th> -->
           <th id="column6"> Maximum Participants</th>
         </thead>
       <tbody id="tournament-host">
-           <tr v-for="tournament in this.myHostTournaments" :key="tournament.tourneyId">
+           <tr id ="row-boxes" v-for="tournament in this.myHostTournaments" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
               <td class="end-date">{{tournament.endDate}}</td>
-              <td class="participants">{{tournament.numOfParticipants}}</td>
+              <!-- <td class="participants">{{tournament.numOfParticipants}}</td> -->
               <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
               <router-link v-bind:to="{name: 'manage-tournament', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="Manage"></router-link>
             </tr>
@@ -31,16 +31,16 @@
           <th id="column2"> Tournament Description</th>
           <th id="column3"> Start Date</th>
           <th id="column4"> End Date</th>
-          <th id="column5"> Current Participants</th>
+          <!-- <th id="column5"> Current Participants</th> -->
           <th id="column6"> Maximum Participants</th>
         </thead>
       <tbody id="tournament-play">
-            <tr v-for="tournament in this.myPlayTournaments" :key="tournament.tourneyId">
+            <tr id ="row-boxes" v-for="tournament in this.myPlayTournaments" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
               <td class="end-date">{{tournament.endDate}}</td>
-              <td class="participants">{{tournament.numOfParticipants}}</td>
+              <!-- <td class="participants">{{tournament.numOfParticipants}}</td> -->
               <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
               <button class="btnLeaveTourney" v-on:click="leaveTourney(tournament.tourneyId)">Leave</button>
               <router-link v-bind:to="{name: 'tournament-detail', params: {tourneyID: tournament.tourneyId}}" tag="input" type="button" value="Details"></router-link>
@@ -54,16 +54,16 @@
           <th id="column2"> Tournament Description</th>
           <th id="column3"> Start Date</th>
           <th id="column4"> End Date</th>
-          <th id="column5"> Current Participants</th>
+          <!-- <th id="column5"> Current Participants</th> -->
           <th id="column6"> Maximum Participants</th>
         </thead>
       <tbody id="tournament-invites">
-            <tr v-for="tournament in this.myInvites" :key="tournament.tourneyId">
+            <tr id ="row-boxes" v-for="tournament in this.myInvites" :key="tournament.tourneyId">
               <td class="name">{{tournament.tourneyName}}</td>
               <td class="description">{{tournament.tourneyDesc}}</td>
               <td class="start-date">{{tournament.startDate}}</td>
               <td class="end-date">{{tournament.endDate}}</td>
-              <td class="participants">{{tournament.numOfParticipants}}</td>
+              <!-- <td class="participants">{{tournament.numOfParticipants}}</td> -->
               <td class="max-participants">{{tournament.maxNumOfParticipants}}</td>
               <button class="btnAcceptInvite" v-on:click="acceptInvite(tournament.tourneyId)">Join</button>
               <button class="btnDeclineInvite" v-on:click="declineInvite(tournament.tourneyId)">Decline</button>
@@ -185,10 +185,16 @@ export default {
 
  box-shadow: 0px 5px 5px rgb(112, 112, 112);
 }
+#row-boxes{
+   outline:solid  rgb(179, 179, 179) 1px;
+
+}
 
 #tournament-play{
 
  box-shadow: 0px 5px 5px rgb(112, 112, 112);
+ outline:solid  rgb(179, 179, 179) 1px;
+
 }
  #column1{
    grid-area: column1;
