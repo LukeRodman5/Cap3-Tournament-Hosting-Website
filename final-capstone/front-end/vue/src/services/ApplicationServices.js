@@ -58,6 +58,9 @@ export default{
     addUserToMatch(matchID, username) {
         return axios.post(`/matches/${matchID}/${username}`)
     },
+    deleteUserFromMatch(matchID, username) {
+        return axios.delete(`/matches/${matchID}/${username}`)
+    },
     getUserMatchLink(tourneyID) {
         return axios.get(`/user-matches/${tourneyID}`)
     },
