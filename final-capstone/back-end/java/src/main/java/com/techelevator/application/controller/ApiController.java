@@ -189,7 +189,7 @@ public class ApiController {
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @RequestMapping		/* Delete a user from match */
 	(path = "/matches/{matchId}/{username}", method = RequestMethod.DELETE)
-	public void removeUserFromMatch(@PathVariable String username, long matchId) {
+	public void removeUserFromMatch(@PathVariable String username, @PathVariable long matchId) {
 		logRequest("Deleting user from match");
 		matchesDAO.removeUserFromMatch(username, matchId);
 		}
