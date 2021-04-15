@@ -1,27 +1,32 @@
 <template>
 <div id="bracket-generator">
-    <div id="set-bracket-area"  v-if="!matchesInDb && isHost">
+    <div id="set-bracket-area" v-if="isHost">
         <h1>Generate Tournament Helper</h1>
         <p>Hello! As host, use the below form to setup the tournament.</p>
-        <div v-for="match in initialMatches" v-bind:key="match.matchId">
-        <h3>Set Match:</h3>
-        <select v-model="match.player1">
-            <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
-        </select>
-        <select v-model="match.player2">
-            <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
-        </select>
+        <div id="rounds-form">
+            <div v-for="match in matchesInTourney" v-bind:key="match.matchId">
+                <h3>Set Match:</h3>
+                <select v-model="match.player1Name">
+                    <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
+                </select>
+                <select v-model="match.player2Name">
+                    <option v-for="user in usersInTourney" v-bind:key="user.userId" v-bind:value="user.username">{{user.username}}</option>
+                </select>
+                <input type="radio" v-model="match.playerWin" value="1" />
+                <label>Switch Winners</label>
+                <!-- <input type="radio" v-model="match.playerWin" value="2" />
+                <input type="radio" v-model="match.playerWin" value="3" /> -->
+            </div>
+            <input type="button" id="generate-button"
+                v-bind:value="'Generate Tournament'"
+                v-on:click.prevent="checkDelete()"
+            />
         </div>
-        <input type="button" id="generate-button"
-            v-bind:value="(usersInTourney.length !== initialMatches.length * 2) ? 'Not enough users!' : 'Generate Tournament'"
-            v-bind:disabled="usersInTourney.length !== initialMatches.length * 2" 
-            v-on:click.prevent="addToDatabase()"
-        />
     </div>
     <div id="bracket">
       <bracket :rounds="rounds">
         <template slot="player" slot-scope="{ player }">
-            <div class="bracket-name" v-on:click="changeToWin(player)">{{ player.name }}</div>
+            <div class="bracket-name">{{ player.name }}</div>
         </template>
       </bracket>
     </div>
@@ -43,212 +48,154 @@ export default {
     data() {
         return {
             isHost: false,
-            matchesInDb: false,
             userMatchLink: [],
             rounds: []
         }
     },
     methods: {
-        addToDatabase() {
-            this.initialMatches.forEach((iniMatch) => {
-                applicationServices.addUserToMatch(iniMatch.matchId, iniMatch.player1).then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        applicationServices.addUserToMatch(iniMatch.matchId, iniMatch.player2).then((response) => {
-                            if (response.status >= 200 && response.status < 300) {
-                                this.matchesInDb = true
-                                this.getUserMatchLink()
-                            }
-                        })
-                    }
-                })
-            })
-        },
-        setBracketData() {
-            // values needed for third-party bracket createor
+        createBracket() {
             this.rounds = []
             let gamesHolder = {games: []}
             let match = {}
+            
+            let amountMatchesAdded = 0
+            let matchNeededPerRound = this.currentTourney.maxNumOfParticipants / 2
 
-            // helps keep track of data location
-            let matchesAdded = 0
-            let totalMatchesNeeded = this.matchesInTourney.length
-            let maxNumOfParticipants = this.currentTourney.maxNumOfParticipants
-            let matchesNeededPerRound = maxNumOfParticipants / 2
-           
-
-            for (let i = 0; i < totalMatchesNeeded; i++) {
+            for (let i = 0; i < this.matchesInTourney.length; i++) {
                 let currentMatch = this.matchesInTourney[i]
-                let usersInMatch = this.userMatchLink.filter((link) => {
+                let player1 = tbdPlayers
+                let player2 = tbdPlayers
+
+                let currentUsersInMatch = this.userMatchLink.filter((link) => {
                     return link.matchId === currentMatch.matchId
                 })
 
-                // Adds pre-setup users as initial matches with no win color
-                if (currentMatch.roundLevel === 0) {
-                    let player1 = this.usersInTourney.find((user) => {
-                        return user.userId === usersInMatch[0].userId
+                if (currentUsersInMatch.length > 0) {
+                    // if (currentMatch.playerWin == 1) {
+                    //     player1 = {name: currentMatch.player1Name, winner: true}
+                    //     player2 = {name: currentMatch.player2Name, winner: false}
+                    // } else if (currentMatch.playerWin == 2) {
+                    //     player1 = {name: currentMatch.player1Name, winner: false}
+                    //     player2 = {name: currentMatch.player2Name, winner: true}
+                    // } else {
+                    //     player1 = {name: currentMatch.player1Name, winner: null}
+                    //     player2 = {name: currentMatch.player2Name, winner: null}
+                    // }
+                    let player1Info = this.usersInTourney.find((user) => {
+                        return user.userId === currentUsersInMatch[0].userId
                     })
-                    let player2 = this.usersInTourney.find((user) => {
-                        return user.userId === usersInMatch[1].userId
+                    let player2Info = this.usersInTourney.find((user) => {
+                        return user.userId === currentUsersInMatch[1].userId
                     })
+                    currentMatch.player1Name = player1Info.username
+                    currentMatch.player2Name = player2Info.username
+                    currentMatch.winnerStatus
+                    
+                    player1 = {name: currentMatch.player1Name, winner: currentUsersInMatch[0].winStatus}
+                    player2 = {name: currentMatch.player2Name, winner: currentUsersInMatch[1].winStatus}
 
-                    if (!usersInMatch[0].winStatus && !usersInMatch[1].winStatus) {
-                        usersInMatch[0].winStatus = null
-                        usersInMatch[1].winStatus = null
-                    }
-
-                    match.player1 = {id: player1.userId, name: player1.username, winner: usersInMatch[0].winStatus}
-                    match.player2 = {id: player2.userId, name: player2.username, winner: usersInMatch[1].winStatus}
-
-                    gamesHolder.games.push(match)
-                    match = {}
-                    matchesAdded++
-                // dyanically change followup brackets depending on win status of a user
+                    match = {player1: player1, player2: player2}
                 } else {
-                    let prevRoundMatches = this.matchesInTourney.filter((match) => {
-                        return match.roundLevel === currentMatch.roundLevel - 1
-                    })
-
-                    let currRoundMatches = this.matchesInTourney.filter((match) => {
-                        return match.roundLevel === currentMatch.roundLevel
-                    })
-
-                    let firstMatchToCheck = currRoundMatches.indexOf(currentMatch) * 2
-
-                    let usersPrevMatch1 = this.userMatchLink.filter((link) => {
-                        return prevRoundMatches[firstMatchToCheck].matchId === link.matchId
-                    })
-
-                    let usersPrevMatch2 = this.userMatchLink.filter((link) => {
-                        return prevRoundMatches[firstMatchToCheck + 1].matchId === link.matchId
-                    })
-
-                    let doesBothMatchesHaveWin = (usersPrevMatch1[0].winStatus ||
-                                                  usersPrevMatch1[1].winStatus) &&
-                                                  (usersPrevMatch2[0].winStatus ||
-                                                  usersPrevMatch2[1].winStatus)
-                    if (!doesBothMatchesHaveWin) {
-                        match = {player1: tbdPlayers, player2: tbdPlayers}
-                    } else {
-                        this.updateFollowUpMatch(currentMatch.matchId, usersPrevMatch1, usersPrevMatch2)
-                        applicationServices.getUserMatchLink(this.currentTourney.tourneyId)
-                        usersInMatch = this.userMatchLink.filter((link) => {
-                            return link.matchId === currentMatch.matchId
-                        })
-
-                        let player1 = this.usersInTourney.find((user) => {
-                                return user.userId === usersInMatch[0].userId
-                            })
-                        let player2 = this.usersInTourney.find((user) => {
-                            return user.userId === usersInMatch[1].userId
-                        })
-
-                        if (!usersInMatch[0].winStatus && !usersInMatch[1].winStatus) {
-                            usersInMatch[0].winStatus = null
-                            usersInMatch[1].winStatus = null
-                        }
-                        
-                        match.player1 = {id: player1.userId, name: player1.username, winner: usersInMatch[0].winStatus}
-                        match.player2 = {id: player2.userId, name: player2.username, winner: usersInMatch[1].winStatus}
-                    }
-
-
-                    gamesHolder.games.push(match)
-                    match = {}
-                    matchesAdded++
+                    match = {player1: player1, player2: player2}
                 }
-                if (matchesAdded === matchesNeededPerRound) {
+                
+                gamesHolder.games.push(match)
+                match = {}
+                amountMatchesAdded++
+
+                if (amountMatchesAdded === matchNeededPerRound) {
                     this.rounds.push(gamesHolder)
                     gamesHolder = {games: []}
-                    matchesAdded = 0
-                    matchesNeededPerRound /= 2
+                    amountMatchesAdded = 0
+                    matchNeededPerRound /= 2
                 }
+            }
+        },
+        checkDelete() {
+           for (let i = 0; i < this.matchesInTourney.length; i++) {
+                let currentMatch = this.matchesInTourney[i]
+                let currentUsersInMatch = this.userMatchLink.filter((link) => {
+                    return link.matchId === currentMatch.matchId
+                })
+
+                let count = 0;
+                let countNeeded = currentUsersInMatch.length
+                if (countNeeded > 0) {
+                    currentUsersInMatch.forEach((link) => {
+                        let linkedUser = this.usersInTourney.find((user) => {
+                            return user.userId === link.userId
+                        })
+                        applicationServices.deleteUserFromMatch(currentMatch.matchId, linkedUser.username).then((response) => {
+                            if (response.status >= 200 && response.status < 300) {
+                                count++
+                                if (count === countNeeded) {
+                                    this.addToDb(currentMatch)
+                                }
+                            }
+                        })
+                    })
+                } else {
+                    this.addToDb(currentMatch)
+                }
+           } 
+        },
+        addToDb(currentMatch) {
+            let player1Info = this.usersInTourney.find((user) => {
+                return user.username === currentMatch.player1Name
+            })
+            let player2Info = this.usersInTourney.find((user) => {
+                return user.username === currentMatch.player2Name
+            })
+            if (player1Info != undefined) {
+                applicationServices.addUserToMatch(currentMatch.matchId, player1Info.username).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        if (player2Info != undefined) {
+                            applicationServices.addUserToMatch(currentMatch.matchId, player2Info.username).then((response) => {
+                                if (response.status >= 200 && response.status < 300) {
+                                    if (currentMatch.playerWin == 1) {
+                                        applicationServices.updateWinStatus(true, player1Info.userId, currentMatch.matchId)
+                                        applicationServices.updateWinStatus(false, player2Info.userId, currentMatch.matchId)
+                                    } else if (currentMatch.playerWIn == 2) {
+                                        applicationServices.updateWinStatus(false, player1Info.userId, currentMatch.matchId)
+                                        applicationServices.updateWinStatus(true, player2Info.userId, currentMatch.matchId)
+                                    }
+                                    this.getUserMatchLink()
+                                }
+                            })
+                        }
+                    }
+                })
             }
         },
         getUserMatchLink() {
-            this.isHost = this.currentTourney.tourneyHost === this.$store.state.user.username
             applicationServices.getUserMatchLink(this.currentTourney.tourneyId).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     this.userMatchLink = response.data
-                    if (this.userMatchLink.length > 0) {
-                        this.matchesInDb = true
-                        this.setBracketData()
-                    }
+                    this.createBracket()
                 }
-            })
-        },
-        changeToWin(player) {
-            if (this.isHost) {
-                let userInMatch = this.userMatchLink.find((link) => {
-                    return link.userId === player.id
-                })
-                userInMatch.winStatus = true
-
-                let otherUserInMatch = this.userMatchLink.find((link) => {
-                    return link.userId !== player.id && link.matchId === userInMatch.matchId
-                })
-                otherUserInMatch.winStatus = false
-
-                applicationServices.updateWinStatus(userInMatch.winStatus, userInMatch.userId, userInMatch.matchId).then((response) => {
-                    if (response.status === 200 || response.status === 201) {
-                        applicationServices.updateWinStatus(otherUserInMatch.winStatus, otherUserInMatch.userId, otherUserInMatch.matchId).then((response) => {
-                            if (response.status === 200 || response.status === 201) {
-                                this.getUserMatchLink()
-                            }
-                        })
-                    }
-                })
-            }
-        },
-        updateFollowUpMatch(currentMatchId, usersPrevMatch1, usersPrevMatch2) {
-            let usersInFollowUpMatch = this.userMatchLink.filter((link) => {
-                return link.matchId === currentMatchId
-            })
-            // Add new match to the follow up match data
-            if (usersInFollowUpMatch.length === 0) {
-                let winnerMatch1 = usersPrevMatch1.find((link) => {
-                    return link.winStatus
-                })
-                let userWinner1 = this.usersInTourney.find((user) => {
-                    return user.userId === winnerMatch1.userId
-                })
-
-                let winnerMatch2 = usersPrevMatch2.find((link) => {
-                    return link.winStatus
-                })
-                let userWinner2 = this.usersInTourney.find((user) => {
-                    return user.userId === winnerMatch2.userId
-                })
-
-                console.log(winnerMatch1)
-                applicationServices.addUserToMatch(currentMatchId, userWinner1.username)
-                applicationServices.addUserToMatch(currentMatchId, userWinner2.username)
-            // Update current follow up match by adding the current winner and removing the previous one
-            } else {
-
-            }
-        }
-    },
-    computed: {
-        initialMatches() {
-            return this.matchesInTourney.filter((match) => {
-                return match.roundLevel === 0
             })
         }
     },
     created() {
-        this.getUserMatchLink(),
-        this.isHost = this.currentTourney.tourneyHost === this.$store.state.user.username
+        this.isHost = this.currentTourney.tourneyHost === this.$store.state.user.username,
+        this.getUserMatchLink()
     }
 }
 </script>
 
 <style scoped>
+#rounds-form {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
 #bracket {
     display: flex;
     justify-content: center;
 }
 #generate-button {
-    margin-top: 15px
+    margin-top: 15px;
+    margin-bottom: 30px;
 }
 .bracket-name {
     color: white;
