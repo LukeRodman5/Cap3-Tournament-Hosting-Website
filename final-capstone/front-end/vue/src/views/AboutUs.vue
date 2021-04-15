@@ -9,7 +9,7 @@
 <h2 style="text-align:center">Our Team</h2>
 <div class ="col-container">
 <div class="row">
-  <div class="column">
+  <div class="ccolumn">
     <div class="card">
       <!-- <img src="/w3images/team1.jpg" alt="Jane" style="width:100%"> -->
       <div class="container">
@@ -23,13 +23,13 @@ Proven experience developing and implementing operational controls to reduce ann
     </div>
   </div>
 
-  <div class="column">
+  <div class="ccolumn">
     <div class="card">
       <!-- <img src="/w3images/team2.jpg" alt="Mike" style="width:100%"> -->
       <div class="container">
         <h2>Anne Hoback</h2>
         <p class="title">Java Tech Elevator Student</p>
-        <p>ahoback</p>
+        <p>ahoback76@gmail.com</p>
         <p><button class="button">Contact</button></p>
         <p class ="desc">In my banking career, I built a reputation as the person to go to when you needed someone to take a problem apart, find the root cause, and strategize a solution. A former manager once told me that when she gave me a problem to solve it was like watching a pit bull with a pot roast.
 I'm an insatiable learner with an epic sense of responsibility. I believe that people have tremendous potential for positive creation that so often gets drowned in our day-to-day tasks. That's what draws me to technology -- the potential to create solutions that free people to put their energy where their passion is. I'm looking to join a team that's passionate about their work, and never loses sight of the people their work will touch. </p>
@@ -37,7 +37,7 @@ I'm an insatiable learner with an epic sense of responsibility. I believe that p
     </div>
   </div>
 
-  <div class="column">
+  <div class="ccolumn">
     <div class="card">
       <!-- <img src="/w3images/team3.jpg" alt="John" style="width:100%"> -->
       <div class="container">
@@ -51,7 +51,7 @@ I'm an insatiable learner with an epic sense of responsibility. I believe that p
     </div>
   </div>
 
-  <div class="column">
+  <div class="ccolumn">
     <div class="card">
       <!-- <img src="/w3images/team3.jpg" alt="John" style="width:100%"> -->
       <div class="container">
@@ -65,7 +65,7 @@ I'm an insatiable learner with an epic sense of responsibility. I believe that p
     </div>
   </div>
 
-  <div class="column">
+  <div class="ccolumn">
     <div class="card">
       <!-- <img src="/w3images/team3.jpg" alt="John" style="width:100%"> -->
       <div class="container">
@@ -91,32 +91,27 @@ export default {
  
  <style>
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
 }
 
 html {
-  box-sizing: border-box;
+
 }
 
 *, *:before, *:after {
   box-sizing: inherit;
 }
 
-.column {
+.ccolumn {
   float: left;
-  width: 20%;
+  width: 18%;
   margin-bottom: 16px;
-  padding: 0 8px;
-  display:table-cell;
-  
-
+  padding: 0 10px;
 
 }
 
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin: 8px;
+  margin: 0px;
     height: 100vh;
   
 }
@@ -130,7 +125,7 @@ html {
 }
 
 .container {
-  padding: 0 16px;
+
   display:table;
   width: 100%
   
